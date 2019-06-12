@@ -210,9 +210,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     MainWindow::resize(x,y);
+   // ui->moveWW->pos(0,0);
+    ui->moveWW->setMinimumSize(razmer.width(),20);
     MainWindow::setMaximumSize(x,y);
-    MainWindow::setMinimumSize(x,y);
-    qDebug()<<razmer;
+    MainWindow::setMinimumSize(477,259);
     ui->password->setText("");
     reg = new Registration();
     connect(reg, &Registration::firstWindow, this, &MainWindow::show);
@@ -229,6 +230,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 
 void MainWindow::on_authorization_clicked()
 {
@@ -259,3 +261,5 @@ void MainWindow::on_pushButton_clicked()
     forgot->show();
     close();
 }
+
+
