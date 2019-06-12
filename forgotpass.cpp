@@ -7,19 +7,12 @@ ForgotPass::ForgotPass(QWidget *parent) :
 {
     ui->setupUi(this);
 }
-//asdasd
 ForgotPass::~ForgotPass()
 {
     delete ui;
 }
-//asdasdasdads
 void ForgotPass::on_pushButton_clicked()
 {
     close();
     emit firstWindow();
 }
-//pervaya(new)
-//dasdsa
-//sadsadsaddsad
-//adsadasdasdasdasdsad
-//dasadsadasdasdadsadadsad
