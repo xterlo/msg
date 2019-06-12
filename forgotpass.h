@@ -1,8 +1,8 @@
 #ifndef FORGOTPASS_H
 #define FORGOTPASS_H
-
+//sdsadsadsadsadsa
 #include <QWidget>
-
+//asdsadsadadsad
 namespace Ui {
 class ForgotPass;
 }
