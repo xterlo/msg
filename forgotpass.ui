@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ForgotPass</class>
+ <widget class="QWidget" name="ForgotPass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>370</width>
+    <height>160</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>370</width>
+    <height>160</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.0397727, stop:0 rgba(255, 176, 254, 255), stop:1 rgba(111, 193, 255, 255))
+}</string>
+  </property>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>100</y>
+     <width>90</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+
+                border-width: 1px; 
+                border-style: solid; 
+                border-radius: 5px;
+				border-color: rgb(0, 85, 255);
+                padding: 2px; 
+                background:rgb(170, 170, 255)
+             ;
+}</string>
+   </property>
+   <property name="text">
+    <string>Ок</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>21</x>
+     <y>51</y>
+     <width>35</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLabel{background-color:transparent;}</string>
+   </property>
+   <property name="text">
+    <string>Почта:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit">
+   <property name="geometry">
+    <rect>
+     <x>62</x>
+     <y>52</y>
+     <width>291</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QLineEdit{background-color:rgb(255, 255, 255);}</string>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhEmailCharactersOnly|Qt::ImhMultiLine</set>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

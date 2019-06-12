@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Glavnaya</class>
+ <widget class="QWidget" name="Glavnaya">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.0397727, stop:0 rgba(255, 176, 254, 255), stop:1 rgba(111, 193, 255, 255))
+}</string>
+  </property>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>130</y>
+     <width>80</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+
+                border-width: 1px; 
+                border-style: solid; 
+                border-radius: 5px;
+				border-color: rgb(0, 85, 255);
+                padding: 2px; 
+                background:rgb(170, 170, 255)
+             ;
+}</string>
+   </property>
+   <property name="text">
+    <string>НАЗАД</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
