@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
                 }
             case 1600:
                 {
-                    if(razmer.height()==900)x = razmer.width()/3;
+                    if(razmer.height()==900)x = razmer.width()/4;
                     else x = razmer.width()/4;
                     break;
                 }
@@ -160,7 +160,7 @@ MainWindow::MainWindow(QWidget *parent) :
                 }
             case 900:
                 {
-                    y = razmer.height()/3;
+                    y = razmer.height()/4;
                     break;
                 }
             case 864:
