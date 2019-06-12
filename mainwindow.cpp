@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
+    setWindowFlags(windowFlags() & ~Qt::WindowCloseButtonHint);
     int x=0;
     int y=0;
     const QRect razmer = QApplication::desktop()->screenGeometry();
