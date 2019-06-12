@@ -15,5 +15,4 @@ void ForgotPass::on_pushButton_clicked()
 {
     close();
     emit firstWindow();
-//zxczxcxzicjodsfdsfdsfsfdsf
 }

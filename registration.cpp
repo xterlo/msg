@@ -1,4 +1,4 @@
-#include "registration.h"
+﻿#include "registration.h"
 #include "ui_registration.h"
 #include <windows.h>
 
@@ -16,7 +16,7 @@ Registration::~Registration()
 
 void Registration::on_pushButton_2_clicked()
 {
-    this->close();      // Закрываем окно
+    this->close();    
     emit firstWindow();
 
 }

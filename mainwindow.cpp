@@ -234,7 +234,7 @@ void MainWindow::on_authorization_clicked()
     }
     else
     {
-     QMessageBox::information(this,"dwedwdwqdwqdwqdqwdwq","NO");
+     QMessageBox::information(this,"no","NO");
 
     }
 

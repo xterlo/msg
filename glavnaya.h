@@ -1,6 +1,5 @@
 #ifndef GLAVNAYA_H
 #define GLAVNAYA_H
-
 #include <QWidget>
 
 namespace Ui {
@@ -25,4 +24,4 @@ private:
 };
 
 #endif // GLAVNAYA_H
-//asdasdadadasd
+
