@@ -38,43 +38,7 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
        <string>Авторизация</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="1" column="0">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>30</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="pushButton">
-         <property name="minimumSize">
-          <size>
-           <width>20</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">font: 75 8pt &quot;MS Shell Dlg 2&quot;;
-font: 8pt &quot;MS Shell Dlg 2&quot;;
-font: 8pt &quot;Bernard MT Condensed&quot;;
-text-decoration: underline;
-font-style: italic;
-  outline: none; /* Для синий ободки */
-  border: 0;
-  background: transparent;</string>
-         </property>
-         <property name="text">
-          <string>Забыли пароль?</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="3">
+       <item row="1" column="0" colspan="3">
         <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0">
          <property name="spacing">
           <number>10</number>
@@ -276,6 +240,42 @@ font-style: italic;
           </layout>
          </item>
         </layout>
+       </item>
+       <item row="2" column="0">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>30</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="pushButton">
+         <property name="minimumSize">
+          <size>
+           <width>20</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 75 8pt &quot;MS Shell Dlg 2&quot;;
+font: 8pt &quot;MS Shell Dlg 2&quot;;
+font: 8pt &quot;Bernard MT Condensed&quot;;
+text-decoration: underline;
+font-style: italic;
+  outline: none; /* Для синий ободки */
+  border: 0;
+  background: transparent;</string>
+         </property>
+         <property name="text">
+          <string>Забыли пароль?</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

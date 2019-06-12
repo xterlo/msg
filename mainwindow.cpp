@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    setWindowFlags(windowFlags() & ~Qt::WindowCloseButtonHint);
+    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint);
     int x=0;
     int y=0;
     const QRect razmer = QApplication::desktop()->screenGeometry();
@@ -100,7 +100,12 @@ MainWindow::MainWindow(QWidget *parent) :
                     x = razmer.width()/2;
                     break;
                 }
-
+        default:
+        {
+            if(razmer.width()>3840 )x=razmer.width()/9;
+            if(razmer.width()<800 )x=razmer.width();
+            break;
+        }
 
 
         }
@@ -195,7 +200,12 @@ MainWindow::MainWindow(QWidget *parent) :
                     y = razmer.height()/2;
                     break;
                 }
-
+            default:
+            {
+                    if(razmer.width()>2160 )x=razmer.width()/9;
+                    if(razmer.width()<600 )x=razmer.height();
+                    break;
+        }
         }
 
 
