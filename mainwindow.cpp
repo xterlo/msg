@@ -18,9 +18,185 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
+    int x=0;
+    int y=0;
     const QRect razmer = QApplication::desktop()->screenGeometry();
-    int x = razmer.width()/3;
-    int y = razmer.height()/3;
+
+
+        switch (razmer.width())
+        {
+            case 3840:
+                {
+                    x = razmer.width()/8;
+                    break;
+                }
+            case 2560:
+                {
+                    x = razmer.width()/6;
+                    break;
+                }
+            case 2048:
+                {
+                    x = razmer.width()/5;
+                    break;
+                }
+            case 1920:
+                {
+                    if(razmer.height() == 1080) x = razmer.width()/4;
+                    else x = razmer.width()/5;
+                    break;
+                }
+            case 1768:
+                {
+                    x = razmer.width()/4;
+                    break;
+                }
+            case 1680:
+                {
+                    x = razmer.width()/4;
+                    break;
+                }
+            case 1600:
+                {
+                    if(razmer.height()==900)x = razmer.width()/3;
+                    else x = razmer.width()/4;
+                    break;
+                }
+
+            case 1366:
+                {
+                    x = razmer.width()/3;
+                    break;
+                }
+            case 1360:
+                {
+                    x = razmer.width()/3;
+                    break;
+                }
+            case 1280:
+                {
+                    x = razmer.width()/3;
+                    break;
+                }
+            case 1176:
+                {
+                    x = razmer.width()/2;
+                    break;
+                }
+            case 1152:
+                {
+                    x = razmer.width()/2;
+                    break;
+                }
+            case 1024:
+                {
+                    x = razmer.width()/2;
+                    break;
+                }
+            case 800:
+                {
+                    x = razmer.width()/2;
+                    break;
+                }
+
+
+
+        }
+
+        switch(razmer.height())
+        {
+            case 2160:
+                {
+                    y = razmer.height()/8;
+                    break;
+                }
+            case 1600:
+                {
+                    y = razmer.height()/6;
+                    break;
+                }
+            case 1536:
+                {
+                    y = razmer.height()/5;
+                    break;
+                }
+            case 1440:
+                {
+                    if(razmer.width()==1920) y =razmer.height()/5;
+                    else y = razmer.height()/6;
+                    break;
+                }
+            case 1200:
+                {
+                    if(razmer.width()==1600) y =razmer.height()/4;
+                    else y = razmer.height()/5;
+                    break;
+                }
+            case 1080:
+                {
+                    y = razmer.height()/4;
+                    break;
+                }
+            case 1050:
+                {
+                    y = razmer.height()/4;
+                    break;
+                }
+            case 1024:
+                {
+                    if(razmer.width()==1280) y =razmer.height()/3;
+                    y = razmer.height()/4;
+                    break;
+                }
+            case 992:
+                {
+                    y = razmer.height()/4;
+                    break;
+                }
+            case 960:
+                {
+                    y = razmer.height()/3;
+                    break;
+                }
+            case 900:
+                {
+                    y = razmer.height()/3;
+                    break;
+                }
+            case 864:
+                {
+                    y = razmer.height()/3;
+                    break;
+                }
+            case 800:
+                {
+                    y = razmer.height()/3;
+                    break;
+                }
+            case 768:
+                {
+                    y = razmer.height()/3;
+                    break;
+                }
+            case 720:
+                {
+                    y = razmer.height()/3;
+                    break;
+                }
+            case 664:
+                {
+                    y = razmer.height()/2;
+                    break;
+                }
+            case 600:
+                {
+                    y = razmer.height()/2;
+                    break;
+                }
+
+        }
+
+
     MainWindow::resize(x,y);
     MainWindow::setMaximumSize(x,y);
     MainWindow::setMinimumSize(x,y);

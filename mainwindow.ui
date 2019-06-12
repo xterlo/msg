@@ -77,7 +77,7 @@ font-style: italic;
        <item row="0" column="0" colspan="3">
         <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0">
          <property name="spacing">
-          <number>20</number>
+          <number>10</number>
          </property>
          <property name="leftMargin">
           <number>0</number>
@@ -167,7 +167,7 @@ font-style: italic;
           </layout>
          </item>
          <item>
-          <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0" columnstretch="0" rowminimumheight="0,0,0,10" columnminimumwidth="0">
+          <layout class="QGridLayout" name="gridLayout" rowstretch="0,0" columnstretch="0" rowminimumheight="0,0" columnminimumwidth="0">
            <property name="sizeConstraint">
             <enum>QLayout::SetDefaultConstraint</enum>
            </property>
@@ -216,6 +216,9 @@ font-style: italic;
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <property name="spacing">
               <number>20</number>
+             </property>
+             <property name="topMargin">
+              <number>2</number>
              </property>
              <item>
               <widget class="QProgressBar" name="progressBar">
