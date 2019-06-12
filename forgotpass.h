@@ -2,7 +2,7 @@
 #define FORGOTPASS_H
 
 #include <QWidget>
-
+//dsadsadsadada
 namespace Ui {
 class ForgotPass;
 }
