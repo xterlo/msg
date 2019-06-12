@@ -8,6 +8,8 @@
 #include <string>
 #include <QApplication>
 #include <iostream>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSql>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -222,20 +224,14 @@ void MainWindow::on_authorization_clicked()
 
     QString login = ui->login->text();
     QString password = ui->password->text();
-    if(login=="1" && password == "1")
-    {
+    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    db.setHostName("localhost");
+    db.setDatabaseName("my_database");
+    db.setUserName("username");
+    db.setPassword("password");
+    if(!db.open())
+        QMessageBox::warning(this,"Error","Unable to connect to the database");
 
-     QMessageBox::information(this,"NICE","NICE");
-
-     glava->show();
-     close();
-
-    }
-    else
-    {
-     QMessageBox::information(this,"no","NO");
-
-    }
 
 }
 
