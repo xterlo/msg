@@ -10,6 +10,8 @@
 #include <iostream>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSql>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlError>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -235,15 +237,30 @@ void MainWindow::on_authorization_clicked()
 
     QString login = ui->login->text();
     QString password = ui->password->text();
+
+    if (login == "" or password == "") {
+        QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
+    } else {
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("localhost");
-    db.setDatabaseName("my_database");
-    db.setUserName("username");
-    db.setPassword("password");
-    if(!db.open())
-        QMessageBox::warning(this,"Error","Unable to connect to the database");
-
-
+    db.setHostName("95.143.216.174");
+    db.setPort(3306);
+    db.setDatabaseName("server");
+    db.setUserName("server");
+    db.setPassword("server");
+    if(!db.open()) {
+        QMessageBox::warning(this,"Ошибка!","Не удалось подключиться к серверу");
+        //qDebug() <<db.lastError();
+    } else {
+        QSqlQuery query;
+         query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"'");
+         if (query.last() == false) {
+            QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
+         } else {
+             close();
+             glava->show();
+         }
+    }
+    }
 }
 
 void MainWindow::on_reg_clicked()

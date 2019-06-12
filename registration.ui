@@ -118,7 +118,7 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Повторите пароль:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="email">
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -134,7 +134,7 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
      <set>Qt::ImhEmailCharactersOnly</set>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="login">
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -147,7 +147,7 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
      <string notr="true">QLineEdit{background-color:rgb(255, 255, 255);}</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_3">
+   <widget class="QLineEdit" name="password">
     <property name="geometry">
      <rect>
       <x>170</x>
@@ -163,7 +163,7 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
      <enum>QLineEdit::Password</enum>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_4">
+   <widget class="QLineEdit" name="password_rep">
     <property name="geometry">
      <rect>
       <x>170</x>
