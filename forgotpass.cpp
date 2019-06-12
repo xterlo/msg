@@ -12,7 +12,7 @@ ForgotPass::~ForgotPass()
 {
     delete ui;
 }
-
+//asdasdasdads
 void ForgotPass::on_pushButton_clicked()
 {
     close();
@@ -22,3 +22,4 @@ void ForgotPass::on_pushButton_clicked()
 //dasdsa
 //sadsadsaddsad
 //adsadasdasdasdasdsad
+//dasadsadasdasdadsadadsad
