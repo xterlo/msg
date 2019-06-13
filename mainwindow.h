@@ -28,8 +28,6 @@ private slots:
     void on_authorization_clicked();
     void on_reg_clicked();
     void on_pushButton_clicked();
-
-
     void on_pushButton_3_clicked();
 
 private:
@@ -40,7 +38,7 @@ private:
     Activation *activation;
 
 
-};
 
+};
 
 #endif // MAINWINDOW_H

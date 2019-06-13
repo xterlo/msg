@@ -219,10 +219,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     MainWindow::resize(x,y);
    // ui->moveWW->pos(0,0);
-    ui->moveWW->setMinimumSize(razmer.width(),20);
+    ui->movew->setMinimumSize(razmer.width(),20);
     MainWindow::setMaximumSize(x,y);
     MainWindow::setMinimumSize(477,259);
     ui->password->setText("");
+   // connect(ui->moveWW,SIGNAL(clicked()),this,SLOT(mousePressEvent()));
+   // connect(ui->moveWW,SIGNAL(move()),this,SLOT(mouseMoveEvent()));
     activation=new Activation();
     connect(activation, &Activation::firstWindow, this, &MainWindow::show);
     reg = new Registration();

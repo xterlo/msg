@@ -541,7 +541,17 @@ color:rgb(144, 0, 216);
       <enum>Qt::RightToLeft</enum>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton{background: transparent;}</string>
+      <string notr="true">QPushButton
+{
+background: transparent;
+color: #000080; 
+  }
+   QPushButton:hover {
+	color: rgb(255, 255, 255);
+    background: rgb(255, 0, 0); 
+   }
+
+</string>
      </property>
      <property name="text">
       <string>✕</string>

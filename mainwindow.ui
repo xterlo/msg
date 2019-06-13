@@ -43,7 +43,7 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="moveWW" native="true">
+   <widget class="QWidget" name="movew" native="true">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -73,14 +73,27 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
     <widget class="QPushButton" name="pushButton_2">
      <property name="geometry">
       <rect>
-       <x>417</x>
+       <x>446</x>
        <y>0</y>
-       <width>60</width>
+       <width>31</width>
        <height>20</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton
+{
+background: transparent;
+color: #000080; 
+  }
+   QPushButton:hover {
+	color: rgb(255, 255, 255);
+    background: rgb(255, 0, 0); 
+   }
+
+</string>
+     </property>
      <property name="text">
-      <string>X</string>
+      <string>✕</string>
      </property>
     </widget>
    </widget>
