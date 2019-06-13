@@ -221,6 +221,8 @@ MainWindow::MainWindow(QWidget *parent) :
     MainWindow::setMaximumSize(x,y);
     MainWindow::setMinimumSize(477,259);
     ui->password->setText("");
+    activation=new Activation();
+    connect(activation, &Activation::firstWindow, this, &MainWindow::show);
     reg = new Registration();
     connect(reg, &Registration::firstWindow, this, &MainWindow::show);
     glava = new Glavnaya();
@@ -267,7 +269,7 @@ void MainWindow::on_authorization_clicked()
              QString active = query.value(0).toString();
              if (active == "0") {
                 QMessageBox::warning(this,"Ошибка!","Извините,данный пользователь не активирован.Пройдите на почту для активации.");
-                //здесь отправка письма на почту и открытие окна активации.
+                activation->show();//dsa
              } else {
              close();
              glava->show();
@@ -290,5 +292,6 @@ void MainWindow::on_pushButton_clicked()
     forgot->show();
     close();
 }
+
 
 

@@ -7,6 +7,7 @@
 #include "registration.h"
 #include "forgotpass.h"
 #include <QMouseEvent>
+#include "activation.h"
 
 namespace Ui {
 class MainWindow;
@@ -33,7 +34,7 @@ private:
     Registration *reg;
     Glavnaya *glava;
     ForgotPass *forgot;
-
+    Activation *activation;
 
 
 };
