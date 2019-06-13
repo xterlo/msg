@@ -6,6 +6,7 @@
 #include "glavnaya.h"
 #include "registration.h"
 #include "forgotpass.h"
+#include <QMouseEvent>
 
 namespace Ui {
 class MainWindow;
@@ -24,8 +25,8 @@ public:
 private slots:
     void on_authorization_clicked();
     void on_reg_clicked();
-
     void on_pushButton_clicked();
+
 
 private:
     Ui::MainWindow *ui;
@@ -33,6 +34,9 @@ private:
     Glavnaya *glava;
     ForgotPass *forgot;
 
+
+
 };
+
 
 #endif // MAINWINDOW_H
