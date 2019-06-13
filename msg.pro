@@ -27,6 +27,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        activation.cpp \
         forgotpass.cpp \
         glavnaya.cpp \
         main.cpp \
@@ -34,12 +35,14 @@ SOURCES += \
         registration.cpp
 
 HEADERS += \
+        activation.h \
         forgotpass.h \
         glavnaya.h \
         mainwindow.h \
         registration.h
 
 FORMS += \
+        activation.ui \
         forgotpass.ui \
         glavnaya.ui \
         mainwindow.ui \
