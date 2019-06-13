@@ -260,8 +260,15 @@ void MainWindow::on_authorization_clicked()
          if (query.last() == false) {
             QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
          } else {
+             query.exec("SELECT active FROM users WHERE login='"+login+"' AND password='"+password+"'");
+             int active = query.value(0).toInt();
+             if (active == 0) {
+                QMessageBox::warning(this,"Ошибка!","Извините,данный пользователь не активирован.Пройдите на почту для активации.");
+                //здесь отправка письма на почту и открытие окна активации.
+             } else {
              close();
              glava->show();
+             }
          }
     }
     }
