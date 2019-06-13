@@ -13,7 +13,10 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include <QCryptographicHash>
+#include <iostream>
 
+
+using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -251,8 +254,8 @@ void MainWindow::on_authorization_clicked()
     db.setUserName("server");
     db.setPassword("server");
     if(!db.open()) {
+        qDebug() << db.lastError();
         QMessageBox::warning(this,"Ошибка!","Не удалось подключиться к серверу.\nКод ошибки: 0001");
-        //qDebug() <<db.lastError();
     } else {
         QSqlQuery query;
          password = QString(QCryptographicHash::hash(password.toLatin1(),QCryptographicHash::Sha1).toHex());
@@ -261,8 +264,8 @@ void MainWindow::on_authorization_clicked()
             QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
          } else {
              query.exec("SELECT active FROM users WHERE login='"+login+"' AND password='"+password+"'");
-             int active = query.value(0).toInt();
-             if (active == 0) {
+             QString active = query.value(1).toString();
+             if (active == "0") {
                 QMessageBox::warning(this,"Ошибка!","Извините,данный пользователь не активирован.Пройдите на почту для активации.");
                 //здесь отправка письма на почту и открытие окна активации.
              } else {
