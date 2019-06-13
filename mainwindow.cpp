@@ -217,6 +217,8 @@ MainWindow::MainWindow(QWidget *parent) :
     MainWindow::setMaximumSize(x,y);
     MainWindow::setMinimumSize(477,259);
     ui->password->setText("");
+    activation=new Activation();
+    connect(activation, &Activation::firstWindow, this, &MainWindow::show);
     reg = new Registration();
     connect(reg, &Registration::firstWindow, this, &MainWindow::show);
     glava = new Glavnaya();
@@ -278,5 +280,6 @@ void MainWindow::on_pushButton_clicked()
     forgot->show();
     close();
 }
+
 
 
