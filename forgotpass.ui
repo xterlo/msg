@@ -20,7 +20,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget{
+   <string notr="true">QWidget#ForgotPass{
 background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.0397727, stop:0 rgba(255, 176, 254, 255), stop:1 rgba(111, 193, 255, 255))
 }</string>
   </property>
@@ -60,7 +60,7 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLabel{background-color:transparent;}</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>Почта:</string>
@@ -76,7 +76,7 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">QLineEdit{background-color:rgb(255, 255, 255);}</string>
+    <string notr="true"/>
    </property>
    <property name="inputMethodHints">
     <set>Qt::ImhEmailCharactersOnly|Qt::ImhMultiLine</set>

@@ -7,6 +7,7 @@ Glavnaya::Glavnaya(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
 }
 
 Glavnaya::~Glavnaya()

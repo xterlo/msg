@@ -26,7 +26,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint);
+
+    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint );
+
     int x=0;
     int y=0;
     const QRect razmer = QApplication::desktop()->screenGeometry();
@@ -266,11 +268,10 @@ void MainWindow::on_authorization_clicked()
             QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
          } else {
              query.exec("SELECT active FROM users WHERE login='"+login+"' AND password='"+password+"'");
-             query.first();
-             int active = query.value(0).toInt();
-             if (active == 0) {
+             QString active = query.value(1).toString();
+             if (active == "0") {
                 QMessageBox::warning(this,"Ошибка!","Извините,данный пользователь не активирован.Пройдите на почту для активации.");
-                activation->show();
+                //dsa
              } else {
              close();
              glava->show();
@@ -286,6 +287,7 @@ void MainWindow::on_reg_clicked()
     close();
 
 
+
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -296,3 +298,9 @@ void MainWindow::on_pushButton_clicked()
 
 
 
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    activation->show();
+
+}

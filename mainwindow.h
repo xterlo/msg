@@ -8,6 +8,7 @@
 #include "forgotpass.h"
 #include <QMouseEvent>
 #include "activation.h"
+#include <qdesktopwidget.h>
 
 namespace Ui {
 class MainWindow;
@@ -28,6 +29,8 @@ private slots:
     void on_reg_clicked();
     void on_pushButton_clicked();
 
+
+    void on_pushButton_3_clicked();
 
 private:
     Ui::MainWindow *ui;

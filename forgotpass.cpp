@@ -6,6 +6,7 @@ ForgotPass::ForgotPass(QWidget *parent) :
     ui(new Ui::ForgotPass)
 {
     ui->setupUi(this);
+
 }
 ForgotPass::~ForgotPass()
 {
