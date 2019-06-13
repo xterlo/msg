@@ -332,6 +332,6 @@
  </data>
  <data>
   <variable>Version</variable>
-  <value type="int">21</value>
+  <value type="int">20</value>
  </data>
 </qtcreator>
