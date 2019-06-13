@@ -269,7 +269,7 @@ void MainWindow::on_authorization_clicked()
              QString active = query.value(1).toString();
              if (active == "0") {
                 QMessageBox::warning(this,"Ошибка!","Извините,данный пользователь не активирован.Пройдите на почту для активации.");
-                activation->show();
+                activation->show();//dsa
              } else {
              close();
              glava->show();
