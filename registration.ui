@@ -131,7 +131,7 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
      <string notr="true">QLineEdit{background-color:rgb(255, 255, 255);}</string>
     </property>
     <property name="inputMethodHints">
-     <set>Qt::ImhEmailCharactersOnly</set>
+     <set>Qt::ImhEmailCharactersOnly|Qt::ImhLatinOnly</set>
     </property>
    </widget>
    <widget class="QLineEdit" name="login">
