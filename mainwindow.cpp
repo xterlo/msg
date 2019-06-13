@@ -264,7 +264,7 @@ void MainWindow::on_authorization_clicked()
             QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
          } else {
              query.exec("SELECT active FROM users WHERE login='"+login+"' AND password='"+password+"'");
-             QString active = query.value(1).toString();
+             QString active = query.value(0).toString();
              if (active == "0") {
                 QMessageBox::warning(this,"Ошибка!","Извините,данный пользователь не активирован.Пройдите на почту для активации.");
                 //здесь отправка письма на почту и открытие окна активации.
