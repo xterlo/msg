@@ -266,10 +266,11 @@ void MainWindow::on_authorization_clicked()
             QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
          } else {
              query.exec("SELECT active FROM users WHERE login='"+login+"' AND password='"+password+"'");
-             QString active = query.value(0).toString();
-             if (active == "0") {
+             query.first();
+             int active = query.value(0).toInt();
+             if (active == 0) {
                 QMessageBox::warning(this,"Ошибка!","Извините,данный пользователь не активирован.Пройдите на почту для активации.");
-                activation->show();//dsa
+                activation->show();
              } else {
              close();
              glava->show();
