@@ -17,7 +17,7 @@ Registration::Registration(QWidget *parent) :
     ui(new Ui::Registration)
 {
     ui->setupUi(this);
-    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint);
     QDesktopWidget *razmer = QApplication::desktop();
     Registration::resize(460,320);
     ui->exitbutton->setGeometry(430,0,30,20);
@@ -29,10 +29,17 @@ Registration::~Registration()
     delete ui;
 }
 
-void Registration::on_pushButton_2_clicked()
+void Registration::on_exitbutton_clicked()
 {
-    this->close();    
-    emit firstWindow();
+    close();
+
+}
+
+void Registration::on_backbutton_clicked()
+{
+     close();
+    MainWindow *mainwind = new MainWindow(this);
+    mainwind->show();
 
 }
 
@@ -107,8 +114,20 @@ void Registration::on_pushButton_clicked()
                smtp = new Smtp("alfaland.online@gmail.com", "MyAlfamail", "smtp.gmail.com", 465);
                smtp->sendMail("alfaland.online@gmail.com", email , name, msg);
                QMessageBox::information(this,"Успех!","Вы успешно зарегистрировались!");
+               close();
+               MainWindow *mainwind = new MainWindow(this);
+               mainwind->show();
             }
          }
      }
     }
 }
+void Registration::mousePressEvent(QMouseEvent *event) {
+    m_nMouseClick_X_Coordinate = event->x();
+    m_nMouseClick_Y_Coordinate = event->y();
+}
+
+void Registration::mouseMoveEvent(QMouseEvent *event) {
+    move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);
+}
+

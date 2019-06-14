@@ -210,7 +210,7 @@ font-style: italic;
              </size>
             </property>
             <property name="styleSheet">
-             <string notr="true">);}</string>
+             <string notr="true"/>
             </property>
             <property name="text">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Пароль:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
