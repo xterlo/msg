@@ -14,6 +14,7 @@
 #include <QtSql/QSqlError>
 #include <QCryptographicHash>
 #include <iostream>
+#include <QtSql/QSqlRecord>
 
 
 using namespace std;
@@ -260,7 +261,7 @@ void MainWindow::on_authorization_clicked()
     db.setUserName("server");
     db.setPassword("server");
     if(!db.open()) {
-        qDebug() << db.lastError();
+        //qDebug() << db.lastError();
         QMessageBox::warning(this,"Ошибка!","Не удалось подключиться к серверу.\nКод ошибки: 0001");
     } else {
         QSqlQuery query;
@@ -269,11 +270,13 @@ void MainWindow::on_authorization_clicked()
          if (query.last() == false) {
             QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
          } else {
-             query.exec("SELECT active FROM users WHERE login='"+login+"' AND password='"+password+"'");
-             QString active = query.value(1).toString();
-             if (active == "0") {
+             query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"'");
+             QSqlRecord rec = query.record();
+             query.next();
+             int active  = query.value(rec.indexOf("active")).toInt();
+             if (active == 0) {
                 QMessageBox::warning(this,"Ошибка!","Извините,данный пользователь не активирован.Пройдите на почту для активации.");
-                //dsa
+                activation->show();
              } else {
              close();
              glava->show();
