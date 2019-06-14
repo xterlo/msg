@@ -4,6 +4,7 @@
 
 #include <QMainWindow>
 #include <QWidget>
+#include "smtp.h"
 #include <QMouseEvent>
 
 
@@ -25,6 +26,7 @@ signals:
 
 private slots:
     void on_pushButton_2_clicked();
+
     void on_pushButton_clicked();
     void on_backbutton_clicked();
     void on_exitbutton_clicked();

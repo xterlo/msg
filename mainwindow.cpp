@@ -47,8 +47,6 @@ MainWindow::MainWindow(QWidget *parent) :
     forgot = new ForgotPass();
     connect(forgot, &ForgotPass::firstWindow, this, &MainWindow::show);
 
-
-
 }
 
 MainWindow::~MainWindow()
