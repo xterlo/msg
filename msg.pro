@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 QT += sql
 
 
@@ -32,14 +32,16 @@ SOURCES += \
         glavnaya.cpp \
         main.cpp \
         mainwindow.cpp \
-        registration.cpp
+        registration.cpp \
+        smtp.cpp
 
 HEADERS += \
         activation.h \
         forgotpass.h \
         glavnaya.h \
         mainwindow.h \
-        registration.h
+        registration.h \
+        smtp.h
 
 FORMS += \
         activation.ui \

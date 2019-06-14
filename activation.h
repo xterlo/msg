@@ -15,8 +15,6 @@ signals:
 public:
     explicit Activation(QWidget *parent = nullptr);
     ~Activation();
-
-
 private:
     Ui::Activation *ui;
     void mousePressEvent(QMouseEvent *event);

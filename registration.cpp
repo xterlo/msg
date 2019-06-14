@@ -8,6 +8,8 @@
 #include <QtSql/QSqlError>
 #include <QCryptographicHash>
 #include <QDateTime>
+
+
 static int proverka;
 static int proverka1;
 
@@ -30,7 +32,6 @@ void Registration::on_pushButton_2_clicked()
     emit firstWindow();
 
 }
-
 void Registration::on_pushButton_clicked()
 {
     QString email = ui->email->text();
@@ -79,16 +80,28 @@ void Registration::on_pushButton_clicked()
                proverka = 2;
             }
             if (proverka == 0) {
+            srand(static_cast<unsigned int>(time(0)));
+            int aaa = 100 + rand() % 999;
+            int bbb = 100 + rand() % 999;
+            QString a = QString::number(aaa);
+            QString b = QString::number(bbb);
+            QString kode = a + b;
             QDateTime datetime;
             QDateTime date = datetime.currentDateTime();
             password = QString(QCryptographicHash::hash(password.toLatin1(),QCryptographicHash::Sha1).toHex());
-            query.prepare("INSERT INTO users (email, login, password,date) "
-                      "VALUES (?, ?, ?, ?)");
+            query.prepare("INSERT INTO users (email, login, password,date,link) "
+                      "VALUES (?, ?, ?, ?, ?)");
                query.addBindValue(email);
                query.addBindValue(login);
                query.addBindValue(password);
                query.addBindValue(date);
+               query.addBindValue(kode);
                query.exec();
+               Smtp* smtp;
+               QString name = "Регистрация в мессенжере.";
+               QString msg = "Здравствуйте, "+login+".\nДобро пожаловать в наш мессенжер.Используйте код для активации аккаунта!("+kode+")\nС уважением,Команда.";
+               smtp = new Smtp("alfaland.online@gmail.com", "MyAlfamail", "smtp.gmail.com", 465);
+               smtp->sendMail("alfaland.online@gmail.com", email , name, msg);
                QMessageBox::information(this,"Успех!","Вы успешно зарегистрировались!");
             }
          }
