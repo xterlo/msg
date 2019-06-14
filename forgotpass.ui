@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>370</width>
+    <width>400</width>
     <height>160</height>
    </rect>
   </property>
@@ -21,15 +21,16 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget#ForgotPass{
-background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.0397727, stop:0 rgba(255, 176, 254, 255), stop:1 rgba(111, 193, 255, 255))
+background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.0397727, stop:0 rgba(255, 176, 254, 255), stop:1 rgba(111, 193, 255, 255));
+
 }</string>
   </property>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>140</x>
+     <x>125</x>
      <y>100</y>
-     <width>90</width>
+     <width>150</width>
      <height>25</height>
     </rect>
    </property>
@@ -53,9 +54,9 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>21</x>
-     <y>51</y>
-     <width>35</width>
+     <x>20</x>
+     <y>50</y>
+     <width>131</width>
      <height>16</height>
     </rect>
    </property>
@@ -69,9 +70,9 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
   <widget class="QLineEdit" name="email">
    <property name="geometry">
     <rect>
-     <x>62</x>
-     <y>52</y>
-     <width>291</width>
+     <x>150</x>
+     <y>50</y>
+     <width>241</width>
      <height>20</height>
     </rect>
    </property>
@@ -82,7 +83,84 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
     <set>Qt::ImhEmailCharactersOnly|Qt::ImhMultiLine</set>
    </property>
   </widget>
+  <widget class="QPushButton" name="exitbutton">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>0</y>
+     <width>21</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+background: transparent;
+color: #000080; 
+  }
+   QPushButton:hover {
+	color: rgb(255, 255, 255);
+    background: rgb(255, 0, 0);
+	border: 0; 
+    outline-style: none;
+    outline-width: 0px !important;
+    outline-color: none !important;
+   }
+
+</string>
+   </property>
+   <property name="text">
+    <string>✕</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="backbutton">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>51</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+background: transparent;
+color: #000080; 
+  }
+   QPushButton:hover {
+	color: (0,0,0);
+    background: rgbrgb(0, 0, 255);
+	border: 0; 
+    outline-style: none;
+    outline-width: 0px !important;
+    outline-color: none !important;
+   }
+
+</string>
+   </property>
+   <property name="text">
+    <string>←</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>exitbutton</sender>
+   <signal>clicked()</signal>
+   <receiver>ForgotPass</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>352</x>
+     <y>10</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>279</x>
+     <y>18</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

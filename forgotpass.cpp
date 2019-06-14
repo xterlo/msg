@@ -8,12 +8,20 @@
 #include <stdio.h>
 #include <time.h>
 #include <QDebug>
-
+#include <QDesktopWidget>
+#include "mainwindow.h"
 ForgotPass::ForgotPass(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ForgotPass)
 {
     ui->setupUi(this);
+   this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+    QDesktopWidget *razmer = QApplication::desktop();
+    int windowx = razmer->width();
+    int windowy = razmer->height();
+    ForgotPass::resize(400,160);
+    ui->exitbutton->setGeometry(370,0,30,20);
+    ui->backbutton->setGeometry(0,0,30,20);
 
 }
 ForgotPass::~ForgotPass()
@@ -24,7 +32,7 @@ void ForgotPass::on_pushButton_clicked()
 {
     QString email = ui->email->text();
 
-    close();
+
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("95.143.216.174");
@@ -42,8 +50,32 @@ void ForgotPass::on_pushButton_clicked()
            QMessageBox::warning(this,"Ошибка!","Такого пользователя с данной почтой не существует!");
         } else {
             //query.exec("UPDATE users SET link='"+kode+"' WHERE email='"+email+"'");
+            //close()
         }
     }
 
-    emit firstWindow();
+
+}
+void ForgotPass::mousePressEvent(QMouseEvent *event) {
+    m_nMouseClick_X_Coordinate = event->x();
+    m_nMouseClick_Y_Coordinate = event->y();
+}
+
+void ForgotPass::mouseMoveEvent(QMouseEvent *event) {
+    move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);
+}
+
+
+void ForgotPass::on_exitbutton_clicked()
+{
+    close();
+
+}
+
+void ForgotPass::on_backbutton_clicked()
+{
+     close();
+    MainWindow *mainwind = new MainWindow(this);
+    mainwind->show();
+
 }

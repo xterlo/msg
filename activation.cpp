@@ -3,6 +3,8 @@
 #include <string>
 #include <QDebug>
 #include <QMessageBox>
+#include <qdesktopwidget.h>
+#include "mainwindow.h"
 
 Activation::Activation(QWidget *parent) :
     QWidget(parent),
@@ -10,7 +12,13 @@ Activation::Activation(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
-    //this->setAttribute(Qt::WA_DeleteOnClose);
+    QDesktopWidget *razmer = QApplication::desktop();
+    int windowx = razmer->width();
+    int windowy = razmer->height();
+    Activation::resize(400,175);
+    ui->exitbutton->setGeometry(370,0,30,20);
+     ui->backbutton->setGeometry(0,0,30,20);
+
 }
 
 Activation::~Activation()
@@ -447,3 +455,17 @@ void Activation::mouseMoveEvent(QMouseEvent *event) {
 }
 
 
+
+void Activation::on_exitbutton_clicked()
+{
+    close();
+    emit firstWindow();
+}
+
+void Activation::on_backbutton_clicked()
+{
+    close();
+   MainWindow *mainwind = new MainWindow(this);
+   mainwind->show();
+
+}

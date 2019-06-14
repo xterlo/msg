@@ -26,6 +26,9 @@ private:
 protected:
     void keyPressEvent(QKeyEvent *event);
 
+private slots:
+    void on_exitbutton_clicked();
+    void on_backbutton_clicked();
 };
 
 #endif // ACTIVATION_H

@@ -4,6 +4,8 @@
 
 #include <QMainWindow>
 #include <QWidget>
+#include <QMouseEvent>
+
 
 
 namespace Ui {
@@ -23,12 +25,16 @@ signals:
 
 private slots:
     void on_pushButton_2_clicked();
-
     void on_pushButton_clicked();
+    void on_backbutton_clicked();
+    void on_exitbutton_clicked();
 
 private:
     Ui::Registration *ui;
-
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    int m_nMouseClick_X_Coordinate;
+    int m_nMouseClick_Y_Coordinate;
 
 };
 

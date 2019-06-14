@@ -17,6 +17,8 @@
 #include <QtSql/QSqlRecord>
 
 
+
+
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -27,202 +29,12 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
-
+    QDesktopWidget *razmer = QApplication::desktop();
+    int windowx = razmer->width();
+    int windowy = razmer->height();
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint );
-
-    int x=0;
-    int y=0;
-    const QRect razmer = QApplication::desktop()->screenGeometry();
-
-
-        switch (razmer.width())
-        {
-            case 3840:
-                {
-                    x = razmer.width()/8;
-                    break;
-                }
-            case 2560:
-                {
-                    x = razmer.width()/6;
-                    break;
-                }
-            case 2048:
-                {
-                    x = razmer.width()/5;
-                    break;
-                }
-            case 1920:
-                {
-                    if(razmer.height() == 1080) x = razmer.width()/4;
-                    else x = razmer.width()/5;
-                    break;
-                }
-            case 1768:
-                {
-                    x = razmer.width()/4;
-                    break;
-                }
-            case 1680:
-                {
-                    x = razmer.width()/4;
-                    break;
-                }
-            case 1600:
-                {
-                    x = razmer.width()/4;
-                    break;
-                }
-
-            case 1366:
-                {
-                    x = razmer.width()/3;
-                    break;
-                }
-            case 1360:
-                {
-                    x = razmer.width()/3;
-                    break;
-                }
-            case 1280:
-                {
-                    x = razmer.width()/3;
-                    break;
-                }
-            case 1176:
-                {
-                    x = razmer.width()/2;
-                    break;
-                }
-            case 1152:
-                {
-                    x = razmer.width()/2;
-                    break;
-                }
-            case 1024:
-                {
-                    x = razmer.width()/2;
-                    break;
-                }
-            case 800:
-                {
-                    x = razmer.width()/2;
-                    break;
-                }
-        default:
-        {
-            if(razmer.width()>3840 )x=razmer.width()/9;
-            if(razmer.width()<800 )x=razmer.width();
-            break;
-        }
-
-
-        }
-
-        switch(razmer.height())
-        {
-            case 2160:
-                {
-                    y = razmer.height()/8;
-                    break;
-                }
-            case 1600:
-                {
-                    y = razmer.height()/6;
-                    break;
-                }
-            case 1536:
-                {
-                    y = razmer.height()/5;
-                    break;
-                }
-            case 1440:
-                {
-                    if(razmer.width()==1920) y =razmer.height()/5;
-                    else y = razmer.height()/6;
-                    break;
-                }
-            case 1200:
-                {
-                    if(razmer.width()==1600) y =razmer.height()/4;
-                    else y = razmer.height()/5;
-                    break;
-                }
-            case 1080:
-                {
-                    y = razmer.height()/4;
-                    break;
-                }
-            case 1050:
-                {
-                    y = razmer.height()/4;
-                    break;
-                }
-            case 1024:
-                {
-                    if(razmer.width()==1280) y =razmer.height()/3;
-                    y = razmer.height()/4;
-                    break;
-                }
-            case 992:
-                {
-                    y = razmer.height()/4;
-                    break;
-                }
-            case 960:
-                {
-                    y = razmer.height()/3;
-                    break;
-                }
-            case 900:
-                {
-                    y = razmer.height()/4;
-                    break;
-                }
-            case 864:
-                {
-                    y = razmer.height()/3;
-                    break;
-                }
-            case 800:
-                {
-                    y = razmer.height()/3;
-                    break;
-                }
-            case 768:
-                {
-                    y = razmer.height()/3;
-                    break;
-                }
-            case 720:
-                {
-                    y = razmer.height()/3;
-                    break;
-                }
-            case 664:
-                {
-                    y = razmer.height()/2;
-                    break;
-                }
-            case 600:
-                {
-                    y = razmer.height()/2;
-                    break;
-                }
-            default:
-            {
-                    if(razmer.width()>2160 )x=razmer.width()/9;
-                    if(razmer.width()<600 )x=razmer.height();
-                    break;
-        }
-        }
-
-
-    MainWindow::resize(x,y);
-   // ui->moveWW->pos(0,0);
-    ui->movew->setMinimumSize(razmer.width(),20);
-    MainWindow::setMaximumSize(x,y);
-    MainWindow::setMinimumSize(477,259);
+    MainWindow::resize(415,259);
+    ui->exitbutton->setGeometry(385,0,30,20);
     ui->password->setText("");
    // connect(ui->moveWW,SIGNAL(clicked()),this,SLOT(mousePressEvent()));
    // connect(ui->moveWW,SIGNAL(move()),this,SLOT(mouseMoveEvent()));
@@ -290,22 +102,28 @@ void MainWindow::on_reg_clicked()
 {
     reg->show();
     close();
-
-
-
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_forgot_clicked()
 {
     forgot->show();
     close();
+
 }
 
 
-
-
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_exitbutton_clicked()
 {
-    activation->show();
 
+    qApp->quit();
 }
+void MainWindow::mousePressEvent(QMouseEvent *event) {
+    m_nMouseClick_X_Coordinate = event->x();
+    m_nMouseClick_Y_Coordinate = event->y();
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event) {
+    move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);
+}
+
+

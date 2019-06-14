@@ -21,14 +21,15 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();
 
 
 private slots:
     void on_authorization_clicked();
     void on_reg_clicked();
-    void on_pushButton_clicked();
-    void on_pushButton_3_clicked();
+    void on_forgot_clicked();
+    void on_exitbutton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -36,7 +37,10 @@ private:
     Glavnaya *glava;
     ForgotPass *forgot;
     Activation *activation;
-
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+    int m_nMouseClick_X_Coordinate;
+    int m_nMouseClick_Y_Coordinate;
 
 
 };

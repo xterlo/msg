@@ -8,6 +8,7 @@
 #include <QtSql/QSqlError>
 #include <QCryptographicHash>
 #include <QDateTime>
+#include "mainwindow.h"
 static int proverka;
 static int proverka1;
 
@@ -16,7 +17,11 @@ Registration::Registration(QWidget *parent) :
     ui(new Ui::Registration)
 {
     ui->setupUi(this);
-
+    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+    QDesktopWidget *razmer = QApplication::desktop();
+    Registration::resize(460,320);
+    ui->exitbutton->setGeometry(430,0,30,20);
+    ui->backbutton->setGeometry(0,0,30,20);
 }
 
 Registration::~Registration()
@@ -95,3 +100,25 @@ void Registration::on_pushButton_clicked()
      }
     }
 }
+
+void Registration::on_backbutton_clicked()
+{
+    close();
+   MainWindow *mainwind = new MainWindow(this);
+   mainwind->show();
+}
+
+void Registration::on_exitbutton_clicked()
+{
+    close();
+}
+void Registration::mousePressEvent(QMouseEvent *event) {
+    m_nMouseClick_X_Coordinate = event->x();
+    m_nMouseClick_Y_Coordinate = event->y();
+}
+
+void Registration::mouseMoveEvent(QMouseEvent *event) {
+    move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);
+}
+
+
