@@ -100,8 +100,8 @@ void Registration::on_pushButton_clicked()
             QDateTime datetime;
             QDateTime date = datetime.currentDateTime();
             password = QString(QCryptographicHash::hash(password.toLatin1(),QCryptographicHash::Sha1).toHex());
-            query.prepare("INSERT INTO users (email, login, password,date) "
-                      "VALUES (?, ?, ?, ?)");
+            query.prepare("INSERT INTO users (email, login, password, date, link) "
+                      "VALUES (?, ?, ?, ?, ?)");
                query.addBindValue(email);
                query.addBindValue(login);
                query.addBindValue(password);
