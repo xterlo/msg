@@ -7,9 +7,18 @@
 #include <QtSql/QSqlError>
 #include <stdio.h>
 #include <time.h>
+#include "QTimer"
 #include <QDebug>
 #include <QDesktopWidget>
-#include "mainwindow.h"
+//#include "mainwindow.h"
+
+void Sleep(qint64 msec)
+{
+    QEventLoop loop;
+    QTimer::singleShot(msec, &loop, SLOT(quit()));
+    loop.exec();
+}
+
 ForgotPass::ForgotPass(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ForgotPass)
@@ -28,6 +37,7 @@ ForgotPass::~ForgotPass()
 {
     delete ui;
 }
+
 void ForgotPass::on_pushButton_clicked()
 {
     QString email = ui->email->text();
@@ -44,11 +54,10 @@ void ForgotPass::on_pushButton_clicked()
         QString kode = a + b;
         query.exec("UPDATE users SET link='"+kode+"' WHERE email='"+email+"'");
         Smtp* smtp;
-        QString name = "Регистрация в мессенжере.";
-        QString msg = "Здравствуйте, "+email+".\nДобро пожаловать в наш мессенжер.Используйте код для активации аккаунта!("+kode+")\nС уважением,Команда.";
+        QString name = "Смена пароля";
+        QString msg = "Здравствуйте, "+email+".\nВы запросили смену пароля.Используйте код измения пароля!("+kode+")\nС уважением,Команда.";
         smtp = new Smtp("alfaland.online@gmail.com", "MyAlfamail", "smtp.gmail.com", 465);
         smtp->sendMail("alfaland.online@gmail.com", email , name, msg);
-        qDebug()<< email << endl << msg << endl << name ;
         close();
         //здесь пусть откроет окно ввода кода и след окном смену окно со сменой пароля.
     }
@@ -72,7 +81,7 @@ void ForgotPass::on_exitbutton_clicked()
 void ForgotPass::on_backbutton_clicked()
 {
      close();
-    MainWindow *mainwind = new MainWindow(this);
-    mainwind->show();
+    //MainWindow *mainwind = new MainWindow(this);
+    //mainwind->show();
 
 }
