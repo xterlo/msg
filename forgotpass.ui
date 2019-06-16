@@ -129,8 +129,8 @@ background: transparent;
 color: #000080; 
   }
    QPushButton:hover {
-	color: (0,0,0);
-    background: rgbrgb(0, 0, 255);
+	color: rgb(255, 255, 255);
+    background: rgb(0, 170, 255);
 	border: 0; 
     outline-style: none;
     outline-width: 0px !important;

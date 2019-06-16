@@ -36,19 +36,19 @@ void ForgotPass::on_pushButton_clicked()
     if (query.last() == false) {
         QMessageBox::warning(this,"Ошибка!","Такого пользователя с данной почтой не существует!");
     } else {
-        //srand(static_cast<unsigned int>(time(0)));
-        //int aaa = 111 + rand() % 889;
-        //int bbb = 111 + rand() % 889;
-        //QString a = QString::number(aaa);
-        //QString b = QString::number(bbb);
-        //QString kode = a + b;
-        //query.exec("UPDATE users SET link='"+kode+"' WHERE email='"+email+"'");
-        //Smtp* smtp;
-        //QString name = "Регистрация в мессенжере.";
-        //QString msg = "Здравствуйте, "+email+".\nДобро пожаловать в наш мессенжер.Используйте код для активации аккаунта!("+kode+")\nС уважением,Команда.";
-        //smtp = new Smtp("alfaland.online@gmail.com", "MyAlfamail", "smtp.gmail.com", 465);
-        //smtp->sendMail("alfaland.online@gmail.com", email , name, msg);
-        //qDebug()<< email << endl << msg << endl << name ;
+        srand(static_cast<unsigned int>(time(0)));
+        int aaa = 111 + rand() % 889;
+        int bbb = 111 + rand() % 889;
+        QString a = QString::number(aaa);
+        QString b = QString::number(bbb);
+        QString kode = a + b;
+        query.exec("UPDATE users SET link='"+kode+"' WHERE email='"+email+"'");
+        Smtp* smtp;
+        QString name = "Регистрация в мессенжере.";
+        QString msg = "Здравствуйте, "+email+".\nДобро пожаловать в наш мессенжер.Используйте код для активации аккаунта!("+kode+")\nС уважением,Команда.";
+        smtp = new Smtp("alfaland.online@gmail.com", "MyAlfamail", "smtp.gmail.com", 465);
+        smtp->sendMail("alfaland.online@gmail.com", email , name, msg);
+        qDebug()<< email << endl << msg << endl << name ;
         close();
         //здесь пусть откроет окно ввода кода и след окном смену окно со сменой пароля.
     }

@@ -32,7 +32,6 @@ void Activation::recieveData(QString Qnick)
 {
    std::string nick = Qnick.toStdString();
    qDebug() << nick.c_str();
-   ui->label->setText(Qnick);
 }
 
 void Activation::keyPressEvent(QKeyEvent *event){

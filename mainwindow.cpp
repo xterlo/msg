@@ -46,8 +46,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(glava, &Glavnaya::firstWindow, this, &MainWindow::show);
     forgot = new ForgotPass();
     connect(forgot, &ForgotPass::firstWindow, this, &MainWindow::show);
-    connect(ui->sendertest, SIGNAL(clicked()), activation, SLOT(show()));
-    connect(ui->sendertest, SIGNAL(clicked()), this, SLOT(onButtonSend()));
     connect(this, SIGNAL(sendData(QString)), activation, SLOT(recieveData(QString)));
 
 
@@ -74,13 +72,10 @@ void sleep(qint64 msec)
     QTimer::singleShot(msec, &loop, SLOT(quit()));
     loop.exec();
 }
-void MainWindow::onButtonSend()
-{
-    emit sendData(ui->login->text()); // вызываем сигнал, в котором передаём введённые данные
-}
+
 void MainWindow::on_authorization_clicked()
 {
-
+    emit sendData(ui->login->text());
     QString login = ui->login->text();
     QString password = ui->password->text();
 

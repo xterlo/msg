@@ -371,19 +371,6 @@ font-style: italic;
       </item>
      </layout>
     </widget>
-    <widget class="QPushButton" name="sendertest">
-     <property name="geometry">
-      <rect>
-       <x>80</x>
-       <y>190</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>PushButton</string>
-     </property>
-    </widget>
    </widget>
   </widget>
  </widget>
