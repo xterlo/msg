@@ -465,7 +465,6 @@ void Activation::on_exitbutton_clicked()
 void Activation::on_backbutton_clicked()
 {
     close();
-   MainWindow *mainwind = new MainWindow(this);
-   mainwind->show();
+
 
 }
