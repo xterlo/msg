@@ -7,6 +7,13 @@
 #include "mainwindow.h"
 #include <string>
 #include <iostream>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSql>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlError>
+#include <QtSql/QSqlRecord>
+static QString username;
+static QString email;
 
 Activation::Activation(QWidget *parent) :
     QWidget(parent),
@@ -31,7 +38,7 @@ Activation::~Activation()
 void Activation::recieveData(QString Qnick)
 {
    std::string nick = Qnick.toStdString();
-   qDebug() << nick.c_str();
+   username = nick.c_str();
 }
 
 void Activation::keyPressEvent(QKeyEvent *event){
@@ -48,7 +55,6 @@ void Activation::keyPressEvent(QKeyEvent *event){
     string fourth = qfourth.toStdString();
     string fifth = qfifth.toStdString();
     string sixth = qsixth.toStdString();
-    string testcode = "248976";
     switch(event->key())
     {
 
@@ -440,9 +446,33 @@ void Activation::keyPressEvent(QKeyEvent *event){
    QString qcode = ui->first->text()+ui->second->text()+ui->third->text()+ui->fourth->text()+ui->fifth->text()+ui->sixth->text();
    string code = qcode.toStdString();
    qDebug() << code.c_str();
-   if(code.c_str()==testcode)
+
+   QSqlQuery query;
+   query.exec("SELECT * FROM users WHERE login='"+username+"' AND active='0'");
+   QSqlRecord rec = query.record();
+   query.next();
+   QString kode  = query.value(rec.indexOf("link")).toString();
+
+   query.exec("SELECT * FROM users WHERE email='"+email+"'");
+   QSqlRecord recc = query.record();
+   query.next();
+   QString kode1  = query.value(recc.indexOf("link")).toString();
+
+
+
+   if(code.c_str()==kode)
    {
-       QMessageBox::information(this,"КРАСАВА","ЛУЧШИЙ");
+       QMessageBox::information(this,"Успешно!","Ваш Аккаунт активирован!");
+       query.exec("UPDATE users SET link='NULL' WHERE login='"+username+"'");
+       query.exec("UPDATE users SET active='1' WHERE login='"+username+"'");
+       close();
+
+   }
+
+   if(code.c_str()==kode1)
+   {
+       close();
+       //женя сделай окно с сменой пароля!!
 
    }
 

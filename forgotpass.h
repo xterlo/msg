@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <QMouseEvent>
 #include "smtp.h"
+#include "activation.h"
 
 
 
@@ -36,6 +37,7 @@ private:
     void mouseMoveEvent(QMouseEvent *event);
     int m_nMouseClick_X_Coordinate;
     int m_nMouseClick_Y_Coordinate;
+    Activation *activation;
 
 
 };
