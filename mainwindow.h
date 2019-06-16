@@ -30,7 +30,6 @@ private slots:
     void on_reg_clicked();
     void on_forgot_clicked();
     void on_exitbutton_clicked();
-
 private:
     Ui::MainWindow *ui;
     Registration *reg;

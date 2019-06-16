@@ -47,23 +47,6 @@ MainWindow::MainWindow(QWidget *parent) :
     forgot = new ForgotPass();
     connect(forgot, &ForgotPass::firstWindow, this, &MainWindow::show);
 
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
-
-void MainWindow::on_authorization_clicked()
-{
-
-    QString login = ui->login->text();
-    QString password = ui->password->text();
-
-    if (login == "" or password == "") {
-        QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
-    } else {
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("95.143.216.174");
     db.setPort(3306);
@@ -73,26 +56,76 @@ void MainWindow::on_authorization_clicked()
     if(!db.open()) {
         //qDebug() << db.lastError();
         QMessageBox::warning(this,"Ошибка!","Не удалось подключиться к серверу.\nКод ошибки: 0001");
+    }
+
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+void sleep(qint64 msec)
+{
+    QEventLoop loop;
+    QTimer::singleShot(msec, &loop, SLOT(quit()));
+    loop.exec();
+}
+
+void MainWindow::on_authorization_clicked()
+{
+
+    QString login = ui->login->text();
+    QString password = ui->password->text();
+
+    ui->progressBar->setValue(150);
+    sleep(100);
+    ui->progressBar->setValue(250);
+
+    if (login == "" or password == "") {
+        QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
+        ui->progressBar->setValue(0);
     } else {
-        QSqlQuery query;
+         QSqlQuery query;
+
+         ui->progressBar->setValue(350);
+         sleep(200);
+         ui->progressBar->setValue(450);
+         sleep(200);
+         ui->progressBar->setValue(550);
+         sleep(200);
+
          password = QString(QCryptographicHash::hash(password.toLatin1(),QCryptographicHash::Sha1).toHex());
+
          query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"'");
          if (query.last() == false) {
             QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
+            ui->progressBar->setValue(0);
          } else {
              query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"'");
              QSqlRecord rec = query.record();
              query.next();
+
+             ui->progressBar->setValue(650);
+             sleep(200);
+             ui->progressBar->setValue(750);
+             sleep(200);
+             ui->progressBar->setValue(850);
+             sleep(200);
+             ui->progressBar->setValue(950);
+
              int active  = query.value(rec.indexOf("active")).toInt();
              if (active == 0) {
                 QMessageBox::warning(this,"Ошибка!","Извините,данный пользователь не активирован.Пройдите на почту для активации.");
+                ui->progressBar->setValue(0);
                 activation->show();
              } else {
+             ui->progressBar->setValue(1000);
+             sleep(200);
              close();
+             ui->progressBar->setValue(0);
              glava->show();
              }
          }
-    }
     }
 }
 

@@ -68,16 +68,7 @@ void Registration::on_pushButton_clicked()
         QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
     } else {
         if (password!=password_rep) QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
-        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-        db.setHostName("95.143.216.174");
-        db.setPort(3306);
-        db.setDatabaseName("server");
-        db.setUserName("server");
-        db.setPassword("server");
-        if(!db.open()) {
-            QMessageBox::warning(this,"Ошибка!","Не удалось подключиться к серверу.\nКод ошибки: 0001");
-            //qDebug() <<db.lastError();
-        } else {
+        else {
             QSqlQuery query;
             proverka = 0;
             query.exec("SELECT * FROM users WHERE email='"+email+"'");
@@ -92,8 +83,8 @@ void Registration::on_pushButton_clicked()
             }
             if (proverka == 0) {
             srand(static_cast<unsigned int>(time(0)));
-            int aaa = 100 + rand() % 999;
-            int bbb = 100 + rand() % 999;
+            int aaa = 111 + rand() % 889;
+            int bbb = 111 + rand() % 889;
             QString a = QString::number(aaa);
             QString b = QString::number(bbb);
             QString kode = a + b;

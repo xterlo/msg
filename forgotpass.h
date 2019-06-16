@@ -2,6 +2,7 @@
 #define FORGOTPASS_H
 #include <QWidget>
 #include <QMouseEvent>
+#include "smtp.h"
 
 
 
