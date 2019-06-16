@@ -43,64 +43,6 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="movew" native="true">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>477</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-      <horstretch>200</horstretch>
-      <verstretch>20</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>0</width>
-      <height>20</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>16777215</width>
-      <height>10</height>
-     </size>
-    </property>
-    <widget class="QPushButton" name="exitbutton">
-     <property name="geometry">
-      <rect>
-       <x>447</x>
-       <y>0</y>
-       <width>30</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton
-{
-background: transparent;
-color: #000080; 
-  }
-   QPushButton:hover {
-	color: rgb(255, 255, 255);
-    background: rgb(255, 0, 0);
-	border: 0; 
-    outline-style: none;
-    outline-width: 0px !important;
-    outline-color: none !important;
-   }
-
-</string>
-     </property>
-     <property name="text">
-      <string>✕</string>
-     </property>
-    </widget>
-   </widget>
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
@@ -371,6 +313,49 @@ font-style: italic;
       </item>
      </layout>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="exitbutton">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>230</y>
+      <width>30</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+background: transparent;
+color: #000080; 
+  }
+   QPushButton:hover {
+	color: rgb(255, 255, 255);
+    background: rgb(255, 0, 0);
+	border: 0; 
+    outline-style: none;
+    outline-width: 0px !important;
+    outline-color: none !important;
+   }
+
+</string>
+    </property>
+    <property name="text">
+     <string>✕</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="jopa">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>0</y>
+      <width>361</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
    </widget>
   </widget>
  </widget>
