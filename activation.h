@@ -23,7 +23,8 @@ private:
     int m_nMouseClick_Y_Coordinate;
 protected:
     void keyPressEvent(QKeyEvent *event);
-
+public slots:
+    void recieveData(QString Qnick);
 private slots:
     void on_exitbutton_clicked();
     void on_backbutton_clicked();

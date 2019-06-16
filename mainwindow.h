@@ -24,12 +24,14 @@ public:
 
     ~MainWindow();
 
-
+signals:
+    void sendData(QString Qnick);
 private slots:
     void on_authorization_clicked();
     void on_reg_clicked();
     void on_forgot_clicked();
-    void on_exitbutton_clicked();
+    void on_exitbutton_clicked();   
+    void onButtonSend();
 private:
     Ui::MainWindow *ui;
     Registration *reg;
@@ -40,6 +42,7 @@ private:
     void mouseMoveEvent(QMouseEvent *event);
     int m_nMouseClick_X_Coordinate;
     int m_nMouseClick_Y_Coordinate;
+
 
 
 };

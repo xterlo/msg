@@ -5,6 +5,8 @@
 #include <QMessageBox>
 #include <qdesktopwidget.h>
 #include "mainwindow.h"
+#include <string>
+#include <iostream>
 
 Activation::Activation(QWidget *parent) :
     QWidget(parent),
@@ -16,8 +18,8 @@ Activation::Activation(QWidget *parent) :
     int windowx = razmer->width();
     int windowy = razmer->height();
     Activation::resize(400,175);
+
     ui->exitbutton->setGeometry(370,0,30,20);
-     ui->backbutton->setGeometry(0,0,30,20);
 
 }
 
@@ -26,7 +28,12 @@ Activation::~Activation()
     delete ui;
 }
 
-
+void Activation::recieveData(QString Qnick)
+{
+   std::string nick = Qnick.toStdString();
+   qDebug() << nick.c_str();
+   ui->label->setText(Qnick);
+}
 
 void Activation::keyPressEvent(QKeyEvent *event){
     using namespace std;
