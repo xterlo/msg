@@ -7,6 +7,7 @@
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlRecord>
 #include <QDebug>
+#include <QCryptographicHash>
 static QString email;
 forgotpassrepeat::forgotpassrepeat(QWidget *parent) :
     QWidget(parent),
@@ -30,13 +31,13 @@ void forgotpassrepeat::on_pushButton_clicked()
     QString fpassword = ui->fpass->text();
     QString spassword = ui->spass->text();
 
-    if(fpassword!=spassword) QMessageBox::warning(this,"Ошибка","Паоли не совпадают!");
-    else
-    {
+    if(fpassword!=spassword) {
+        QMessageBox::warning(this,"Ошибка","Пароли не совпадают!");
+    } else {
         QSqlQuery query;
-        query.exec("SELECT * FROM users WHERE email='"+email+"'");
-        QSqlRecord recc = query.record();
-        query.next();
+        fpassword = QString(QCryptographicHash::hash(fpassword.toLatin1(),QCryptographicHash::Sha1).toHex());
         query.exec("UPDATE users SET password='"+fpassword+"' WHERE email='"+email+"'");
+        close();
+        //женя открой mainwindow
     }
 }
