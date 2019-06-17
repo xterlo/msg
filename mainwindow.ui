@@ -55,7 +55,7 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
     <property name="title">
      <string>Авторизация</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>12</x>
@@ -361,7 +361,7 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>230</y>
+      <y>0</y>
       <width>30</width>
       <height>20</height>
      </rect>
@@ -390,11 +390,14 @@ color: #000080;
    <widget class="QWidget" name="movew" native="true">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>0</x>
       <y>0</y>
-      <width>361</width>
-      <height>16</height>
+      <width>385</width>
+      <height>20</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget{background-color:red;}</string>
     </property>
    </widget>
   </widget>

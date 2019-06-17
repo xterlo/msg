@@ -119,9 +119,16 @@ void Registration::on_pushButton_clicked()
 void Registration::mousePressEvent(QMouseEvent *event) {
     m_nMouseClick_X_Coordinate = event->x();
     m_nMouseClick_Y_Coordinate = event->y();
+    if(m_nMouseClick_X_Coordinate<430 && m_nMouseClick_X_Coordinate>30)
+        {
+        if(m_nMouseClick_Y_Coordinate<20) checkmouse = true;
+            else checkmouse = false;
+        }
+    else checkmouse = false;
 }
-
 void Registration::mouseMoveEvent(QMouseEvent *event) {
+    if (checkmouse == true){
     move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);
+    }
 }
 

@@ -42,6 +42,7 @@ private:
     int m_nMouseClick_X_Coordinate;
     int m_nMouseClick_Y_Coordinate;
     Activation *activation;
+    bool checkmouse;
 
 protected:
     void keyPressEvent(QKeyEvent *event);

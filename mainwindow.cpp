@@ -17,7 +17,6 @@
 
 
 
-
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -153,13 +152,20 @@ void MainWindow::on_exitbutton_clicked()
 
     qApp->quit();
 }
+
 void MainWindow::mousePressEvent(QMouseEvent *event) {
     m_nMouseClick_X_Coordinate = event->x();
     m_nMouseClick_Y_Coordinate = event->y();
+    if(m_nMouseClick_X_Coordinate<385)
+        {
+        if(m_nMouseClick_Y_Coordinate<20) checkmouse = true;
+            else checkmouse = false;
+        }
+    else checkmouse = false;
 }
-
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
+    if (checkmouse == true){
     move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);
+    }
 }
-
 
