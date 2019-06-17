@@ -553,36 +553,6 @@ color:rgb(144, 0, 216);
     </item>
    </layout>
   </widget>
-  <widget class="QPushButton" name="backbutton">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>0</y>
-     <width>51</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QPushButton
-{
-background: transparent;
-color: #000080; 
-  }
-   QPushButton:hover {
-	color: rgb(255, 255, 255);
-    background: rgb(0, 170, 255);
-	border: 0; 
-    outline-style: none;
-    outline-width: 0px !important;
-    outline-color: none !important;
-   }
-
-</string>
-   </property>
-   <property name="text">
-    <string>←</string>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>

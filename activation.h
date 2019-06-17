@@ -25,6 +25,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 public slots:
     void recieveData(QString Qnick);
+    void emailData(QString Qmail);
 
 private slots:
     void on_exitbutton_clicked();

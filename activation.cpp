@@ -24,8 +24,7 @@ Activation::Activation(QWidget *parent) :
     QDesktopWidget *razmer = QApplication::desktop();
     int windowx = razmer->width();
     int windowy = razmer->height();
-    Activation::resize(400,175);
-
+    Activation::resize(400,175);   
     ui->exitbutton->setGeometry(370,0,30,20);
 
 }
@@ -39,6 +38,13 @@ void Activation::recieveData(QString Qnick)
 {
    std::string nick = Qnick.toStdString();
    username = nick.c_str();
+   qDebug() << nick.c_str();
+}
+void Activation::emailData(QString Qmail)
+{
+   std::string mail = Qmail.toStdString();
+   email = mail.c_str();
+   qDebug() << mail.c_str();
 }
 
 void Activation::keyPressEvent(QKeyEvent *event){

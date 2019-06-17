@@ -15,6 +15,7 @@ class ForgotPass : public QWidget
 {
     Q_OBJECT
 
+
 public:
     explicit ForgotPass(QWidget *parent = nullptr);
     ~ForgotPass();
@@ -28,6 +29,7 @@ private slots:
     void on_backbutton_clicked();
 
 signals:
+    void sendData(QString Qmail);
     void firstWindow();
 
 

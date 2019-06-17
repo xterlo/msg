@@ -14,7 +14,7 @@
 #include <QtSql/QSqlError>
 #include <QCryptographicHash>
 #include <QtSql/QSqlRecord>
-#include "movew.h"
+
 
 
 
@@ -28,10 +28,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
-
-
-
-
     QDesktopWidget *razmer = QApplication::desktop();
     int windowx = razmer->width();
     int windowy = razmer->height();
@@ -49,6 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(glava, &Glavnaya::firstWindow, this, &MainWindow::show);
     forgot = new ForgotPass();
     connect(forgot, &ForgotPass::firstWindow, this, &MainWindow::show);
+    connect(this, SIGNAL(sendData(QString)), activation, SLOT(recieveData(QString)));
+
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("95.143.216.174");
@@ -151,4 +149,13 @@ void MainWindow::on_exitbutton_clicked()
 
     qApp->quit();
 }
+void MainWindow::mousePressEvent(QMouseEvent *event) {
+    m_nMouseClick_X_Coordinate = event->x();
+    m_nMouseClick_Y_Coordinate = event->y();
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event) {
+    move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);
+}
+
 

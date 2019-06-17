@@ -10,7 +10,7 @@
 #include "QTimer"
 #include <QDebug>
 #include <QDesktopWidget>
-//#include "mainwindow.h"
+#include "mainwindow.h"
 
 void Sleep(qint64 msec)
 {
@@ -29,10 +29,14 @@ ForgotPass::ForgotPass(QWidget *parent) :
     int windowx = razmer->width();
     int windowy = razmer->height();
     ForgotPass::resize(400,160);
+    activation = new Activation;
+    connect(this, SIGNAL(sendData(QString)), activation, SLOT(emailData(QString)));
     ui->exitbutton->setGeometry(370,0,30,20);
     ui->backbutton->setGeometry(0,0,30,20);
 
 }
+
+
 ForgotPass::~ForgotPass()
 {
     delete ui;
@@ -41,12 +45,13 @@ ForgotPass::~ForgotPass()
 void ForgotPass::on_pushButton_clicked()
 {
     QString email = ui->email->text();
+    emit sendData(ui->email->text());
     QSqlQuery query;
     query.exec("SELECT * FROM users WHERE email='"+email+"'");
     if (query.last() == false) {
         QMessageBox::warning(this,"Ошибка!","Такого пользователя с данной почтой не существует!");
     } else {
-        srand(static_cast<unsigned int>(time(0)));
+       /* srand(static_cast<unsigned int>(time(0)));
         int aaa = 111 + rand() % 889;
         int bbb = 111 + rand() % 889;
         QString a = QString::number(aaa);
@@ -58,7 +63,8 @@ void ForgotPass::on_pushButton_clicked()
         QString msg = "Здравствуйте, "+email+".\nВы запросили смену пароля.Используйте код измения пароля!("+kode+")\nС уважением,Команда.";
         smtp = new Smtp("alfaland.online@gmail.com", "MyAlfamail", "smtp.gmail.com", 465);
         smtp->sendMail("alfaland.online@gmail.com", email , name, msg);
-        
+        Sleep(600);*/
+        activation -> show();
         close();
         //здесь пусть откроет окно ввода кода и след окном смену окно со сменой пароля.
     }
@@ -81,7 +87,7 @@ void ForgotPass::on_exitbutton_clicked()
 
 void ForgotPass::on_backbutton_clicked()
 {
-     close();
+    close();
     MainWindow *mainwind = new MainWindow(this);
     mainwind->show();
 

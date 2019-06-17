@@ -344,17 +344,14 @@ color: #000080;
      <string>✕</string>
     </property>
    </widget>
-   <widget class="QLabel" name="jopa">
+   <widget class="QWidget" name="CustomWidget" native="true">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>0</y>
-      <width>361</width>
-      <height>20</height>
+      <width>381</width>
+      <height>16</height>
      </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
     </property>
    </widget>
   </widget>
