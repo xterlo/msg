@@ -33,10 +33,6 @@ void forgotpassrepeat::on_pushButton_clicked()
     if(fpassword!=spassword) QMessageBox::warning(this,"Ошибка","Паоли не совпадают!");
     else
     {
-        QSqlQuery query;
-        query.exec("SELECT * FROM users WHERE email='"+email+"'");
-        QSqlRecord recc = query.record();
-        query.next();
-        query.exec("UPDATE users SET password='"+fpassword+"' WHERE email='"+email+"'");
+
     }
 }
