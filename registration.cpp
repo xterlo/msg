@@ -28,7 +28,10 @@ Registration::~Registration()
 {
     delete ui;
 }
-
+void Registration::keyPressEvent(QKeyEvent *event){
+if(event->key()==16777221) Registration::on_pushButton_clicked();
+if(event->key()==16777220) Registration::on_pushButton_clicked();
+}
 void Registration::on_exitbutton_clicked()
 {
     close();

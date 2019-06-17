@@ -1,24 +1,24 @@
-#ifndef ACTIVATION_H
-#define ACTIVATION_H
+#ifndef REGRegactivation_H
+#define REGACTIVATION_H
 
 #include <QWidget>
 #include <QKeyEvent>
-#include "forgotpassrepeat.h"
+#include "glavnaya.h"
 namespace Ui {
-class Activation;
+class Regactivation;
 }
 
-class Activation : public QWidget
+class Regactivation : public QWidget
 {
     Q_OBJECT
 signals:
     void firstWindow();
 public:
-    explicit Activation(QWidget *parent = nullptr);
-    ~Activation();
+    explicit Regactivation(QWidget *parent = nullptr);
+    ~Regactivation();
 private:
-    Ui::Activation *ui;
-    forgotpassrepeat *fpr;
+    Ui::Regactivation *ui;
+    Glavnaya *glavnaya;
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     int m_nMouseClick_X_Coordinate;
@@ -26,10 +26,10 @@ private:
 protected:
     void keyPressEvent(QKeyEvent *event);
 public slots:
-    void emailData(QString Qmail);
+    void recieveData(QString Qnick);
 
 private slots:
     void on_exitbutton_clicked();
 };
 
-#endif // ACTIVATION_H
+#endif // REGACTIVATION_H

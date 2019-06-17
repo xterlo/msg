@@ -35,7 +35,8 @@ private:
     void mouseMoveEvent(QMouseEvent *event);
     int m_nMouseClick_X_Coordinate;
     int m_nMouseClick_Y_Coordinate;
-
+protected:
+    void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // REGISTRATION_H

@@ -37,15 +37,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->password->setText("");
    // connect(ui->moveWW,SIGNAL(clicked()),this,SLOT(mousePressEvent()));
    // connect(ui->moveWW,SIGNAL(move()),this,SLOT(mouseMoveEvent()));
-    activation=new Activation();
-    connect(activation, &Activation::firstWindow, this, &MainWindow::show);
+    regactivation=new Regactivation();
+    connect(regactivation, &Regactivation::firstWindow, this, &MainWindow::show);
     reg = new Registration();
     connect(reg, &Registration::firstWindow, this, &MainWindow::show);
     glava = new Glavnaya();
     connect(glava, &Glavnaya::firstWindow, this, &MainWindow::show);
     forgot = new ForgotPass();
     connect(forgot, &ForgotPass::firstWindow, this, &MainWindow::show);
-    connect(this, SIGNAL(sendData(QString)), activation, SLOT(recieveData(QString)));
+    connect(this, SIGNAL(sendData(QString)), regactivation, SLOT(recieveData(QString)));
 
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
@@ -70,6 +70,10 @@ void sleep(qint64 msec)
     QEventLoop loop;
     QTimer::singleShot(msec, &loop, SLOT(quit()));
     loop.exec();
+}
+void MainWindow::keyPressEvent(QKeyEvent *event){
+    if(event->key()==16777221) MainWindow::on_authorization_clicked();
+    if(event->key()==16777220) MainWindow::on_authorization_clicked();
 }
 
 void MainWindow::on_authorization_clicked()
@@ -118,7 +122,7 @@ void MainWindow::on_authorization_clicked()
              if (active == 0) {
                 QMessageBox::warning(this,"Ошибка!","Извините,данный пользователь не активирован.Пройдите на почту для активации.");
                 ui->progressBar->setValue(0);
-                activation->show();
+                regactivation->show();
              } else {
              ui->progressBar->setValue(1000);
              sleep(200);

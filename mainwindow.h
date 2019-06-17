@@ -7,7 +7,7 @@
 #include "registration.h"
 #include "forgotpass.h"
 #include <QMouseEvent>
-#include "activation.h"
+#include "regactivation.h"
 #include <qdesktopwidget.h>
 
 namespace Ui {
@@ -36,13 +36,14 @@ private:
     Registration *reg;
     Glavnaya *glava;
     ForgotPass *forgot;
-    Activation *activation;
+    Regactivation *regactivation;
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     int m_nMouseClick_X_Coordinate;
     int m_nMouseClick_Y_Coordinate;
 
-
+protected:
+    void keyPressEvent(QKeyEvent *event);
 
 };
 
