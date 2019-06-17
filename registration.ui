@@ -290,6 +290,28 @@ color: #000080;
     <string>✕</string>
    </property>
   </widget>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>460</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget#widget{background-color:rgba(0, 255, 255, 50);
+                border-width: 1px; 
+				border-style: solid;
+				border-color: rgb(0, 170, 255);
+                padding: 2px; 
+}</string>
+   </property>
+  </widget>
+  <zorder>widget</zorder>
+  <zorder>groupBox</zorder>
+  <zorder>backbutton</zorder>
+  <zorder>exitbutton</zorder>
  </widget>
  <resources/>
  <connections/>

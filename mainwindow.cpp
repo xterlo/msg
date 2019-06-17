@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     int windowy = razmer->height();
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint );
     MainWindow::resize(415,259);
-    ui->exitbutton->setGeometry(385,0,30,20);
+    ui->exitbutton->setGeometry(385,0,30,19);
     ui->password->setText("");
    // connect(ui->moveWW,SIGNAL(clicked()),this,SLOT(mousePressEvent()));
    // connect(ui->moveWW,SIGNAL(move()),this,SLOT(mouseMoveEvent()));

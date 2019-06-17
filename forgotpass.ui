@@ -23,6 +23,7 @@
    <string notr="true">QWidget#ForgotPass{
 background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.0397727, stop:0 rgba(255, 176, 254, 255), stop:1 rgba(111, 193, 255, 255));
 
+
 }</string>
   </property>
   <widget class="QPushButton" name="pushButton">
@@ -88,9 +89,15 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
     <rect>
      <x>340</x>
      <y>0</y>
-     <width>21</width>
-     <height>23</height>
+     <width>30</width>
+     <height>20</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton
@@ -143,6 +150,30 @@ color: #000080;
     <string>←</string>
    </property>
   </widget>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>400</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QWidget#widget{background-color:rgba(0, 255, 255, 50);
+                border-width: 1px; 
+				border-style: solid;
+				border-color: rgb(0, 170, 255);
+                padding: 2px; 
+}</string>
+   </property>
+  </widget>
+  <zorder>widget</zorder>
+  <zorder>pushButton</zorder>
+  <zorder>label</zorder>
+  <zorder>email</zorder>
+  <zorder>exitbutton</zorder>
+  <zorder>backbutton</zorder>
  </widget>
  <resources/>
  <connections>
