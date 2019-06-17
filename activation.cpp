@@ -36,7 +36,6 @@ void Activation::emailData(QString Qmail)
 {
    std::string mail = Qmail.toStdString();
    email = mail.c_str();
-   qDebug() << mail.c_str();
 }
 
 void Activation::keyPressEvent(QKeyEvent *event){

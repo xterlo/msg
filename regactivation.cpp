@@ -4,7 +4,6 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <qdesktopwidget.h>
-//#include "mainwindow.h"
 #include <string>
 #include <iostream>
 #include <QtSql/QSqlDatabase>
@@ -36,7 +35,6 @@ void Regactivation::recieveData(QString Qnick)
 {
    std::string nick = Qnick.toStdString();
    username = nick.c_str();
-   qDebug() << nick.c_str();
 }
 
 void Regactivation::keyPressEvent(QKeyEvent *event){
@@ -455,12 +453,10 @@ void Regactivation::keyPressEvent(QKeyEvent *event){
    {
        QMessageBox::information(this,"Успешно!","Ваш Аккаунт активирован!");
        query.exec("UPDATE users SET link='NULL' WHERE login='"+username+"'");
-       query.exec("UPDATE users SET active='1' WHERE login='"+username+"'");
+       query.exec("UPDATE users SET active='1' WHERE login='"+username+"'");     
        glavnaya = new Glavnaya;
-       glavnaya -> show();
        close();
-
-
+       glavnaya -> show();
    }
 
 

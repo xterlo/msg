@@ -8,6 +8,7 @@
 #include <QtSql/QSqlRecord>
 #include <QDebug>
 #include <QCryptographicHash>
+#include "mainwindow.h"
 static QString email;
 forgotpassrepeat::forgotpassrepeat(QWidget *parent) :
     QWidget(parent),
@@ -38,6 +39,7 @@ void forgotpassrepeat::on_pushButton_clicked()
         fpassword = QString(QCryptographicHash::hash(fpassword.toLatin1(),QCryptographicHash::Sha1).toHex());
         query.exec("UPDATE users SET password='"+fpassword+"' WHERE email='"+email+"'");
         close();
-        //женя открой mainwindow
+        MainWindow *mainwind = new MainWindow(this);
+        mainwind->show();
     }
 }
