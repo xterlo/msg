@@ -475,8 +475,9 @@ void Activation::keyPressEvent(QKeyEvent *event){
 
    if(code.c_str()==kode1)
    {
+       query.exec("UPDATE users SET link='' WHERE email='"+email+"'");
        close();
-       //женя сделай окно с сменой пароля!!
+       //женя окно со сменой пароля!
 
    }
 
