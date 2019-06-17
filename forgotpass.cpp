@@ -12,6 +12,7 @@
 #include <QDesktopWidget>
 #include "mainwindow.h"
 
+
 void Sleep(qint64 msec)
 {
     QEventLoop loop;
@@ -29,8 +30,10 @@ ForgotPass::ForgotPass(QWidget *parent) :
     int windowx = razmer->width();
     int windowy = razmer->height();
     ForgotPass::resize(400,160);
+    fpr = new forgotpassrepeat;
     activation = new Activation;
     connect(this, SIGNAL(sendData(QString)), activation, SLOT(emailData(QString)));
+    connect(this, SIGNAL(sendData(QString)), fpr, SLOT(emailData(QString)));
     ui->exitbutton->setGeometry(370,0,30,20);
     ui->backbutton->setGeometry(0,0,30,20);
 
@@ -41,7 +44,10 @@ ForgotPass::~ForgotPass()
 {
     delete ui;
 }
-
+void ForgotPass::keyPressEvent(QKeyEvent *event){
+    if(event->key()==16777221) ForgotPass::on_pushButton_clicked();
+    if(event->key()==16777220) ForgotPass::on_pushButton_clicked();
+}
 void ForgotPass::on_pushButton_clicked()
 {
     QString email = ui->email->text();

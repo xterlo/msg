@@ -1,10 +1,10 @@
-#include "activation.h"
-#include "ui_activation.h"
+#include "Regactivation.h"
+#include "ui_regactivation.h"
 #include <string>
 #include <QDebug>
 #include <QMessageBox>
 #include <qdesktopwidget.h>
-#include "mainwindow.h"
+//#include "mainwindow.h"
 #include <string>
 #include <iostream>
 #include <QtSql/QSqlDatabase>
@@ -15,31 +15,31 @@
 static QString username;
 static QString email;
 
-Activation::Activation(QWidget *parent) :
+Regactivation::Regactivation(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Activation)
+    ui(new Ui::Regactivation)
 {
     ui->setupUi(this);
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
     QDesktopWidget *razmer = QApplication::desktop();
-    Activation::resize(400,175);   
+    Regactivation::resize(400,175);
     ui->exitbutton->setGeometry(370,0,30,20);
 
 }
 
-Activation::~Activation()
+Regactivation::~Regactivation()
 {
     delete ui;
 }
 
-void Activation::emailData(QString Qmail)
+void Regactivation::recieveData(QString Qnick)
 {
-   std::string mail = Qmail.toStdString();
-   email = mail.c_str();
-   qDebug() << mail.c_str();
+   std::string nick = Qnick.toStdString();
+   username = nick.c_str();
+   qDebug() << nick.c_str();
 }
 
-void Activation::keyPressEvent(QKeyEvent *event){
+void Regactivation::keyPressEvent(QKeyEvent *event){
     using namespace std;
     QString qfirst = ui->first->text();
     QString qsecond = ui->second->text();
@@ -446,40 +446,42 @@ void Activation::keyPressEvent(QKeyEvent *event){
    qDebug() << code.c_str();
 
    QSqlQuery query;
-
-   query.exec("SELECT * FROM users WHERE email='"+email+"'");
+   query.exec("SELECT * FROM users WHERE login='"+username+"'");
    QSqlRecord recc = query.record();
    query.next();
-   QString kode1  = query.value(recc.indexOf("link")).toString();
-   qDebug() <<kode1;
-
-   if(code.c_str()==kode1)
+   QString kode  = query.value(recc.indexOf("link")).toString();
+   qDebug() << kode;
+   if(code.c_str()==kode)
    {
-       query.exec("UPDATE users SET link='NULL' WHERE email='"+email+"'");
+       QMessageBox::information(this,"Успешно!","Ваш Аккаунт активирован!");
+       query.exec("UPDATE users SET link='NULL' WHERE login='"+username+"'");
+       query.exec("UPDATE users SET active='1' WHERE login='"+username+"'");
+       glavnaya = new Glavnaya;
+       glavnaya -> show();
        close();
-       fpr = new forgotpassrepeat;
-       fpr -> show();
+
+
    }
+
 
 
    QWidget::keyPressEvent(event);
 
 
 }
-void Activation::mousePressEvent(QMouseEvent *event) {
+void Regactivation::mousePressEvent(QMouseEvent *event) {
     m_nMouseClick_X_Coordinate = event->x();
     m_nMouseClick_Y_Coordinate = event->y();
 }
 
-void Activation::mouseMoveEvent(QMouseEvent *event) {
+void Regactivation::mouseMoveEvent(QMouseEvent *event) {
     move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);
 }
 
 
 
-void Activation::on_exitbutton_clicked()
+void Regactivation::on_exitbutton_clicked()
 {
     close();
     emit firstWindow();
 }
-

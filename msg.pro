@@ -29,27 +29,33 @@ CONFIG += c++11
 SOURCES += \
         activation.cpp \
         forgotpass.cpp \
+        forgotpassrepeat.cpp \
         glavnaya.cpp \
         main.cpp \
         mainwindow.cpp \
         movew.cpp \
+        regactivation.cpp \
         registration.cpp \
         smtp.cpp
 
 HEADERS += \
         activation.h \
         forgotpass.h \
+        forgotpassrepeat.h \
         glavnaya.h \
         mainwindow.h \
         movew.h \
+        regactivation.h \
         registration.h \
         smtp.h
 
 FORMS += \
         activation.ui \
         forgotpass.ui \
+        forgotpassrepeat.ui \
         glavnaya.ui \
         mainwindow.ui \
+        regactivation.ui \
         registration.ui
 
 # Default rules for deployment.

@@ -55,48 +55,19 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
     <property name="title">
      <string>Авторизация</string>
     </property>
-    <widget class="QPushButton" name="forgot">
+    <widget class="QWidget" name="">
      <property name="geometry">
       <rect>
-       <x>264</x>
-       <y>193</y>
-       <width>121</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>20</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">font: 75 8pt &quot;MS Shell Dlg 2&quot;;
-font: 8pt &quot;MS Shell Dlg 2&quot;;
-font: 8pt &quot;Bernard MT Condensed&quot;;
-text-decoration: underline;
-font-style: italic;
-  outline: none; /* Для синий ободки */
-  border: 0;
-  background: transparent;</string>
-     </property>
-     <property name="text">
-      <string>Забыли пароль?</string>
-     </property>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>11</x>
-       <y>24</y>
+       <x>12</x>
+       <y>25</y>
        <width>371</width>
-       <height>161</height>
+       <height>185</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
+      <property name="spacing">
+       <number>6</number>
+      </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
@@ -206,7 +177,66 @@ font-style: italic;
        </layout>
       </item>
       <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QCheckBox" name="checkBox">
+          <property name="minimumSize">
+           <size>
+            <width>183</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="text">
+           <string>Запомнить пароль?</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="forgot">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>183</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton{
+				background: transparent;
+               border-width: 1px; 
+                border-style: solid; 
+                border-radius: 5px;
+				border-color: rgb(0, 85, 255);
+                padding: 2px; 
+
+}</string>
+          </property>
+          <property name="text">
+           <string>Забыли пароль?</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
        <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>12</number>
+        </property>
         <item>
          <widget class="QPushButton" name="authorization">
           <property name="enabled">
@@ -260,9 +290,22 @@ font-style: italic;
             </property>
             <property name="maximumSize">
              <size>
-              <width>240</width>
+              <width>183</width>
               <height>25</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QProgressBar
+{
+
+                border-width: 1px; 
+                border-style: solid; 
+                border-radius: 5px;
+				border-color: rgb(0, 85, 255);
+                padding: 2px; 
+                background:rgb(170, 170, 255)
+             ;
+}</string>
             </property>
             <property name="maximum">
              <number>1000</number>
@@ -349,7 +392,7 @@ color: #000080;
      <rect>
       <x>20</x>
       <y>0</y>
-      <width>381</width>
+      <width>361</width>
       <height>16</height>
      </rect>
     </property>
