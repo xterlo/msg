@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     forgot = new ForgotPass();
     connect(forgot, &ForgotPass::firstWindow, this, &MainWindow::show);
     connect(this, SIGNAL(sendData(QString)), activation, SLOT(recieveData(QString)));
-
+    ui->movew = new moveww;
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("95.143.216.174");

@@ -46,4 +46,12 @@ private:
 
 };
 
+class moveww:public QWidget{
+//    Q_OBJECT
+protected:
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
+public:
+    QPoint mpos;
+};
 #endif // MAINWINDOW_H

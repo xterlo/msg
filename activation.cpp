@@ -22,8 +22,6 @@ Activation::Activation(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
     QDesktopWidget *razmer = QApplication::desktop();
-    int windowx = razmer->width();
-    int windowy = razmer->height();
     Activation::resize(400,175);   
     ui->exitbutton->setGeometry(370,0,30,20);
 

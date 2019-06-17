@@ -344,7 +344,7 @@ color: #000080;
      <string>✕</string>
     </property>
    </widget>
-   <widget class="QWidget" name="CustomWidget" native="true">
+   <widget class="QWidget" name="movew" native="true">
     <property name="geometry">
      <rect>
       <x>20</x>
