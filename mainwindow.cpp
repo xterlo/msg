@@ -14,6 +14,11 @@
 #include <QtSql/QSqlError>
 #include <QCryptographicHash>
 #include <QtSql/QSqlRecord>
+#include <tchar.h>
+#include <QSettings>
+static QString login;
+static int Status;
+static QString keyy;
 
 
 
@@ -57,6 +62,16 @@ MainWindow::MainWindow(QWidget *parent) :
         //qDebug() << db.lastError();
         QMessageBox::warning(this,"Ошибка!","Не удалось подключиться к серверу.\nКод ошибки: 0001");
     }
+    QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE",QSettings::NativeFormat);
+    foreach (QString key, settings.allKeys()) {
+        if (settings.value(key) != "") {
+            ui->login->setText(key);
+            ui->password->setText(settings.value(key).toString());
+            Status = 1;
+            keyy = settings.value(key).toString();
+        }
+    }
+
 
 }
 
@@ -78,8 +93,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
 void MainWindow::on_authorization_clicked()
 {
     emit sendData(ui->login->text());
-    QString login = ui->login->text();
+    login = ui->login->text();
     QString password = ui->password->text();
+    bool zp = ui->checkBox->checkState();
 
     ui->progressBar->setValue(150);
     sleep(100);
@@ -100,12 +116,12 @@ void MainWindow::on_authorization_clicked()
 
          password = QString(QCryptographicHash::hash(password.toLatin1(),QCryptographicHash::Sha1).toHex());
 
-         query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"'");
+         query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"' or (login='"+login+"' AND password='"+keyy+"')");
          if (query.last() == false) {
             QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
             ui->progressBar->setValue(0);
          } else {
-             query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"'");
+             query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"' or (login='"+login+"' AND password='"+keyy+"')");
              QSqlRecord rec = query.record();
              query.next();
 
@@ -125,9 +141,17 @@ void MainWindow::on_authorization_clicked()
              } else {
              ui->progressBar->setValue(1000);
              sleep(200);
+             if (zp == true ) {
+                    QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE",QSettings::NativeFormat);
+                    settings.setValue(login, password);
+                 close();
+                 ui->progressBar->setValue(0);
+                 glava->show();
+             } else {
              close();
              ui->progressBar->setValue(0);
              glava->show();
+             }
              }
          }
     }
