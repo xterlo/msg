@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QDesktopWidget>
 #include "mainwindow.h"
+#include <QSettings>
 
 
 void Sleep(qint64 msec)
@@ -70,6 +71,8 @@ void ForgotPass::on_pushButton_clicked()
         smtp = new Smtp("alfaland.online@gmail.com", "MyAlfamail", "smtp.gmail.com", 465);
         smtp->sendMail("alfaland.online@gmail.com", email , name, msg);
         Sleep(600);
+        QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE",QSettings::NativeFormat);
+        settings.clear();
         activation -> show();
         close();
     }

@@ -17,7 +17,6 @@
 #include <tchar.h>
 #include <QSettings>
 static QString login;
-static int Status;
 static QString keyy;
 
 
@@ -66,8 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
     foreach (QString key, settings.allKeys()) {
         if (settings.value(key) != "") {
             ui->login->setText(key);
-            ui->password->setText(settings.value(key).toString());
-            Status = 1;
+            ui->password->setText("ABCDEFG");
             keyy = settings.value(key).toString();
         }
     }
@@ -142,7 +140,7 @@ void MainWindow::on_authorization_clicked()
              ui->progressBar->setValue(1000);
              sleep(200);
              if (zp == true ) {
-                    QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE",QSettings::NativeFormat);
+                    QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE\\",QSettings::NativeFormat);
                     settings.setValue(login, password);
                  close();
                  ui->progressBar->setValue(0);
