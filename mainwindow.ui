@@ -24,13 +24,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>0</width>
-    <height>60</height>
+    <width>415</width>
+    <height>259</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>16777215</width>
+    <width>415</width>
     <height>259</height>
    </size>
   </property>
@@ -395,6 +395,12 @@ color: #000080;
       <width>415</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="styleSheet">
      <string notr="true">QWidget#widget{background-color:rgba(0, 255, 255, 50);

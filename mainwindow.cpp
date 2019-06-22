@@ -27,15 +27,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    QDesktopWidget *razmer = QApplication::desktop();
-    int windowx = razmer->width();
-    int windowy = razmer->height();
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint );
     MainWindow::resize(415,259);
     ui->exitbutton->setGeometry(385,0,30,19);
     ui->password->setText("");
-   // connect(ui->moveWW,SIGNAL(clicked()),this,SLOT(mousePressEvent()));
-   // connect(ui->moveWW,SIGNAL(move()),this,SLOT(mouseMoveEvent()));
     regactivation=new Regactivation();
     connect(regactivation, &Regactivation::firstWindow, this, &MainWindow::show);
     reg = new Registration();
@@ -81,12 +76,15 @@ void MainWindow::on_authorization_clicked()
     QString login = ui->login->text();
     QString password = ui->password->text();
 
+
+
+
     ui->progressBar->setValue(150);
     sleep(100);
     ui->progressBar->setValue(250);
 
     if (login == "" or password == "") {
-        QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
+        QMessageBox::warning(this,"Ошибка!","Проверьте корректность заполненных данных!");
         ui->progressBar->setValue(0);
     } else {
          QSqlQuery query;
@@ -102,7 +100,7 @@ void MainWindow::on_authorization_clicked()
 
          query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"'");
          if (query.last() == false) {
-            QMessageBox::warning(this,"Ошибка!","Извините,проверьте корректность заполненных данных!");
+            QMessageBox::warning(this,"Ошибка!","Проверьте корректность заполненных данных!");
             ui->progressBar->setValue(0);
          } else {
              query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"'");
@@ -119,7 +117,7 @@ void MainWindow::on_authorization_clicked()
 
              int active  = query.value(rec.indexOf("active")).toInt();
              if (active == 0) {
-                QMessageBox::warning(this,"Ошибка!","Извините,данный пользователь не активирован.Пройдите на почту для активации.");
+                QMessageBox::warning(this,"Ошибка!","Данный пользователь не активирован.Пройдите на почту для активации.");
                 ui->progressBar->setValue(0);
                 regactivation->show();
              } else {
