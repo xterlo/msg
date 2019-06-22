@@ -18,7 +18,7 @@
 #include <QtSql/QSqlRecord>
 static QString login;
 static QString keyy;
-static float version = 1.0;
+static QString version = "1.0";
 
 
 
@@ -51,9 +51,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(forgot, &ForgotPass::firstWindow, this, &MainWindow::show);
     connect(this, SIGNAL(sendData(QString)), regactivation, SLOT(recieveData(QString)));
 
-    QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE",QSettings::NativeFormat);
+    QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE\\",QSettings::NativeFormat);
     foreach (QString key, settings.allKeys()) {
-        if (settings.value(key) != "") {
+        if (settings.value(key) != "" ) {
             ui->login->setText(key);
             ui->password->setText("ABCDEFG");
             keyy = settings.value(key).toString();
@@ -125,6 +125,16 @@ void MainWindow::on_authorization_clicked()
              if (active == 0) {
                 QMessageBox::warning(this,"Ошибка!","Извините,данный пользователь не активирован.Пройдите на почту для активации.");
                 ui->progressBar->setValue(0);
+                QDateTime datetime;
+                QDateTime date = datetime.currentDateTime();
+                QString ip = "95.143.216.174";
+                query.prepare("INSERT INTO last_attempt (login,ip,date,version) "
+                          "VALUES (?, ?, ?, ?)");
+                   query.addBindValue(login);
+                   query.addBindValue(ip);
+                   query.addBindValue(date);
+                   query.addBindValue(version);
+                   query.exec();
                 regactivation->show();
              } else {
              ui->progressBar->setValue(1000);
@@ -156,10 +166,15 @@ void MainWindow::on_authorization_clicked()
                     query.addBindValue(date);
                     query.addBindValue(version);
                     query.exec();
-             close();
-             ui->progressBar->setValue(0);
-             glava->show();
-             }
+                query.exec("SELECT * FROM beta_uses WHERE user='"+login+"'");
+                if (query.last() == true) {
+                QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_PROFILES\\",QSettings::NativeFormat);
+                settings.setValue(login, "1");
+                }
+                close();
+                ui->progressBar->setValue(0);
+                glava->show();
+                }
              }
          }
     }

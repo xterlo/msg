@@ -5,7 +5,8 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlRecord>
-static float version = 1.0;
+#include <QSettings>
+static QString version = "1.0";
 
 
 int main(int argc, char *argv[])
@@ -24,11 +25,34 @@ int main(int argc, char *argv[])
         QMessageBox::warning(0,"Ошибка!","Не удалось подключиться к серверу.\nКод ошибки: 0001");
     }
     else {
+        QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_PROFILES\\",QSettings::NativeFormat);
+        foreach (QString key, settings.allKeys()) {
+            if (settings.value(key) != "") {
+                QMessageBox msgBox;
+                 msgBox.setText("Вышла бета версия программы.\nЖелаете обновиться?");
+                 msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+                 msgBox.setDefaultButton(QMessageBox::Yes);
+                 int ret = msgBox.exec();
+                 switch (ret) {
+                    case QMessageBox::Yes:
+                        //скачиваем
+                        QMessageBox::information(0,"OK","OK");
+                        break;
+                    case QMessageBox::No:
+                        break;
+                 }
+            }
+        }
         QSqlQuery query;
+        query.exec("SELECT * FROM version WHERE version='"+version+"' AND active='0'");
+        if (query.last() == true) {
+           QMessageBox::warning(0,"Ошибка!","Необходимо обновить приложение!");
+           w.close();
+        } else {
         query.exec("SELECT * FROM version WHERE active='1' ORDER BY id DESC ");
         QSqlRecord rec = query.record();
         query.next();
-        float version_  = query.value(rec.indexOf("version")).toFloat();
+        QString version_  = query.value(rec.indexOf("version")).toString();
         if (version != version_) {
             QMessageBox msgBox;
              msgBox.setText("Вышла новая версия программы.\nЖелаете обновиться?");
@@ -47,4 +71,5 @@ int main(int argc, char *argv[])
     }
 
     return a.exec();
+}
 }
