@@ -7,6 +7,7 @@
 #include <QtSql/QSqlRecord>
 #include <QSettings>
 static QString version = "1.0";
+static int beta_user;
 
 
 int main(int argc, char *argv[])
@@ -27,7 +28,22 @@ int main(int argc, char *argv[])
     else {
         QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_PROFILES\\",QSettings::NativeFormat);
         foreach (QString key, settings.allKeys()) {
+           QSqlQuery query;
             if (settings.value(key) != "") {
+                beta_user = 1;
+                QSqlQuery query;
+                query.exec("SELECT * FROM beta_uses WHERE user='"+key+"'");
+                QSqlRecord rec = query.record();
+                query.next();
+                QString active_beta  = query.value(rec.indexOf("active_beta")).toString();
+                if (active_beta == "0") {
+                    beta_user = 0;
+                } else {
+                query.exec("SELECT * FROM beta_version WHERE active='1' ORDER BY id DESC ");
+                QSqlRecord rec = query.record();
+                query.next();
+                QString version_  = query.value(rec.indexOf("version")).toString();
+                if (version != version_) {
                 QMessageBox msgBox;
                  msgBox.setText("Вышла бета версия программы.\nЖелаете обновиться?");
                  msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
@@ -42,7 +58,10 @@ int main(int argc, char *argv[])
                         break;
                  }
             }
+            }
+               }
         }
+        if (beta_user != 1) {
         QSqlQuery query;
         query.exec("SELECT * FROM version WHERE version='"+version+"' AND active='0'");
         if (query.last() == true) {
@@ -67,6 +86,7 @@ int main(int argc, char *argv[])
                 case QMessageBox::No:
                     break;
              }
+        }
         }
     }
 
