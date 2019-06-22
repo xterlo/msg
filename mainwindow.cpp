@@ -8,16 +8,17 @@
 #include <string>
 #include <QApplication>
 #include <iostream>
+#include <tchar.h>
+#include <QSettings>
+#include <QNetworkInterface>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSql>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
-#include <QCryptographicHash>
 #include <QtSql/QSqlRecord>
-#include <tchar.h>
-#include <QSettings>
 static QString login;
 static QString keyy;
+static float version = 1.0;
 
 
 
@@ -50,17 +51,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(forgot, &ForgotPass::firstWindow, this, &MainWindow::show);
     connect(this, SIGNAL(sendData(QString)), regactivation, SLOT(recieveData(QString)));
 
-
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("95.143.216.174");
-    db.setPort(3306);
-    db.setDatabaseName("server");
-    db.setUserName("server");
-    db.setPassword("server");
-    if(!db.open()) {
-        //qDebug() << db.lastError();
-        QMessageBox::warning(this,"Ошибка!","Не удалось подключиться к серверу.\nКод ошибки: 0001");
-    }
     QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE",QSettings::NativeFormat);
     foreach (QString key, settings.allKeys()) {
         if (settings.value(key) != "") {
@@ -145,7 +135,27 @@ void MainWindow::on_authorization_clicked()
                  close();
                  ui->progressBar->setValue(0);
                  glava->show();
+                 QDateTime datetime;
+                 QDateTime date = datetime.currentDateTime();
+                 QString ip = "95.143.216.174";
+                 query.prepare("INSERT INTO last_attempt (login,ip,date,version) "
+                           "VALUES (?, ?, ?, ?)");
+                    query.addBindValue(login);
+                    query.addBindValue(ip);
+                    query.addBindValue(date);
+                    query.addBindValue(version);
+                    query.exec();
              } else {
+                 QDateTime datetime;
+                 QDateTime date = datetime.currentDateTime();
+                 QString ip = "95.143.216.174";
+                 query.prepare("INSERT INTO last_attempt (login,ip,date,version) "
+                           "VALUES (?, ?, ?, ?)");
+                    query.addBindValue(login);
+                    query.addBindValue(ip);
+                    query.addBindValue(date);
+                    query.addBindValue(version);
+                    query.exec();
              close();
              ui->progressBar->setValue(0);
              glava->show();
