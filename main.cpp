@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
                 QSqlRecord rec = query.record();
                 query.next();
                 QString version_  = query.value(rec.indexOf("version")).toString();
+                if (query.last() == true) {
                 if (version != version_) {
                 QMessageBox msgBox;
                  msgBox.setText("Вышла бета версия программы.\nЖелаете обновиться?");
@@ -51,8 +52,9 @@ int main(int argc, char *argv[])
                  int ret = msgBox.exec();
                  switch (ret) {
                     case QMessageBox::Yes:
-                        //скачиваем
                         QMessageBox::information(0,"OK","OK");
+                        system("updater.exe");
+                        w.close();
                         break;
                     case QMessageBox::No:
                         break;
@@ -60,6 +62,7 @@ int main(int argc, char *argv[])
             }
             }
                }
+        }
         }
         if (beta_user != 1) {
         QSqlQuery query;
@@ -80,8 +83,9 @@ int main(int argc, char *argv[])
              int ret = msgBox.exec();
              switch (ret) {
                 case QMessageBox::Yes:
-                    //скачиваем
                     QMessageBox::information(0,"OK","OK");
+                    system("updater.exe");
+                    w.close();
                     break;
                 case QMessageBox::No:
                     break;
@@ -89,6 +93,8 @@ int main(int argc, char *argv[])
         }
         }
     }
+    QSettings setting("HKEY_CURRENT_USER\\Software\\IBM_APP\\",QSettings::NativeFormat);
+    setting.setValue("version", version);
 
     return a.exec();
 }
