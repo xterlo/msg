@@ -8,16 +8,17 @@
 #include <string>
 #include <QApplication>
 #include <iostream>
+#include <tchar.h>
+#include <QSettings>
+#include <QNetworkInterface>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSql>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
-#include <QCryptographicHash>
 #include <QtSql/QSqlRecord>
-#include <tchar.h>
-#include <QSettings>
 static QString login;
 static QString keyy;
+static QString version = "1.0";
 
 
 
@@ -45,20 +46,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(forgot, &ForgotPass::firstWindow, this, &MainWindow::show);
     connect(this, SIGNAL(sendData(QString)), regactivation, SLOT(recieveData(QString)));
 
-
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("95.143.216.174");
-    db.setPort(3306);
-    db.setDatabaseName("server");
-    db.setUserName("server");
-    db.setPassword("server");
-    if(!db.open()) {
-        //qDebug() << db.lastError();
-        QMessageBox::warning(this,"Ошибка!","Не удалось подключиться к серверу.\nКод ошибки: 0001");
-    }
-    QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE",QSettings::NativeFormat);
+    QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE\\",QSettings::NativeFormat);
     foreach (QString key, settings.allKeys()) {
-        if (settings.value(key) != "") {
+        if (settings.value(key) != "" ) {
             ui->login->setText(key);
             ui->password->setText("ABCDEFG");
             keyy = settings.value(key).toString();
@@ -133,6 +123,16 @@ void MainWindow::on_authorization_clicked()
              if (active == 0) {
                 QMessageBox::warning(this,"Ошибка!","Данный пользователь не активирован.Пройдите на почту для активации.");
                 ui->progressBar->setValue(0);
+                QDateTime datetime;
+                QDateTime date = datetime.currentDateTime();
+                QString ip = "95.143.216.174";
+                query.prepare("INSERT INTO last_attempt (login,ip,date,version) "
+                          "VALUES (?, ?, ?, ?)");
+                   query.addBindValue(login);
+                   query.addBindValue(ip);
+                   query.addBindValue(date);
+                   query.addBindValue(version);
+                   query.exec();
                 regactivation->show();
              } else {
              ui->progressBar->setValue(1000);
@@ -143,11 +143,36 @@ void MainWindow::on_authorization_clicked()
                  close();
                  ui->progressBar->setValue(0);
                  glava->show();
+                 QDateTime datetime;
+                 QDateTime date = datetime.currentDateTime();
+                 QString ip = "95.143.216.174";
+                 query.prepare("INSERT INTO last_attempt (login,ip,date,version) "
+                           "VALUES (?, ?, ?, ?)");
+                    query.addBindValue(login);
+                    query.addBindValue(ip);
+                    query.addBindValue(date);
+                    query.addBindValue(version);
+                    query.exec();
              } else {
-             close();
-             ui->progressBar->setValue(0);
-             glava->show();
-             }
+                 QDateTime datetime;
+                 QDateTime date = datetime.currentDateTime();
+                 QString ip = "95.143.216.174";
+                 query.prepare("INSERT INTO last_attempt (login,ip,date,version) "
+                           "VALUES (?, ?, ?, ?)");
+                    query.addBindValue(login);
+                    query.addBindValue(ip);
+                    query.addBindValue(date);
+                    query.addBindValue(version);
+                    query.exec();
+                query.exec("SELECT * FROM beta_uses WHERE user='"+login+"'");
+                if (query.last() == true) {
+                QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_PROFILES\\",QSettings::NativeFormat);
+                settings.setValue(login, "1");
+                }
+                close();
+                ui->progressBar->setValue(0);
+                glava->show();
+                }
              }
          }
     }
