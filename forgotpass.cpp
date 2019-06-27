@@ -35,8 +35,6 @@ ForgotPass::ForgotPass(QWidget *parent) :
     activation = new Activation;
     connect(this, SIGNAL(sendData(QString)), activation, SLOT(emailData(QString)));
     connect(this, SIGNAL(sendData(QString)), fpr, SLOT(emailData(QString)));
-    ui->exitbutton->setGeometry(370,0,30,19);
-    ui->backbutton->setGeometry(0,0,30,19);
 
 }
 

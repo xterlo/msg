@@ -33,8 +33,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint );
-    MainWindow::resize(415,259);
-    ui->exitbutton->setGeometry(385,0,30,19);
+    QDesktopWidget *razmer = QApplication::desktop();
+
+    MainWindow::resize(480,330);
     ui->password->setText("");
     regactivation=new Regactivation();
     connect(regactivation, &Regactivation::firstWindow, this, &MainWindow::show);
@@ -195,18 +196,14 @@ void MainWindow::on_forgot_clicked()
 void MainWindow::on_exitbutton_clicked()
 {
 
-    qApp->quit();
+    exit(0);
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event) {
     m_nMouseClick_X_Coordinate = event->x();
     m_nMouseClick_Y_Coordinate = event->y();
-    if(m_nMouseClick_X_Coordinate<385)
-        {
         if(m_nMouseClick_Y_Coordinate<20) checkmouse = true;
             else checkmouse = false;
-        }
-    else checkmouse = false;
 }
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     if (checkmouse == true){
