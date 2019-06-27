@@ -44,7 +44,7 @@ private:
      int m_nMouseClick_X_Coordinate;
      int m_nMouseClick_Y_Coordinate;
      bool  checkmouse ;
-
+    int TWindowPos,cWindowPos;
 protected:
 
     void keyPressEvent(QKeyEvent *event);

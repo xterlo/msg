@@ -33,9 +33,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint );
+    QRect screenRect(QApplication::desktop()->screenGeometry());
     QDesktopWidget *razmer = QApplication::desktop();
-
-    MainWindow::resize(480,330);
+    //this->resize(razmer->width() * 0.25, razmer->height() * 0.25);
+    //MainWindow::resize(480,330);
     ui->password->setText("");
     regactivation=new Regactivation();
     connect(regactivation, &Regactivation::firstWindow, this, &MainWindow::show);
@@ -63,6 +64,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 void sleep(qint64 msec)
 {
     QEventLoop loop;
