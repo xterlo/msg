@@ -1,11 +1,10 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2019-06-23T10:56:55
+# Project created by QtCreator 2019-06-26T20:51:45
 #
 #-------------------------------------------------
 
-QT       += core gui network
-QT += sql
+QT       += core gui network sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,14 +25,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        downloader.cpp \
         main.cpp \
-        mainwindow.cpp
+        smtp.cpp \
+        widget.cpp
 
 HEADERS += \
-        mainwindow.h
+        downloader.h \
+        smtp.h \
+        widget.h
 
 FORMS += \
-        mainwindow.ui
+        widget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
