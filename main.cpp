@@ -6,6 +6,7 @@
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlRecord>
 #include <QSettings>
+
 static QString version = "1.0";
 static int beta_user;
 
@@ -25,6 +26,11 @@ int main(int argc, char *argv[])
 
     if(!db.open()) {
         QMessageBox::warning(0,"Ошибка!","Не удалось подключиться к серверу.\nКод ошибки: 0001");
+        Smtp* smtp;
+        QString name = "Ошибка!";
+        QString msg = "Не удалось подключиться к базе данных!";
+        smtp = new Smtp("alfaland.online@gmail.com", "MyAlfamail", "smtp.gmail.com", 465);
+        smtp->sendMail("alfaland.online@gmail.com", "chabandima2002@gmail.com" , name, msg);
         exit(0);
     }
     QSettings versionn("HKEY_CURRENT_USER\\Software\\IBM_APP\\",QSettings::NativeFormat);
