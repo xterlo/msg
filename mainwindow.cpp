@@ -22,7 +22,6 @@ static QString version = "1.0";
 
 
 
-using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -56,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent) :
             keyy = settings.value(key).toString();
         }
     }
+
 
 
 }
@@ -132,7 +132,7 @@ void MainWindow::on_authorization_clicked()
                 query.prepare("INSERT INTO last_attempt (login,ip,date,version) "
                           "VALUES (?, ?, ?, ?)");
                    query.addBindValue(login);
-                   query.addBindValue(ip);
+                   query.addBindValue(ipp);
                    query.addBindValue(date);
                    query.addBindValue(version);
                    query.exec();
@@ -143,27 +143,49 @@ void MainWindow::on_authorization_clicked()
              if (zp == true ) {
                     QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE\\",QSettings::NativeFormat);
                     settings.setValue(login, password);
-                 close();
-                 ui->progressBar->setValue(0);
-                 glava->show();
-                 QDateTime datetime;
-                 QDateTime date = datetime.currentDateTime();
-                 QString ip = "95.143.216.174";
-                 query.prepare("INSERT INTO last_attempt (login,ip,date,version) "
-                           "VALUES (?, ?, ?, ?)");
-                    query.addBindValue(login);
-                    query.addBindValue(ip);
-                    query.addBindValue(date);
-                    query.addBindValue(version);
-                    query.exec();
+
+                    QDateTime datetime;
+                    QDateTime date = datetime.currentDateTime();
+                    query.prepare("INSERT INTO last_attempt (login,ip,date,version) "
+                              "VALUES (?, ?, ?, ?)");
+                       query.addBindValue(login);
+                       query.addBindValue(ipp);
+                       query.addBindValue(date);
+                       query.addBindValue(version);
+                       query.exec();
+                    close();
+                    glava->show();
              } else {
                  QDateTime datetime;
                  QDateTime date = datetime.currentDateTime();
-                 QString ip = "95.143.216.174";
+                 QNetworkAccessManager networkManager;
+
+                 QUrl url("https://api.ipify.org");
+                 QUrlQuery queryy;
+                 queryy.addQueryItem("format", "json");
+                 url.setQuery(queryy);
+
+                 QNetworkReply* reply = networkManager.get(QNetworkRequest(url));
+
+                 QObject::connect(reply, &QNetworkReply::finished,
+                 [&](){
+                 if(reply->error() != QNetworkReply::NoError) {
+                 //failure
+                 qDebug() << "error: " << reply->error();
+                 } else {
+                 QJsonObject jsonObject= QJsonDocument::fromJson(reply->readAll()).object();
+                 QHostAddress ip(jsonObject["ip"].toString());
+                 //do whatever you want with the ip
+                 qDebug() << "external ip: " << ip;
+                 ipp = ip.toString();
+                 qDebug() << ipp;
+                 }
+                 reply->deleteLater();
+                 });
                  query.prepare("INSERT INTO last_attempt (login,ip,date,version) "
                            "VALUES (?, ?, ?, ?)");
                     query.addBindValue(login);
-                    query.addBindValue(ip);
+                    query.addBindValue(ipp);
                     query.addBindValue(date);
                     query.addBindValue(version);
                     query.exec();
@@ -173,7 +195,6 @@ void MainWindow::on_authorization_clicked()
                 settings.setValue(login, "1");
                 }
                 close();
-                ui->progressBar->setValue(0);
                 glava->show();
                 }
              }
