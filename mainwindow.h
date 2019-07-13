@@ -41,6 +41,7 @@ private:
     Regactivation *regactivation;
     void  mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
      int m_nMouseClick_X_Coordinate;
      int m_nMouseClick_Y_Coordinate;
      bool  checkmouse ;

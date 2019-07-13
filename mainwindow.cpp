@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
+
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint );
     QRect screenRect(QApplication::desktop()->screenGeometry());
     QDesktopWidget *razmer = QApplication::desktop();
@@ -190,11 +191,17 @@ void MainWindow::on_exitbutton_clicked()
 
     exit(0);
 }
-
+void MainWindow::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        checkmouse = false;
+    }
+    return QWidget::mouseReleaseEvent(event);
+}
 void MainWindow::mousePressEvent(QMouseEvent *event) {
     m_nMouseClick_X_Coordinate = event->x();
     m_nMouseClick_Y_Coordinate = event->y();
-        if(m_nMouseClick_Y_Coordinate<20) checkmouse = true;
+        if(event->button() == Qt::LeftButton && m_nMouseClick_Y_Coordinate<20) checkmouse = true;
             else checkmouse = false;
 }
 void MainWindow::mouseMoveEvent(QMouseEvent *event) {

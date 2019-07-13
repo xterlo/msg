@@ -37,7 +37,13 @@ void Registration::on_exitbutton_clicked()
     close();
 
 }
-
+void Registration::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        checkmouse = false;
+    }
+    return QWidget::mouseReleaseEvent(event);
+}
 void Registration::on_backbutton_clicked()
 {
      close();
@@ -121,7 +127,7 @@ void Registration::mousePressEvent(QMouseEvent *event) {
     m_nMouseClick_Y_Coordinate = event->y();
     if(m_nMouseClick_X_Coordinate<430 && m_nMouseClick_X_Coordinate>30)
         {
-        if(m_nMouseClick_Y_Coordinate<20) checkmouse = true;
+        if(event->button() == Qt::LeftButton && m_nMouseClick_Y_Coordinate<20) checkmouse = true;
             else checkmouse = false;
         }
     else checkmouse = false;

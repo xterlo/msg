@@ -24,6 +24,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
+
     int m_nMouseClick_X_Coordinate;
     int m_nMouseClick_Y_Coordinate;
 public slots:

@@ -47,6 +47,13 @@ void ForgotPass::keyPressEvent(QKeyEvent *event){
     if(event->key()==16777221) ForgotPass::on_pushButton_clicked();
     if(event->key()==16777220) ForgotPass::on_pushButton_clicked();
 }
+void ForgotPass::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        checkmouse = false;
+    }
+    return QWidget::mouseReleaseEvent(event);
+}
 void ForgotPass::on_pushButton_clicked()
 {
     QString email = ui->email->text();
@@ -80,7 +87,7 @@ void ForgotPass::mousePressEvent(QMouseEvent *event) {
     m_nMouseClick_Y_Coordinate = event->y();
     if(m_nMouseClick_X_Coordinate<370 && m_nMouseClick_X_Coordinate>30)
         {
-        if(m_nMouseClick_Y_Coordinate<20) checkmouse = true;
+        if(event->button() == Qt::LeftButton && m_nMouseClick_Y_Coordinate<20) checkmouse = true;
             else checkmouse = false;
         }
     else checkmouse = false;

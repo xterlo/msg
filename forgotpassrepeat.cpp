@@ -56,13 +56,20 @@ void forgotpassrepeat::keyPressEvent(QKeyEvent *event){
 void forgotpassrepeat::mousePressEvent(QMouseEvent *event) {
     m_nMouseClick_X_Coordinate = event->x();
     m_nMouseClick_Y_Coordinate = event->y();
-        if(m_nMouseClick_Y_Coordinate<20) checkmouse = true;
+        if(event->button() == Qt::LeftButton && m_nMouseClick_Y_Coordinate<20) checkmouse = true;
             else checkmouse = false;
 }
 void forgotpassrepeat::mouseMoveEvent(QMouseEvent *event) {
     if (checkmouse == true){
     move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);
     }
+}
+void forgotpassrepeat::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        checkmouse = false;
+    }
+    return QWidget::mouseReleaseEvent(event);
 }
 
 
