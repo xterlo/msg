@@ -16,10 +16,13 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlRecord>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 static QString login;
 static QString keyy;
 static QString version = "1.0";
+static QString ip;
 
 
 
@@ -34,6 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint );
+    QRect screenRect(QApplication::desktop()->screenGeometry());
     QDesktopWidget *razmer = QApplication::desktop();
     MainWindow::resize(450,120);
     ui->password->setText("");
@@ -55,6 +59,12 @@ MainWindow::MainWindow(QWidget *parent) :
             keyy = settings.value(key).toString();
         }
     }
+    QNetworkAccessManager manager;
+    QNetworkReply *response = manager.get(QNetworkRequest(QUrl("https://api.ipify.org/")));
+    QEventLoop event;
+    connect(response,SIGNAL(finished()),&event,SLOT(quit()));
+    event.exec();
+    ip = response->readAll();
 
 
 }
@@ -85,13 +95,8 @@ void MainWindow::on_authorization_clicked()
 
 
 
-
-    sleep(100);
-
-
     if (login == "" or password == "") {
         QMessageBox::warning(this,"Ошибка!","Проверьте корректность заполненных данных!");
-
     } else {
          QSqlQuery query;
 
@@ -101,16 +106,19 @@ void MainWindow::on_authorization_clicked()
          query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"' or (login='"+login+"' AND password='"+keyy+"')");
          if (query.last() == false) {
             QMessageBox::warning(this,"Ошибка!","Проверьте корректность заполненных данных!");
+
          } else {
              query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"' or (login='"+login+"' AND password='"+keyy+"')");
              QSqlRecord rec = query.record();
              query.next();
+
              int active  = query.value(rec.indexOf("active")).toInt();
              if (active == 0) {
                 QMessageBox::warning(this,"Ошибка!","Данный пользователь не активирован.Пройдите на почту для активации.");
+ 
                 QDateTime datetime;
                 QDateTime date = datetime.currentDateTime();
-                QString ip = "95.143.216.174";
+  
                 query.prepare("INSERT INTO last_attempt (login,ip,date,version) "
                           "VALUES (?, ?, ?, ?)");
                    query.addBindValue(login);
@@ -120,15 +128,17 @@ void MainWindow::on_authorization_clicked()
                    query.exec();
                 regactivation->show();
              } else {
+
              sleep(200);
              if (zp == true ) {
                     QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE\\",QSettings::NativeFormat);
                     settings.setValue(login, password);
                  close();
+ 
                  glava->show();
                  QDateTime datetime;
                  QDateTime date = datetime.currentDateTime();
-                 QString ip = "95.143.216.174";
+         
                  query.prepare("INSERT INTO last_attempt (login,ip,date,version) "
                            "VALUES (?, ?, ?, ?)");
                     query.addBindValue(login);
@@ -139,7 +149,7 @@ void MainWindow::on_authorization_clicked()
              } else {
                  QDateTime datetime;
                  QDateTime date = datetime.currentDateTime();
-                 QString ip = "95.143.216.174";
+            
                  query.prepare("INSERT INTO last_attempt (login,ip,date,version) "
                            "VALUES (?, ?, ?, ?)");
                     query.addBindValue(login);
@@ -153,6 +163,7 @@ void MainWindow::on_authorization_clicked()
                 settings.setValue(login, "1");
                 }
                 close();
+           
                 glava->show();
                 }
              }
@@ -191,3 +202,4 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);
     }
 }
+
