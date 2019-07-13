@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>878</width>
+    <height>513</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -15,18 +15,6 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>400</width>
-    <height>300</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>400</width>
-    <height>300</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -39,8 +27,8 @@ background-color:qlineargradient(spread:pad, x1:0.725, y1:0.9375, x2:0.86, y2:0.
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>130</y>
+     <x>390</x>
+     <y>230</y>
      <width>80</width>
      <height>21</height>
     </rect>

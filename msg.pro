@@ -33,7 +33,6 @@ SOURCES += \
         glavnaya.cpp \
         main.cpp \
         mainwindow.cpp \
-        movew.cpp \
         regactivation.cpp \
         registration.cpp \
         smtp.cpp
@@ -44,7 +43,6 @@ HEADERS += \
         forgotpassrepeat.h \
         glavnaya.h \
         mainwindow.h \
-        movew.h \
         regactivation.h \
         registration.h \
         smtp.h

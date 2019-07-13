@@ -26,11 +26,11 @@ ForgotPass::ForgotPass(QWidget *parent) :
     ui(new Ui::ForgotPass)
 {
     ui->setupUi(this);
-   //this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint);
+   this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint);
     QDesktopWidget *razmer = QApplication::desktop();
     int windowx = razmer->width();
     int windowy = razmer->height();
-    ForgotPass::resize(400,160);
+    ForgotPass::resize(300,150);
     fpr = new forgotpassrepeat;
     activation = new Activation;
     connect(this, SIGNAL(sendData(QString)), activation, SLOT(emailData(QString)));

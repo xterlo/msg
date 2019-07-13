@@ -10,6 +10,7 @@
 #include "regactivation.h"
 #include <qdesktopwidget.h>
 
+
 namespace Ui {
 class MainWindow;
 
@@ -32,7 +33,6 @@ private slots:
     void on_forgot_clicked();
     void on_exitbutton_clicked();
 
-
 private:
     Ui::MainWindow *ui;
     Registration *reg;
@@ -45,6 +45,7 @@ private:
      int m_nMouseClick_Y_Coordinate;
      bool  checkmouse ;
     int TWindowPos,cWindowPos;
+
 protected:
 
     void keyPressEvent(QKeyEvent *event);

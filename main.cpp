@@ -13,6 +13,7 @@ static int beta_user;
 
 int main(int argc, char *argv[])
 {
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::addLibraryPath("bin/plugins");
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
     db.setHostName("95.143.216.174");
