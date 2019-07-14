@@ -10,7 +10,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QFile>
-#include <windows.h>
 #include <urlmon.h>
 #include <string>
 #include <conio.h>
@@ -19,11 +18,13 @@
 #include <iomanip>
 #include <iostream>
 #include "smtp.h"
+#include "widget.h"
 
 static QString login;
 static QString beta_update;
 
 using namespace std;
+
 
 Downloader::Downloader(QObject *parent) : QObject(parent)
 {
@@ -34,7 +35,6 @@ Downloader::Downloader(QObject *parent) : QObject(parent)
 
 void Downloader::getData()
 {
-        ShowWindow(GetConsoleWindow(), SW_HIDE);
         QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
         db.setHostName("95.143.216.174");
         db.setPort(3306);
@@ -48,7 +48,7 @@ void Downloader::getData()
             QString msg = "Не удалось подключиться к базе данных!";
             smtp = new Smtp("alfaland.online@gmail.com", "MyAlfamail", "smtp.gmail.com", 465);
             smtp->sendMail("alfaland.online@gmail.com", "chabandima2002@gmail.com" , name, msg);
-            exit(0);
+            return;
         }
         QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_PROFILES\\",QSettings::NativeFormat);
         foreach (QString key, settings.allKeys()) {
@@ -59,14 +59,21 @@ void Downloader::getData()
                 query.exec("SELECT * FROM beta_uses WHERE user='"+login+"' AND active_beta='1'");
                 query.next();
                 if (query.last() == true) {
+                QSettings versionn("HKEY_CURRENT_USER\\Software\\IBM_APP\\",QSettings::NativeFormat);
+                query.exec("SELECT * FROM beta_version WHERE active='1' ORDER BY id DESC");
+                query.next();
                 QSqlRecord rec = query.record();
+                QString version_  = query.value(rec.indexOf("version")).toString();
+                QString version = versionn.value("version").toString();
+                if (version != version_) {
+                query.exec("SELECT * FROM beta_uses WHERE user='"+login+"' AND active_beta='1'");
                 QUrl url(query.value(rec.indexOf("link")).toString());
                 system("taskkill /F /IM msg.exe");
                 QNetworkRequest request;
                 request.setUrl(url);
                 manager->get(request);
+                } else { exit(0); }
                 } else {
-                    QMessageBox::warning(nullptr,"Ошибка!","не разраб");
                     exit(0);
                 }
             }
@@ -76,11 +83,18 @@ void Downloader::getData()
           query.exec("SELECT * FROM version WHERE active='1' ORDER BY id DESC");
           QSqlRecord rec = query.record();
           query.next();
+          QSettings versionn("HKEY_CURRENT_USER\\Software\\IBM_APP\\",QSettings::NativeFormat);
+          QString version = versionn.value("version").toString();
+          QString version_  = query.value(rec.indexOf("version")).toString();
+          if (version != version_) {
           QUrl url(query.value(rec.indexOf("link")).toString());
           system("taskkill /F /IM msg.exe");
           QNetworkRequest request;
           request.setUrl(url);
           manager->get(request);
+          } else {
+              exit(0);
+          }
       }
 }
 
@@ -101,8 +115,6 @@ void Downloader::onResult(QNetworkReply *reply)
         if(file->open(QFile::WriteOnly)){
             file->write(reply->readAll());
             file->close();
-            QMessageBox::information(0,"Успешно!", "Обновление завершено!");
-            exit(0);
         }
     }
 }
