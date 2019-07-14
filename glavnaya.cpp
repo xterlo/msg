@@ -5,29 +5,69 @@
 #include <QDebug>
 #include <windows.h>
 
+static QString nickname;
 Glavnaya::Glavnaya(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Glavnaya)
 {
     ui->setupUi(this);
+
+    sizew=Glavnaya::size().width();
+    sizey=Glavnaya::size().height();
+    posx=Glavnaya::pos().x();
+    posy=Glavnaya::pos().y();
     QDesktopWidget * screen = QApplication::desktop();
     screen->availableGeometry();
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint );
 
 
 
-}
 
+}
+void Glavnaya::on_exitbutton_clicked()
+{
+    trayIconG = new QSystemTrayIcon(this);
+    trayIconG->setIcon(this->style()->standardIcon(QStyle::SP_ComputerIcon));
+    trayIconG->setToolTip("МЕСЕНГЕР");
+    QMenu * menu = new QMenu(this);
+   // QAction * viewWindow = new QAction("Развернуть окно", this);
+    QAction * quitAction = new QAction("Выход", this);
+   // connect(viewWindow, SIGNAL(triggered()), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+    connect(quitAction, SIGNAL(triggered()), this, SLOT(close()));
+   // menu->addAction(viewWindow);
+    menu->addAction(quitAction);
+    trayIconG->setContextMenu(menu);
+    trayIconG->show();
+    connect(trayIconG, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+        this->hide();
+}
+void Glavnaya::iconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    switch (reason){
+    case QSystemTrayIcon::Trigger:
+
+            if(!this->isVisible()){
+                this->show();
+                trayIconG->hide();
+            } else {
+                this->hide();
+            }
+
+        break;
+    default:
+        break;
+    }
+}
+void Glavnaya::recieveData(QString Qnick)
+{
+   std::string nick = Qnick.toStdString();
+   nickname = nick.c_str();
+}
 Glavnaya::~Glavnaya()
 {
     delete ui;
 }
 
-void Glavnaya::on_pushButton_clicked()
-{
-    emit firstWindow();
-    this->close();
-}
 
 void Glavnaya::mousePressEvent(QMouseEvent *event) {
     QDesktopWidget * screen = QApplication::desktop();
@@ -57,18 +97,16 @@ void Glavnaya::mouseReleaseEvent(QMouseEvent *event)
 }
 void Glavnaya::mouseMoveEvent(QMouseEvent *event)
 {
-    QDesktopWidget * screen = QApplication::desktop();
-    screen->availableGeometry();
     if (checkmouse == true){
     move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);}
 
 }
 
-void Glavnaya::on_exitbutton_clicked()
+/*void Glavnaya::on_exitbutton_clicked()
 {
 
     exit(0);
-}
+}*/
 
 void Glavnaya::mouseDoubleClickEvent(QMouseEvent *event)
 {
@@ -101,3 +139,8 @@ void Glavnaya::on_fullscreen_clicked()
         }
 }
 
+
+void Glavnaya::on_Mini_clicked()
+{
+    Glavnaya::showMinimized();
+}

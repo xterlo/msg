@@ -138,3 +138,8 @@ void Registration::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
+
+void Registration::on_Mini_clicked()
+{
+    showMinimized();
+}

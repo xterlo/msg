@@ -29,6 +29,8 @@ private slots:
     void on_backbutton_clicked();
     void on_exitbutton_clicked();
 
+    void on_Mini_clicked();
+
 private:
     Ui::Registration *ui;
     void mousePressEvent(QMouseEvent *event);

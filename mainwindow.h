@@ -9,7 +9,10 @@
 #include <QMouseEvent>
 #include "regactivation.h"
 #include <qdesktopwidget.h>
-
+#include <QSystemTrayIcon>
+#include <QCloseEvent>
+#include <QAction>
+#include <QMenu>
 
 namespace Ui {
 class MainWindow;
@@ -33,6 +36,9 @@ private slots:
     void on_forgot_clicked();
     void on_exitbutton_clicked();
 
+    void iconActivated(QSystemTrayIcon::ActivationReason reason);
+    void on_Mini_clicked();
+
 private:
     Ui::MainWindow *ui;
     Registration *reg;
@@ -42,10 +48,12 @@ private:
     void  mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
-     int m_nMouseClick_X_Coordinate;
-     int m_nMouseClick_Y_Coordinate;
-     bool  checkmouse ;
+    int m_nMouseClick_X_Coordinate;
+    int m_nMouseClick_Y_Coordinate;
+    bool  checkmouse ;
     int TWindowPos,cWindowPos;
+    bool checkclosewind;
+    QSystemTrayIcon *trayIcon;
 
 protected:
 

@@ -47,10 +47,12 @@ MainWindow::MainWindow(QWidget *parent) :
     reg = new Registration();
     connect(reg, &Registration::firstWindow, this, &MainWindow::show);
     glava = new Glavnaya();
+    //glava->show();
     connect(glava, &Glavnaya::firstWindow, this, &MainWindow::show);
     forgot = new ForgotPass();
     connect(forgot, &ForgotPass::firstWindow, this, &MainWindow::show);
     connect(this, SIGNAL(sendData(QString)), regactivation, SLOT(recieveData(QString)));
+    connect(this, SIGNAL(sendData(QString)), glava, SLOT(recieveData(QString)));
 
     QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE\\",QSettings::NativeFormat);
     foreach (QString key, settings.allKeys()) {
@@ -74,7 +76,40 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+void MainWindow::on_exitbutton_clicked()
+{
+    trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_ComputerIcon));
+    trayIcon->setToolTip("МЕСЕНГЕР");
+    QMenu * menu = new QMenu(this);
+    //QAction * viewWindow = new QAction("Развернуть окно", this);
+    QAction * quitAction = new QAction("Выход", this);
+    //connect(viewWindow, SIGNAL(triggered()), this, SLOT(show()));
+    connect(quitAction, SIGNAL(triggered()), this, SLOT(close()));
+    //menu->addAction(viewWindow);
+    menu->addAction(quitAction);
+    trayIcon->setContextMenu(menu);
+    if(checkclosewind==false)trayIcon->show();
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+        this->hide();
+}
+void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    switch (reason){
+    case QSystemTrayIcon::Trigger:
 
+            if(!this->isVisible()){
+                this->show();
+                trayIcon->hide();
+            } else {
+                this->hide();
+            }
+
+        break;
+    default:
+        break;
+    }
+}
 void sleep(qint64 msec)
 {
     QEventLoop loop;
@@ -163,8 +198,8 @@ void MainWindow::on_authorization_clicked()
                 QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_PROFILES\\",QSettings::NativeFormat);
                 settings.setValue(login, "1");
                 }
+                trayIcon->hide();
                 close();
-           
                 glava->show();
                 }
              }
@@ -186,11 +221,6 @@ void MainWindow::on_forgot_clicked()
 }
 
 
-void MainWindow::on_exitbutton_clicked()
-{
-
-    exit(0);
-}
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
@@ -210,3 +240,8 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
+
+void MainWindow::on_Mini_clicked()
+{
+    MainWindow::showMinimized();
+}

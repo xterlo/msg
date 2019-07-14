@@ -113,3 +113,8 @@ void ForgotPass::on_backbutton_clicked()
     mainwind->show();
 
 }
+
+void ForgotPass::on_Mini_clicked()
+{
+    showMinimized();
+}

@@ -29,6 +29,8 @@ private slots:
 
     void on_backbutton_clicked();
 
+    void on_Mini_clicked();
+
 signals:
     void sendData(QString Qmail);
     void firstWindow();

@@ -21,6 +21,8 @@ private slots:
     void on_exitbutton_clicked();
 
 
+    void on_Mini_clicked();
+
 private:
     Ui::forgotpassrepeat *ui;
     void mousePressEvent(QMouseEvent *event);

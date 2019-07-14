@@ -20,9 +20,10 @@ Activation::Activation(QWidget *parent) :
     ui(new Ui::Activation)
 {
     ui->setupUi(this);
-    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint);
     QDesktopWidget *razmer = QApplication::desktop();
     Activation::resize(400,175);   
+    Activation::raise();
     ui->exitbutton->setGeometry(370,0,30,20);
 
 }

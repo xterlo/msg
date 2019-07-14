@@ -73,3 +73,8 @@ void forgotpassrepeat::mouseReleaseEvent(QMouseEvent *event)
 }
 
 
+
+void forgotpassrepeat::on_Mini_clicked()
+{
+    showMinimized();
+}

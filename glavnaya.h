@@ -6,7 +6,10 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <string>
-
+#include <QSystemTrayIcon>
+#include <QCloseEvent>
+#include <QAction>
+#include <QMenu>
 namespace Ui {
 class Glavnaya;
 }
@@ -26,9 +29,10 @@ signals:
 
 
 private slots:
-    void on_pushButton_clicked();
     void on_exitbutton_clicked();
     void on_fullscreen_clicked();
+    void iconActivated(QSystemTrayIcon::ActivationReason reason);
+    void on_Mini_clicked();
 
 private:
 
@@ -40,13 +44,15 @@ private:
     int m_nMouseClick_X_Coordinate;
     int m_nMouseClick_Y_Coordinate;
     bool checkmouse;
-    bool checkfull;
+    bool checkfull = false;
 
     int sizew=Glavnaya::size().width();
     int sizey=Glavnaya::size().height();
     int posx=Glavnaya::pos().x();
     int posy=Glavnaya::pos().y();
-
+    QSystemTrayIcon *trayIconG;
+public slots:
+    void recieveData(QString Qnick);
 
 };
 

@@ -19,7 +19,8 @@ Regactivation::Regactivation(QWidget *parent) :
     ui(new Ui::Regactivation)
 {
     ui->setupUi(this);
-    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint | Qt::WindowStaysOnTopHint);
+    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint);
+    Regactivation::raise();
     QDesktopWidget *razmer = QApplication::desktop();
     Regactivation::resize(400,175);
     ui->exitbutton->setGeometry(370,0,30,20);

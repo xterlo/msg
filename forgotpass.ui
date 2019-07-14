@@ -123,6 +123,47 @@ color: #000080;
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="Mini">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>19</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>19</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton
+{
+background-color:transparent;
+color: #000080; 
+
+	border: 0; 
+    outline-style: none;
+    outline-width: 0px !important;
+    outline-color: none !important;
+  }
+   QPushButton:hover {
+	color: rgb(255, 255, 255);
+    background-color:rgb(0, 170, 255);
+	border: 0; 
+    outline-style: none;
+    outline-width: 0px !important;
+    outline-color: none !important;
+   }
+
+</string>
+        </property>
+        <property name="text">
+         <string>―</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string/>
