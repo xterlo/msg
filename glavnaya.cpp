@@ -4,14 +4,16 @@
 #include <QDesktopWidget>
 #include <QDebug>
 #include <windows.h>
-
+#include <QtSql/QSql>
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlError>
+#include <QtSql/QSqlRecord>
 static QString nickname;
 Glavnaya::Glavnaya(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Glavnaya)
 {
     ui->setupUi(this);
-
     sizew=Glavnaya::size().width();
     sizey=Glavnaya::size().height();
     posx=Glavnaya::pos().x();
@@ -19,10 +21,6 @@ Glavnaya::Glavnaya(QWidget *parent) :
     QDesktopWidget * screen = QApplication::desktop();
     screen->availableGeometry();
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint );
-
-
-
-
 }
 void Glavnaya::on_exitbutton_clicked()
 {
@@ -62,6 +60,20 @@ void Glavnaya::recieveData(QString Qnick)
 {
    std::string nick = Qnick.toStdString();
    nickname = nick.c_str();
+   QSqlQuery query;
+       query.exec("SELECT * FROM dialogs WHERE client_1='"+nickname+"' OR client_2='"+nickname+"'");
+       qDebug() << query.last();
+       while (query.next()) {
+          QSqlRecord rec = query.record();
+          QString client_1  = query.value(rec.indexOf("client_1")).toString();
+          QString client_2 = query.value(rec.indexOf("client_2")).toString();
+          if (client_1 == nickname) {
+               QString last_msg  = query.value(rec.indexOf("last_msg")).toString();
+               qDebug()<<last_msg;
+               //ui->dialogs->addItem(client_2 + "\n" + last_msg);
+          }
+
+      }
 }
 Glavnaya::~Glavnaya()
 {

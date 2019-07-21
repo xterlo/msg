@@ -25,6 +25,7 @@ ForgotPass::ForgotPass(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ForgotPass)
 {
+
     ui->setupUi(this);
    this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint);
     QDesktopWidget *razmer = QApplication::desktop();
