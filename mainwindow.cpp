@@ -198,7 +198,7 @@ void MainWindow::on_authorization_clicked()
                 QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_PROFILES\\",QSettings::NativeFormat);
                 settings.setValue(login, "1");
                 }
-                trayIcon->hide();
+                //trayIcon->hide();
                 close();
                 glava->show();
                 }
