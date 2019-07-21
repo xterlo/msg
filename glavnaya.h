@@ -34,6 +34,10 @@ private slots:
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void on_Mini_clicked();
 
+    void on_dialogs_itemClicked(QListWidgetItem *item);
+
+    void on_pushButton_2_clicked();
+
 private:
 
     Ui::Glavnaya *ui;

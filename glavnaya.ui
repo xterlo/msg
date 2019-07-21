@@ -230,7 +230,7 @@ color: #000080;
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="listWidget"/>
+        <widget class="QListWidget" name="dialogs"/>
        </item>
       </layout>
      </item>
@@ -240,7 +240,33 @@ color: #000080;
         <number>0</number>
        </property>
        <item>
-        <widget class="QListWidget" name="listWidget_2"/>
+        <widget class="QTextEdit" name="msg">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="stroka"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="text">
+          <string>Отправить</string>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+         <property name="default">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

@@ -8,12 +8,16 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlRecord>
+#include <QDateTime>
+
 static QString nickname;
+static QString username;
 Glavnaya::Glavnaya(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Glavnaya)
 {
     ui->setupUi(this);
+
     sizew=Glavnaya::size().width();
     sizey=Glavnaya::size().height();
     posx=Glavnaya::pos().x();
@@ -21,6 +25,10 @@ Glavnaya::Glavnaya(QWidget *parent) :
     QDesktopWidget * screen = QApplication::desktop();
     screen->availableGeometry();
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint );
+    ui->pushButton_2->setEnabled(FALSE);
+    ui->msg->setEnabled(FALSE);
+    ui->stroka->setEnabled(FALSE);
+
 }
 void Glavnaya::on_exitbutton_clicked()
 {
@@ -61,19 +69,21 @@ void Glavnaya::recieveData(QString Qnick)
    std::string nick = Qnick.toStdString();
    nickname = nick.c_str();
    QSqlQuery query;
-       query.exec("SELECT * FROM dialogs WHERE client_1='"+nickname+"' OR client_2='"+nickname+"'");
-       qDebug() << query.last();
-       while (query.next()) {
-          QSqlRecord rec = query.record();
-          QString client_1  = query.value(rec.indexOf("client_1")).toString();
-          QString client_2 = query.value(rec.indexOf("client_2")).toString();
-          if (client_1 == nickname) {
-               QString last_msg  = query.value(rec.indexOf("last_msg")).toString();
-               qDebug()<<last_msg;
-               //ui->dialogs->addItem(client_2 + "\n" + last_msg);
-          }
-
+   query.exec("SELECT * FROM dialogs WHERE client_1='"+nickname+"' OR client_2='"+nickname+"'");
+   while (query.next()) {
+      QSqlRecord rec = query.record();
+      QString client_1  = query.value(rec.indexOf("client_1")).toString();
+      QString client_2 = query.value(rec.indexOf("client_2")).toString();
+      if (client_1 == nickname) {
+           QString last_msg  = query.value(rec.indexOf("last_msg")).toString();
+           ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
+           ui->dialogs->addItem(client_2 + "\n" + last_msg);
+      } else {
+      QString last_msg  = query.value(rec.indexOf("last_msg")).toString();
+      ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
+      ui->dialogs->addItem(client_1 + "\n" + last_msg);
       }
+  }
 }
 Glavnaya::~Glavnaya()
 {
@@ -155,4 +165,82 @@ void Glavnaya::on_fullscreen_clicked()
 void Glavnaya::on_Mini_clicked()
 {
     Glavnaya::showMinimized();
+}
+
+void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
+{
+    ui->pushButton_2->setEnabled(TRUE);
+    ui->msg->setEnabled(TRUE);
+    ui->stroka->setEnabled(TRUE);
+    ui->msg->clear();
+
+    QStringList dialog = item->text().split("\n");
+    username = dialog.first();
+    ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+"</span>");
+
+    QSqlQuery pdo_dia;
+    pdo_dia.exec("SELECT * FROM dialogs WHERE ((client_1='"+username+"' and client_2='"+nickname+"') or (client_1='"+nickname+"' and client_2='"+username+"'))");
+    pdo_dia.next();
+    QSqlRecord pdo_dia_rec = pdo_dia.record();
+    QString id_dia  = pdo_dia.value(pdo_dia_rec.indexOf("id")).toString();
+
+    QSqlQuery query;
+    query.exec("SELECT * FROM msg WHERE id_dia='"+id_dia+"' ORDER BY id ASC");
+    while (query.next()) {
+          QSqlRecord rec = query.record();
+          QString from_user  = query.value(rec.indexOf("from_user")).toString();
+          QString to_user = query.value(rec.indexOf("to_user")).toString();
+          if ((from_user == username) and (from_user != nickname)) {
+             QString his_msg_id  = query.value(rec.indexOf("id_msg")).toString();
+
+             QSqlQuery pdo;
+             pdo.exec("SELECT * FROM msg_text WHERE id='"+his_msg_id+"'");
+             pdo.next();
+             QString his_msg = pdo.value(1).toString();
+
+             ui->msg->setHtml(ui->msg->toHtml() + "<span style='font-size: 10px;'>"+his_msg+"</span></br>");
+          } else {
+            QString my_msg_id  = query.value(rec.indexOf("id_msg")).toString();
+            QSqlQuery pdo;
+            pdo.exec("SELECT * FROM msg_text WHERE id='"+my_msg_id+"'");
+            pdo.next();
+            QString my_msg = pdo.value(1).toString();
+
+            ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: right;font-size: 10px;'>"+my_msg+"</span></br>");
+            }
+   }
+
+
+}
+
+void Glavnaya::on_pushButton_2_clicked()
+{
+    QString msg = ui->stroka->text();
+    if (msg != "") {
+        ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: right;font-size: 10px;'>"+msg+"</span></br>");
+        QSqlQuery query;
+        query.exec("SELECT * FROM dialogs WHERE ((client_1='"+username+"' and client_2='"+nickname+"') or (client_1='"+nickname+"' and client_2='"+username+"'))");
+        query.next();
+        QString id_dia = query.value(0).toString();
+        query.prepare("INSERT INTO msg_text (text) "
+                          "VALUES (?)");
+                   query.addBindValue(msg);
+                   query.exec();
+        query.exec("SELECT * FROM msg_text WHERE text='"+msg+"'");
+        query.next();
+        QString id_msg = query.value(0).toString();
+        QDateTime datetime;
+        QDateTime date = datetime.currentDateTime();
+        query.prepare("INSERT INTO msg (id_dia, from_user, to_user, id_msg, date) "
+                  "VALUES (?, ?, ?, ?, ?)");
+           query.addBindValue(id_dia);
+           query.addBindValue(nickname);
+           query.addBindValue(username);
+           query.addBindValue(id_msg);
+           query.addBindValue(date);
+           query.exec();
+        query.exec("UPDATE dialogs SET last_msg='"+msg+"' WHERE id='"+id_dia+"'");
+        ui->stroka->setText("");
+        this->update();
+    }
 }
