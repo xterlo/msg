@@ -8,6 +8,7 @@
 #include <QtSql/QSqlRecord>
 #include <QDebug>
 #include <QCryptographicHash>
+#include "Crypter.h"
 #include "mainwindow.h"
 static QString email;
 forgotpassrepeat::forgotpassrepeat(QWidget *parent) :
@@ -38,13 +39,18 @@ void forgotpassrepeat::on_pushButton_clicked()
         QMessageBox::warning(this,"Ошибка","Пароли не совпадают!");
     } else {
         QSqlQuery query;
-        fpassword = QString(QCryptographicHash::hash(fpassword.toLatin1(),QCryptographicHash::Sha1).toHex());
+        query.exec("SELECT * FROM users WHERE email='"+email+"'");
+        QSqlRecord rec = query.record();
+        query.next();
+        QString hash = query.value(rec.indexOf("hash")).toString();
+        Crypter::setSecretkey(hash);
+        fpassword = Crypter::cryptString(fpassword);
         query.exec("UPDATE users SET password='"+fpassword+"' WHERE email='"+email+"'");
         close();
         MainWindow *mainwind = new MainWindow(this);
         mainwind->show();
     }
-}//ds
+}
 void forgotpassrepeat::on_exitbutton_clicked()
 {
     exit(0);

@@ -18,11 +18,12 @@
 #include <QtSql/QSqlRecord>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include "Crypter.h"
 
 static QString login;
-static QString keyy;
 static QString version = "1.0";
 static QString ip;
+static bool zp;
 
 
 
@@ -58,8 +59,12 @@ MainWindow::MainWindow(QWidget *parent) :
     foreach (QString key, settings.allKeys()) {
         if (settings.value(key) != "" ) {
             ui->login->setText(key);
-            ui->password->setText("ABCDEFG");
-            keyy = settings.value(key).toString();
+            QString pass_hash = settings.value(key).toString();
+            QString hash = QString(QCryptographicHash::hash(key.toLatin1(),QCryptographicHash::Md5).toHex());
+            Crypter::setSecretkey(hash);
+            QString pass = Crypter::decryptString(pass_hash);
+            ui->password->setText(pass);
+            ui->checkBox->setChecked(true);
         }
     }
     QNetworkAccessManager manager;
@@ -68,7 +73,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(response,SIGNAL(finished()),&event,SLOT(quit()));
     event.exec();
     ip = response->readAll();
-
 
 }
 
@@ -126,25 +130,36 @@ void MainWindow::on_authorization_clicked()
     emit sendData(ui->login->text());
     login = ui->login->text();
     QString password = ui->password->text();
-    bool zp = ui->checkBox->checkState();
+    zp = ui->checkBox->checkState();
 
+    if (zp == false) {
+        QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE",QSettings::NativeFormat);
+        settings.clear();
+    }
 
+    QSqlQuery query;
 
+    query.exec("SELECT * FROM users WHERE login='"+login+"'");
+    query.next();
+    if (query.last() == true) {
+        QSqlRecord rec = query.record();
+        QString hash = query.value(rec.indexOf("hash")).toString();
+        Crypter::setSecretkey(hash);
+        password = Crypter::cryptString(password);
+        //qDebug() << password;
+    } else {
+        password = QString(QCryptographicHash::hash(password.toLatin1(),QCryptographicHash::Sha1).toHex());
+    }
 
     if (login == "" or password == "") {
         QMessageBox::warning(this,"Ошибка!","Проверьте корректность заполненных данных!");
     } else {
          QSqlQuery query;
-
-
-         password = QString(QCryptographicHash::hash(password.toLatin1(),QCryptographicHash::Sha1).toHex());
-
-         query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"' or (login='"+login+"' AND password='"+keyy+"')");
+         query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"'");
          if (query.last() == false) {
             QMessageBox::warning(this,"Ошибка!","Проверьте корректность заполненных данных!");
-
          } else {
-             query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"' or (login='"+login+"' AND password='"+keyy+"')");
+             query.exec("SELECT * FROM users WHERE login='"+login+"' AND password='"+password+"'");
              QSqlRecord rec = query.record();
              query.next();
 

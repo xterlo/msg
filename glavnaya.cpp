@@ -9,6 +9,7 @@
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlRecord>
 #include <QDateTime>
+#include "Crypter.h"
 
 static QString nickname;
 static QString username;
@@ -69,19 +70,43 @@ void Glavnaya::recieveData(QString Qnick)
    std::string nick = Qnick.toStdString();
    nickname = nick.c_str();
    QSqlQuery query;
+
    query.exec("SELECT * FROM dialogs WHERE client_1='"+nickname+"' OR client_2='"+nickname+"'");
    while (query.next()) {
       QSqlRecord rec = query.record();
       QString client_1  = query.value(rec.indexOf("client_1")).toString();
       QString client_2 = query.value(rec.indexOf("client_2")).toString();
-      if (client_1 == nickname) {
-           QString last_msg  = query.value(rec.indexOf("last_msg")).toString();
+      QString id_dia = query.value(rec.indexOf("id")).toString();
+
+      QSqlQuery quu;
+      quu.exec("SELECT * FROM msg WHERE id_dia='"+id_dia+"' ORDER BY id DESC");
+      quu.next();
+      QSqlRecord re = quu.record();
+      QString from_user = quu.value(re.indexOf("from_user")).toString();
+      if(from_user != nickname) {
+         quu.exec("SELECT * FROM users WHERE login='"+from_user+"'");
+         quu.next();
+         QSqlRecord re = quu.record();
+         QString hash = quu.value(re.indexOf("hash")).toString();
+         Crypter::setSecretkey(hash);
+      } else {
+          quu.exec("SELECT * FROM users WHERE login='"+nickname+"'");
+          quu.next();
+          QSqlRecord re = quu.record();
+          QString hash = quu.value(re.indexOf("hash")).toString();
+          Crypter::setSecretkey(hash);
+      }
+
+
+
+      QString last_msg = query.value(rec.indexOf("last_msg")).toString();
+      last_msg = Crypter::decryptString(last_msg);
+      if (client_1 == nickname) { 
            ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
            ui->dialogs->addItem(client_2 + "\n" + last_msg);
       } else {
-      QString last_msg  = query.value(rec.indexOf("last_msg")).toString();
-      ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
-      ui->dialogs->addItem(client_1 + "\n" + last_msg);
+        ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
+        ui->dialogs->addItem(client_1 + "\n" + last_msg);
       }
   }
 }
@@ -190,15 +215,24 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
           QSqlRecord rec = query.record();
           QString from_user  = query.value(rec.indexOf("from_user")).toString();
           QString to_user = query.value(rec.indexOf("to_user")).toString();
+
+          QSqlQuery qu;
+
           if ((from_user == username) and (from_user != nickname)) {
              QString his_msg_id  = query.value(rec.indexOf("id_msg")).toString();
-
              QSqlQuery pdo;
              pdo.exec("SELECT * FROM msg_text WHERE id='"+his_msg_id+"'");
              pdo.next();
              QString his_msg = pdo.value(1).toString();
 
+             qu.exec("SELECT * FROM users WHERE login='"+username+"'");
+             qu.next();
+             QSqlRecord r = qu.record();
+             QString his_hash = qu.value(r.indexOf("hash")).toString();
+             Crypter::setSecretkey(his_hash);
+             his_msg = Crypter::decryptString(his_msg);
              ui->msg->setHtml(ui->msg->toHtml() + "<span style='font-size: 10px;'>"+his_msg+"</span></br>");
+
           } else {
             QString my_msg_id  = query.value(rec.indexOf("id_msg")).toString();
             QSqlQuery pdo;
@@ -206,6 +240,12 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
             pdo.next();
             QString my_msg = pdo.value(1).toString();
 
+            qu.exec("SELECT * FROM users WHERE login='"+nickname+"'");
+            qu.next();
+            QSqlRecord r = qu.record();
+            QString my_hash = qu.value(r.indexOf("hash")).toString();
+            Crypter::setSecretkey(my_hash);
+            my_msg = Crypter::decryptString(my_msg);
             ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: right;font-size: 10px;'>"+my_msg+"</span></br>");
             }
    }
@@ -217,7 +257,16 @@ void Glavnaya::on_pushButton_2_clicked()
 {
     QString msg = ui->stroka->text();
     if (msg != "") {
+
+        QSqlQuery qu;
+        qu.exec("SELECT * FROM users WHERE login='"+nickname+"'");
+        qu.next();
+        QSqlRecord r = qu.record();
+        QString my_hash = qu.value(r.indexOf("hash")).toString();
+
         ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: right;font-size: 10px;'>"+msg+"</span></br>");
+        Crypter::setSecretkey(my_hash);
+        msg = Crypter::cryptString(msg);
         QSqlQuery query;
         query.exec("SELECT * FROM dialogs WHERE ((client_1='"+username+"' and client_2='"+nickname+"') or (client_1='"+nickname+"' and client_2='"+username+"'))");
         query.next();
@@ -241,6 +290,6 @@ void Glavnaya::on_pushButton_2_clicked()
            query.exec();
         query.exec("UPDATE dialogs SET last_msg='"+msg+"' WHERE id='"+id_dia+"'");
         ui->stroka->setText("");
-        this->update();
+
     }
 }

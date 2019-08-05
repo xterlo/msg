@@ -38,6 +38,7 @@ SOURCES += \
         smtp.cpp
 
 HEADERS += \
+        Crypter.h \
         activation.h \
         forgotpass.h \
         forgotpassrepeat.h \
