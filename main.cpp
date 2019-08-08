@@ -6,6 +6,7 @@
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlRecord>
 #include <QSettings>
+#include <QThread>
 
 static QString version = "1.0";
 static int beta_user;
@@ -21,10 +22,10 @@ int main(int argc, char *argv[])
     db.setDatabaseName("server");
     db.setUserName("server");
     db.setPassword("server");
+
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
-
     if(!db.open()) {
         QMessageBox::warning(0,"Ошибка!","Не удалось подключиться к серверу.\nКод ошибки: 0001");
         Smtp* smtp;
