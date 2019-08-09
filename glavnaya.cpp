@@ -29,6 +29,21 @@ Glavnaya::Glavnaya(QWidget *parent) :
     ui->msg->setEnabled(FALSE);
     ui->stroka->setEnabled(FALSE);
 
+
+
+
+}
+void Glavnaya::asd()
+{
+    qDebug()<<"123";
+    Sleep(100);
+    QString Qnick = nickname;
+    ui->msg->clear();
+    Glavnaya::recieveData(Qnick);
+
+
+
+
 }
 void Glavnaya::on_exitbutton_clicked()
 {
@@ -45,7 +60,7 @@ void Glavnaya::on_exitbutton_clicked()
     trayIconG->setContextMenu(menu);
     trayIconG->show();
     connect(trayIconG, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
-        this->hide();
+    this->hide();
 }
 void Glavnaya::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
@@ -83,8 +98,12 @@ void Glavnaya::recieveData(QString Qnick)
       ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
       ui->dialogs->addItem(client_1 + "\n" + last_msg);
       }
-  }
+      qDebug()<<"2";
+
+ }
+
 }
+
 Glavnaya::~Glavnaya()
 {
     delete ui;
@@ -169,6 +188,7 @@ void Glavnaya::on_Mini_clicked()
 
 void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
 {
+    MySelectedItem=ui->dialogs->currentRow();
     ui->pushButton_2->setEnabled(TRUE);
     ui->msg->setEnabled(TRUE);
     ui->stroka->setEnabled(TRUE);
@@ -241,6 +261,7 @@ void Glavnaya::on_pushButton_2_clicked()
            query.exec();
         query.exec("UPDATE dialogs SET last_msg='"+msg+"' WHERE id='"+id_dia+"'");
         ui->stroka->setText("");
-        this->update();
+        Glavnaya::asd();
+
     }
 }

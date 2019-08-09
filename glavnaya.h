@@ -24,6 +24,7 @@ public:
     ~Glavnaya();
 
 
+
 signals:
     void firstWindow();
 
@@ -33,9 +34,8 @@ private slots:
     void on_fullscreen_clicked();
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void on_Mini_clicked();
-
     void on_dialogs_itemClicked(QListWidgetItem *item);
-
+    void asd();
     void on_pushButton_2_clicked();
 
 private:
@@ -49,7 +49,7 @@ private:
     int m_nMouseClick_Y_Coordinate;
     bool checkmouse;
     bool checkfull = false;
-
+    int MySelectedItem;
     int sizew=Glavnaya::size().width();
     int sizey=Glavnaya::size().height();
     int posx=Glavnaya::pos().x();
