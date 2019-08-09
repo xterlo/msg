@@ -18,7 +18,9 @@ Registration::Registration(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Registration)
 {
+
     ui->setupUi(this);
+
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint);
     QDesktopWidget *razmer = QApplication::desktop();
     Registration::resize(310,220);

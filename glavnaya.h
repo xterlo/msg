@@ -13,6 +13,7 @@
 #include <QThread>
 #include "sql_query1.h"
 #include "sql_query2.h"
+#include "finder.h"
 
 namespace Ui {
 class Glavnaya;
@@ -42,11 +43,17 @@ private slots:
     void on_fullscreen_clicked();
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void on_Mini_clicked();
+
     void on_dialogs_itemClicked(QListWidgetItem *item);
+
     void on_pushButton_2_clicked();
 
+    void on_openfinder_clicked();
+
 private:
+
     Ui::Glavnaya *ui;
+    finder *find;
     void mouseDoubleClickEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
@@ -55,6 +62,7 @@ private:
     int m_nMouseClick_Y_Coordinate;
     bool checkmouse;
     bool checkfull = false;
+
     int sizew=Glavnaya::size().width();
     int sizey=Glavnaya::size().height();
     int posx=Glavnaya::pos().x();

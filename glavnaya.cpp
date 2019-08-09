@@ -42,7 +42,7 @@ Glavnaya::Glavnaya(QWidget *parent) :
     connect(&sql_2, SIGNAL(update()),this, SLOT(add()));
 
 }
-void Glavnaya::on_exitbutton_clicked()
+/*void Glavnaya::on_exitbutton_clicked()
 {
     trayIconG = new QSystemTrayIcon(this);
     trayIconG->setIcon(this->style()->standardIcon(QStyle::SP_ComputerIcon));
@@ -58,7 +58,7 @@ void Glavnaya::on_exitbutton_clicked()
     trayIconG->show();
     connect(trayIconG, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
         this->hide();
-}
+}*/
 void Glavnaya::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     switch (reason){
@@ -257,11 +257,11 @@ void Glavnaya::mouseMoveEvent(QMouseEvent *event)
 
 }
 
-/*void Glavnaya::on_exitbutton_clicked()
+void Glavnaya::on_exitbutton_clicked()
 {
 
     exit(0);
-}*/
+}
 
 void Glavnaya::mouseDoubleClickEvent(QMouseEvent *event)
 {
@@ -330,6 +330,7 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
 
           if ((from_user == username) and (from_user != nickname)) {
              QString his_msg_id  = query.value(rec.indexOf("id_msg")).toString();
+
              QSqlQuery pdo;
              pdo.exec("SELECT * FROM msg_text WHERE id='"+his_msg_id+"'");
              pdo.next();
@@ -404,4 +405,10 @@ void Glavnaya::on_pushButton_2_clicked()
         ui->stroka->setText("");
 
     }
+}
+
+void Glavnaya::on_openfinder_clicked()
+{
+    find = new finder();
+    find->show();
 }

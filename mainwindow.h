@@ -36,7 +36,7 @@ private slots:
     void on_forgot_clicked();
     void on_exitbutton_clicked();
 
-    void iconActivated(QSystemTrayIcon::ActivationReason reason);
+    //void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void on_Mini_clicked();
 
 private:
