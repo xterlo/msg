@@ -76,6 +76,7 @@ public slots:
     void recieveData(QString Qnick);
     void updater();
     void add();
+    void adddialog(QString user);
 
 };
 

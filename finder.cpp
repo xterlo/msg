@@ -1,6 +1,7 @@
 #include "finder.h"
 #include "ui_finder.h"
 #include <QDebug>
+static QString adduser;
 finder::finder(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::finder)
@@ -21,7 +22,8 @@ finder::~finder()
 
 void finder::on_lineEdit_textChanged(const QString &arg1)
 {
-    qDebug()<< ui->lineEdit->text();
+    adduser = ui->lineEdit->text();
+    emit newdialog(adduser);
 }
 void finder::mousePressEvent(QMouseEvent *event) {
     QDesktopWidget * screen = QApplication::desktop();

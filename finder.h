@@ -16,7 +16,8 @@ class finder : public QWidget
 public:
     explicit finder(QWidget *parent = nullptr);
     ~finder();
-
+signals:
+    void newdialog(QString user);
 private slots:
     void on_lineEdit_textChanged(const QString &arg1);
     void on_exitbutton_clicked();

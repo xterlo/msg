@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     db.setPort(3306);
     db.setDatabaseName("server");
     db.setUserName("server");
-    db.setPassword("serve");
+    db.setPassword("server");
 
     QApplication a(argc, argv);
     MainWindow w;

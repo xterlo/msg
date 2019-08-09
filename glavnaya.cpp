@@ -14,6 +14,8 @@
 
 static QString nickname;
 static QString username;
+static int find_nick = 0;
+static QString _login;
 Glavnaya::Glavnaya(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Glavnaya)
@@ -30,6 +32,9 @@ Glavnaya::Glavnaya(QWidget *parent) :
     ui->pushButton_2->setEnabled(FALSE);
     ui->msg->setEnabled(FALSE);
     ui->stroka->setEnabled(FALSE);
+    find = new finder();
+
+    connect(find,SIGNAL(newdialog(QString)),this, SLOT(adddialog(QString)));
 
     connect(this,SIGNAL(sendnick(QString)),&sql_1, SLOT(recievenick(QString)));
     connect(this,SIGNAL(sendid(QString)),&sql_1, SLOT(recieveid(QString)));
@@ -37,6 +42,7 @@ Glavnaya::Glavnaya(QWidget *parent) :
 
     connect(this,SIGNAL(sendid_2(QString)),&sql_2, SLOT(receiveidd(QString)));
     connect(this,SIGNAL(sendid_1(QString)),&sql_2, SLOT(receiveid(QString)));
+
 
     connect(&sql_1, SIGNAL(update()),this, SLOT(updater()));
     connect(&sql_2, SIGNAL(update()),this, SLOT(add()));
@@ -218,6 +224,20 @@ void Glavnaya::add()
         ui->msg->setHtml(ui->msg->toHtml() + "<span style='font-size: 10px;'>"+his_msg+"</span></br>");
     }
 }
+
+void Glavnaya::adddialog(QString user)
+{
+    std::string nick = user.toStdString();
+    _login = nick.c_str();
+    ui->pushButton_2->setEnabled(true);
+    ui->msg->setEnabled(true);
+    ui->stroka->setEnabled(true);
+    ui->msg->clear();
+
+    ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+_login+"</span>");
+    find_nick = 1;
+
+}
 Glavnaya::~Glavnaya()
 {
     delete ui;
@@ -370,7 +390,46 @@ void Glavnaya::on_pushButton_2_clicked()
 {
     QString msg = ui->stroka->text();
     if (msg != "") {
-
+        if (find_nick == 1) {
+            QSqlQuery qu;
+            qu.exec("SELECT * FROM users WHERE login='"+nickname+"'");
+            qu.next();
+            QSqlRecord r = qu.record();
+            QString my_hash = qu.value(r.indexOf("hash")).toString();
+            ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: right;font-size: 10px;'>"+msg+"</span></br>");
+            Crypter::setSecretkey(my_hash);
+            msg = Crypter::cryptString(msg);
+            QSqlQuery query;
+            query.prepare("INSERT INTO dialogs (client_1, client_2, last_msg) "
+                      "VALUES (?, ?, ?)");
+               query.addBindValue(nickname);
+               query.addBindValue(_login);
+               query.addBindValue(msg);
+               query.exec();
+            username = _login;
+            query.exec("SELECT * FROM dialogs WHERE ((client_1='"+username+"' and client_2='"+nickname+"') or (client_1='"+nickname+"' and client_2='"+username+"'))");
+            query.next();
+            QString id_dia = query.value(0).toString();
+            query.prepare("INSERT INTO msg_text (text) "
+                              "VALUES (?)");
+                       query.addBindValue(msg);
+                       query.exec();
+            query.exec("SELECT * FROM msg_text WHERE text='"+msg+"'");
+            query.next();
+            QString id_msg = query.value(0).toString();
+            QDateTime datetime;
+            QDateTime date = datetime.currentDateTime();
+            query.prepare("INSERT INTO msg (id_dia, from_user, to_user, id_msg, date) "
+                      "VALUES (?, ?, ?, ?, ?)");
+               query.addBindValue(id_dia);
+               query.addBindValue(nickname);
+               query.addBindValue(username);
+               query.addBindValue(id_msg);
+               query.addBindValue(date);
+               query.exec();
+            ui->stroka->setText("");
+            find_nick = 0;
+        } else {
         QSqlQuery qu;
         qu.exec("SELECT * FROM users WHERE login='"+nickname+"'");
         qu.next();
@@ -406,9 +465,9 @@ void Glavnaya::on_pushButton_2_clicked()
 
     }
 }
+}
 
 void Glavnaya::on_openfinder_clicked()
 {
-    find = new finder();
     find->show();
 }
