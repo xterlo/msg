@@ -6,6 +6,7 @@
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlRecord>
 #include <QSettings>
+#include "windows.h"
 #include <QThread>
 
 static QString version = "1.0";
@@ -21,7 +22,7 @@ int main(int argc, char *argv[])
     db.setPort(3306);
     db.setDatabaseName("server");
     db.setUserName("server");
-    db.setPassword("server");
+    db.setPassword("serve");
 
     QApplication a(argc, argv);
     MainWindow w;
@@ -33,8 +34,7 @@ int main(int argc, char *argv[])
         QString msg = "Не удалось подключиться к базе данных!";
         smtp = new Smtp("alfaland.online@gmail.com", "MyAlfamail", "smtp.gmail.com", 465);
         smtp->sendMail("alfaland.online@gmail.com", "chabandima2002@gmail.com" , name, msg);
-        exit(0);
-    }
+    } else {
     QSettings versionn("HKEY_CURRENT_USER\\Software\\IBM_APP\\",QSettings::NativeFormat);
     versionn.setValue("version", version);
 
@@ -68,7 +68,6 @@ int main(int argc, char *argv[])
                        switch (ret) {
                           case QMessageBox::Yes:
                                system("updater.exe");
-                               exit(0);
                                break;
                            case QMessageBox::No:
                                break;
@@ -100,7 +99,6 @@ if (beta_user != 1) {
             switch (ret) {
                case QMessageBox::Yes:
                     system("updater.exe");
-                    exit(0);
                     break;
                 case QMessageBox::No:
                     break;
@@ -108,5 +106,6 @@ if (beta_user != 1) {
         }
      }
   }
+}
 return a.exec();
 }
