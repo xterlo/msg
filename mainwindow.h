@@ -45,6 +45,7 @@ private:
     Glavnaya *glava;
     ForgotPass *forgot;
     Regactivation *regactivation;
+
     void  mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);

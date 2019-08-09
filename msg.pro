@@ -35,9 +35,12 @@ SOURCES += \
         mainwindow.cpp \
         regactivation.cpp \
         registration.cpp \
-        smtp.cpp
+        smtp.cpp \
+        sql_query1.cpp \
+        sql_query2.cpp
 
 HEADERS += \
+        Crypter.h \
         activation.h \
         forgotpass.h \
         forgotpassrepeat.h \
@@ -45,7 +48,9 @@ HEADERS += \
         mainwindow.h \
         regactivation.h \
         registration.h \
-        smtp.h
+        smtp.h \
+        sql_query1.h \
+        sql_query2.h
 
 FORMS += \
         activation.ui \

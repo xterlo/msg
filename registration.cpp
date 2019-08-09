@@ -6,9 +6,11 @@
 #include <QtSql/QSql>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
+#include <QtSql/QSqlRecord>
 #include <QCryptographicHash>
 #include <QDateTime>
 #include "mainwindow.h"
+#include "Crypter.h"
 static int proverka;
 static int proverka1;
 
@@ -101,14 +103,18 @@ void Registration::on_pushButton_clicked()
             QString kode = a + b;
             QDateTime datetime;
             QDateTime date = datetime.currentDateTime();
-            password = QString(QCryptographicHash::hash(password.toLatin1(),QCryptographicHash::Sha1).toHex());
-            query.prepare("INSERT INTO users (email, login, password, date, link) "
-                      "VALUES (?, ?, ?, ?, ?)");
+            QString hash = QString(QCryptographicHash::hash(login.toLatin1(),QCryptographicHash::Md5).toHex());
+            Crypter::setSecretkey(hash);
+            password = Crypter::cryptString(password);
+
+            query.prepare("INSERT INTO users (email, login, password, date, link, hash) "
+                      "VALUES (?, ?, ?, ?, ?, ?)");
                query.addBindValue(email);
                query.addBindValue(login);
                query.addBindValue(password);
                query.addBindValue(date);
                query.addBindValue(kode);
+               query.addBindValue(hash);
                query.exec();
                Smtp* smtp;
                QString name = "Регистрация в мессенжере.";

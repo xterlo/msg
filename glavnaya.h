@@ -10,6 +10,10 @@
 #include <QCloseEvent>
 #include <QAction>
 #include <QMenu>
+#include <QThread>
+#include "sql_query1.h"
+#include "sql_query2.h"
+
 namespace Ui {
 class Glavnaya;
 }
@@ -24,9 +28,13 @@ public:
     ~Glavnaya();
 
 
-
 signals:
     void firstWindow();
+    void sendnick(QString nick);
+    void sendid(QString id);
+    void sendmsg(QString msg);
+    void sendid_1(QString idd);
+    void sendid_2(QString idd);
 
 
 private slots:
@@ -34,8 +42,9 @@ private slots:
     void on_fullscreen_clicked();
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void on_Mini_clicked();
+
     void on_dialogs_itemClicked(QListWidgetItem *item);
-    void asd();
+
     void on_pushButton_2_clicked();
 
 private:
@@ -49,14 +58,20 @@ private:
     int m_nMouseClick_Y_Coordinate;
     bool checkmouse;
     bool checkfull = false;
-    int MySelectedItem;
+
     int sizew=Glavnaya::size().width();
     int sizey=Glavnaya::size().height();
     int posx=Glavnaya::pos().x();
     int posy=Glavnaya::pos().y();
     QSystemTrayIcon *trayIconG;
+    QThread thread_1;
+    QThread thread_2;
+    sql_query1 sql_1;
+    sql_query2 sql_2;
 public slots:
     void recieveData(QString Qnick);
+    void updater();
+    void add();
 
 };
 
