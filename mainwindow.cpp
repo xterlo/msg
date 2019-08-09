@@ -82,7 +82,7 @@ MainWindow::~MainWindow()
 }
 void MainWindow::on_exitbutton_clicked()
 {
-    trayIcon = new QSystemTrayIcon(this);
+    /*trayIcon = new QSystemTrayIcon(this);
     trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_ComputerIcon));
     trayIcon->setToolTip("МЕСЕНГЕР");
     QMenu * menu = new QMenu(this);
@@ -95,8 +95,10 @@ void MainWindow::on_exitbutton_clicked()
     trayIcon->setContextMenu(menu);
     if(checkclosewind==false)trayIcon->show();
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
-        this->hide();
+        this->hide();*/
+    exit(0);
 }
+/*
 void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     switch (reason){
@@ -114,6 +116,7 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason)
         break;
     }
 }
+*/
 void sleep(qint64 msec)
 {
     QEventLoop loop;

@@ -13,6 +13,7 @@
 #include <QThread>
 #include "sql_query1.h"
 #include "sql_query2.h"
+#include "finder.h"
 
 namespace Ui {
 class Glavnaya;
@@ -47,9 +48,12 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_openfinder_clicked();
+
 private:
 
     Ui::Glavnaya *ui;
+    finder *find;
     void mouseDoubleClickEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent *event);

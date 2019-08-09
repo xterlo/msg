@@ -28,6 +28,7 @@ CONFIG += c++11
 
 SOURCES += \
         activation.cpp \
+        finder.cpp \
         forgotpass.cpp \
         forgotpassrepeat.cpp \
         glavnaya.cpp \
@@ -42,6 +43,7 @@ SOURCES += \
 HEADERS += \
         Crypter.h \
         activation.h \
+        finder.h \
         forgotpass.h \
         forgotpassrepeat.h \
         glavnaya.h \
@@ -54,6 +56,7 @@ HEADERS += \
 
 FORMS += \
         activation.ui \
+        finder.ui \
         forgotpass.ui \
         forgotpassrepeat.ui \
         glavnaya.ui \
