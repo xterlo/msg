@@ -122,16 +122,21 @@ void Glavnaya::recieveData(QString Qnick)
           Crypter::setSecretkey(hash);
       }
 
-
+      QString msg;
       QString last_msg = query.value(rec.indexOf("last_msg")).toString();
       msg_array = last_msg;
       last_msg = Crypter::decryptString(last_msg);
+      msg = last_msg;
+      if (last_msg.length() >= 40) {
+          msg.chop(last_msg.length()/2);
+          msg = msg + "...";
+      }
       if (client_1 == nickname) { 
            ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
-           ui->dialogs->addItem(client_2 + "\n" + last_msg);
+           ui->dialogs->addItem(client_2 + "\n" + msg);
       } else {
         ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
-        ui->dialogs->addItem(client_1 + "\n" + last_msg);
+        ui->dialogs->addItem(client_1 + "\n" + msg);
       }
    }
    emit sendmsg(msg_array);
@@ -171,17 +176,21 @@ void Glavnaya::updater()
            QString hash = quu.value(re.indexOf("hash")).toString();
            Crypter::setSecretkey(hash);
        }
-
-
        QString last_msg = query.value(rec.indexOf("last_msg")).toString();
        msg_array = last_msg;
-       last_msg = Crypter::decryptString(last_msg);    
+       last_msg = Crypter::decryptString(last_msg);
+       QString msg;
+       msg = last_msg;
+       if (last_msg.length() >= 40) {
+           msg.chop(last_msg.length()/2);
+           msg = msg + "...";
+       }
        if (client_1 == nickname) {
             ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
-            ui->dialogs->addItem(client_2 + "\n" + last_msg);
+            ui->dialogs->addItem(client_2 + "\n" + msg);
        } else {
          ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
-         ui->dialogs->addItem(client_1 + "\n" + last_msg);
+         ui->dialogs->addItem(client_1 + "\n" + msg);
        }
     }
     query.exec("SELECT * FROM dialogs WHERE client_1='"+nickname+"' OR client_2='"+nickname+"' ORDER BY id DESC");
@@ -223,7 +232,7 @@ void Glavnaya::add()
     Crypter::setSecretkey(his_hash);
     his_msg = Crypter::decryptString(his_msg);
     if (from_user != nickname) {
-        ui->msg->setHtml(ui->msg->toHtml() + "<span style='font-size: 10px;'>"+his_msg+"</span></br>");
+        ui->msg->setHtml(ui->msg->toHtml() + "<p style='font-size: 10px;'>"+his_msg+"</p>");
     }
 }
 
@@ -236,7 +245,7 @@ void Glavnaya::adddialog(QString user)
     ui->stroka->setEnabled(true);
     ui->msg->clear();
 
-    ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+_login+"</span>");
+    ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: center; font-size: 12px;'>"+_login+"</p>");
     find_nick = 1;
 
 }
@@ -364,7 +373,7 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
              QString his_hash = qu.value(r.indexOf("hash")).toString();
              Crypter::setSecretkey(his_hash);
              his_msg = Crypter::decryptString(his_msg);
-             ui->msg->setHtml(ui->msg->toHtml() + "<span style='font-size: 10px;'>"+his_msg+"</span></br>");
+             ui->msg->setHtml(ui->msg->toHtml() + "<p style='font-size: 10px;'>"+his_msg+"</p></br>");
 
           } else {
             QString my_msg_id  = query.value(rec.indexOf("id_msg")).toString();
@@ -379,7 +388,7 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
             QString my_hash = qu.value(r.indexOf("hash")).toString();
             Crypter::setSecretkey(my_hash);
             my_msg = Crypter::decryptString(my_msg);
-            ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: right;font-size: 10px;'>"+my_msg+"</span></br>");
+            ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+my_msg+"</p></br>");
             }
    }
   connect(&thread_2, &QThread::started, &sql_2, &sql_query2::checker);
@@ -390,15 +399,16 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
 
 void Glavnaya::on_pushButton_2_clicked()
 {
-    QString msg = ui->stroka->text();
-    if (msg != "") {
+    QString msg = ui->stroka->document()->toRawText();
+    msg.toUtf8();
+    if ((msg != "") or (msg != "?")) {
         if (find_nick == 1) {
             QSqlQuery qu;
             qu.exec("SELECT * FROM users WHERE login='"+nickname+"'");
             qu.next();
             QSqlRecord r = qu.record();
             QString my_hash = qu.value(r.indexOf("hash")).toString();
-            ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: right;font-size: 10px;'>"+msg+"</span></br>");
+            ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+msg+"</p></br>");
             Crypter::setSecretkey(my_hash);
             msg = Crypter::cryptString(msg);
             QSqlQuery query;
@@ -429,7 +439,7 @@ void Glavnaya::on_pushButton_2_clicked()
                query.addBindValue(id_msg);
                query.addBindValue(date);
                query.exec();
-            ui->stroka->setText("");
+            ui->stroka->document()->setPlainText("");
             find_nick = 0;
         } else {
         QSqlQuery qu;
@@ -438,7 +448,7 @@ void Glavnaya::on_pushButton_2_clicked()
         QSqlRecord r = qu.record();
         QString my_hash = qu.value(r.indexOf("hash")).toString();
 
-        ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: right;font-size: 10px;'>"+msg+"</span></br>");
+        ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+msg+"</p></br>");
         Crypter::setSecretkey(my_hash);
         msg = Crypter::cryptString(msg);
         QSqlQuery query;
@@ -463,7 +473,7 @@ void Glavnaya::on_pushButton_2_clicked()
            query.addBindValue(date);
            query.exec();
         query.exec("UPDATE dialogs SET last_msg='"+msg+"' WHERE id='"+id_dia+"'");
-        ui->stroka->setText("");
+        ui->stroka->document()->setPlainText("");
 
     }
 }
