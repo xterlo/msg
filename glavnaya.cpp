@@ -11,6 +11,8 @@
 #include <QDateTime>
 #include "Crypter.h"
 #include <QList>
+#include <string>
+#include <QLineEdit>
 
 static QString nickname;
 static QString username;
@@ -470,4 +472,28 @@ void Glavnaya::on_pushButton_2_clicked()
 void Glavnaya::on_openfinder_clicked()
 {
     find->show();
+}
+int d=0;
+void Glavnaya::on_stroka_textChanged(const QString &arg1)
+{
+    QString message = ui->stroka->text();
+    QString newline = "\n";
+    QLineEdit *stroka = new QLineEdit(this);
+    stroka->setStyleSheet("QLineEdit{border:none;}");
+    QPushButton *dsa = new QPushButton(this);
+
+    if (message.length() % 20 == 0)
+    {
+        d++;
+        if (d>1){delete dsa; qDebug() << "delete";}
+
+        ui->verticalLayout_2->addWidget(stroka);
+        ui->verticalLayout_2->addWidget(dsa);
+        qDebug() << d;
+
+        //connect(dsa, SIGNAL(clicked()), this, SLOT(on_pushButton_2_clicked()));
+        //message=message+newline;
+       // ui->stroka->setText(message);
+    }
+
 }

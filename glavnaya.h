@@ -50,6 +50,8 @@ private slots:
 
     void on_openfinder_clicked();
 
+    void on_stroka_textChanged(const QString &arg1);
+
 private:
 
     Ui::Glavnaya *ui;
