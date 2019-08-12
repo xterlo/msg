@@ -235,7 +235,7 @@ color: #000080;
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="8,1,0">
        <property name="spacing">
         <number>0</number>
        </property>
@@ -247,7 +247,7 @@ color: #000080;
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="stroka"/>
+        <widget class="QPlainTextEdit" name="stroka"/>
        </item>
        <item>
         <widget class="QPushButton" name="pushButton_2">
