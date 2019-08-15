@@ -11,6 +11,7 @@
 #include <QDateTime>
 #include "Crypter.h"
 #include <QList>
+#include <QDateTime>
 
 static QString nickname;
 static QString username;
@@ -37,6 +38,8 @@ Glavnaya::Glavnaya(QWidget *parent) :
     connect(find,SIGNAL(newdialog(QString)),this, SLOT(adddialog(QString)));
 
     connect(this,SIGNAL(sendnick(QString)),&sql_1, SLOT(recievenick(QString)));
+    connect(this,SIGNAL(sendnick(QString)),&sql_3, SLOT(recievenick(QString)));
+
     connect(this,SIGNAL(sendid(QString)),&sql_1, SLOT(recieveid(QString)));
     connect(this,SIGNAL(sendmsg(QString)),&sql_1, SLOT(recievemsg(QString)));
 
@@ -142,6 +145,10 @@ void Glavnaya::recieveData(QString Qnick)
    sql_1.moveToThread(&thread_1);
    sql_1.setRunning(true);
    thread_1.start();
+   connect(&thread_3, &QThread::started, &sql_3, &sql_query3::checker);
+   sql_3.moveToThread(&thread_3);
+   sql_3.setRunning(true);
+   thread_3.start();
 }
 
 void Glavnaya::updater()
@@ -335,10 +342,37 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
     ui->msg->setEnabled(TRUE);
     ui->stroka->setEnabled(TRUE);
     ui->msg->clear();
+    QSqlQuery query;
 
     QStringList dialog = item->text().split("\n");
     username = dialog.first();
-    ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+"</span>");
+
+    query.exec("SELECT * FROM zaprosy WHERE login='"+username+"' ORDER BY id DESC");
+    query.next();
+    QSqlRecord rec = query.record();
+    QString date = query.value(rec.indexOf("date")).toString();
+    QString time = query.value(rec.indexOf("time")).toString();
+
+    QDate date_now;
+    QDate date_;
+    date_now = date_now.currentDate();
+    date_ = date_.fromString(date, "yyyy-MM-dd");
+
+    QTime time_now;
+    time_now = time_now.currentTime();
+    if (date_now != date_) {
+        ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: grey; font-size: 8px; text-align: center;'>&bull; Offline</content> </span>");
+    } else {
+        QTime time_;
+        time_ = time_.fromString(time);
+        time_ = time_.addSecs(300);
+        if (time_now > time_) {
+            ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: grey; font-size: 8px; text-align: center;'>&bull; Offline</content> </span>");
+        } else {
+            ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: green; font-size: 8px; text-align: center;'>&bull; Online</content> </span>");
+        }
+    }
+
 
     QSqlQuery pdo_dia;
     pdo_dia.exec("SELECT * FROM dialogs WHERE ((client_1='"+username+"' and client_2='"+nickname+"') or (client_1='"+nickname+"' and client_2='"+username+"'))");
@@ -347,7 +381,6 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
     QString id_dia  = pdo_dia.value(pdo_dia_rec.indexOf("id")).toString();
     emit sendid_1(id_dia);
 
-    QSqlQuery query;
     query.exec("SELECT * FROM msg WHERE id_dia='"+id_dia+"' ORDER BY id ASC");
     while (query.next()) {
           QSqlRecord rec = query.record();
@@ -397,9 +430,9 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
 
 void Glavnaya::on_pushButton_2_clicked()
 {
-    QString msg = ui->stroka->document()->toRawText();
-    msg.toUtf8();
-    if ((msg != "") or (msg != "?")) {
+    QString msg = ui->stroka->document()->toPlainText();
+    msg = msg.trimmed();
+    if (msg != "") {
         if (find_nick == 1) {
             QSqlQuery qu;
             qu.exec("SELECT * FROM users WHERE login='"+nickname+"'");
@@ -446,7 +479,7 @@ void Glavnaya::on_pushButton_2_clicked()
         QSqlRecord r = qu.record();
         QString my_hash = qu.value(r.indexOf("hash")).toString();
 
-        ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+msg+"</p></br>");
+        ui->msg->document()->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+msg+"</p></br>");
         Crypter::setSecretkey(my_hash);
         msg = Crypter::cryptString(msg);
         QSqlQuery query;

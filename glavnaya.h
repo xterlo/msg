@@ -13,6 +13,7 @@
 #include <QThread>
 #include "sql_query1.h"
 #include "sql_query2.h"
+#include "sql_query3.h"
 #include "finder.h"
 
 namespace Ui {
@@ -70,8 +71,10 @@ private:
     QSystemTrayIcon *trayIconG;
     QThread thread_1;
     QThread thread_2;
+    QThread thread_3;
     sql_query1 sql_1;
     sql_query2 sql_2;
+    sql_query3 sql_3;
 public slots:
     void recieveData(QString Qnick);
     void updater();
