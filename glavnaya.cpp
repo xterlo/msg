@@ -33,6 +33,7 @@ Glavnaya::Glavnaya(QWidget *parent) :
     ui->pushButton_2->setEnabled(FALSE);
     ui->msg->setEnabled(FALSE);
     ui->stroka->setEnabled(FALSE);
+    ui->stroka_name->setEnabled(FALSE);
     find = new finder();
 
     connect(find,SIGNAL(newdialog(QString)),this, SLOT(adddialog(QString)));
@@ -248,9 +249,36 @@ void Glavnaya::adddialog(QString user)
     ui->pushButton_2->setEnabled(true);
     ui->msg->setEnabled(true);
     ui->stroka->setEnabled(true);
+    ui->stroka_name->setEnabled(true);
     ui->msg->clear();
+    ui->stroka_name->clear();
 
-    ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: center; font-size: 12px;'>"+_login+"</p>");
+    QSqlQuery query;
+    query.exec("SELECT * FROM zaprosy WHERE login='"+_login+"' ORDER BY id DESC");
+    query.next();
+    QSqlRecord rec = query.record();
+    QString date = query.value(rec.indexOf("date")).toString();
+    QString time = query.value(rec.indexOf("time")).toString();
+
+    QDate date_now;
+    QDate date_;
+    date_now = date_now.currentDate();
+    date_ = date_.fromString(date, "yyyy-MM-dd");
+
+    QTime time_now;
+    time_now = time_now.currentTime();
+    if (date_now != date_) {
+        ui->stroka_name->setHtml(ui->stroka_name->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: grey; font-size: 8px; text-align: center;'>&bull; Offline</content> </span>");
+    } else {
+        QTime time_;
+        time_ = time_.fromString(time);
+        time_ = time_.addSecs(300);
+        if (time_now > time_) {
+            ui->stroka_name->setHtml(ui->stroka_name->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: grey; font-size: 8px; text-align: center;'>&bull; Offline</content> </span>");
+        } else {
+            ui->stroka_name->setHtml(ui->stroka_name->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: green; font-size: 8px; text-align: center;'>&bull; Online</content> </span>");
+        }
+    }
     find_nick = 1;
 
 }
@@ -341,7 +369,9 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
     ui->pushButton_2->setEnabled(TRUE);
     ui->msg->setEnabled(TRUE);
     ui->stroka->setEnabled(TRUE);
+    ui->stroka_name->setEnabled(TRUE);
     ui->msg->clear();
+    ui->stroka_name->clear();
     QSqlQuery query;
 
     QStringList dialog = item->text().split("\n");
@@ -361,15 +391,15 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
     QTime time_now;
     time_now = time_now.currentTime();
     if (date_now != date_) {
-        ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: grey; font-size: 8px; text-align: center;'>&bull; Offline</content> </span>");
+        ui->stroka_name->setHtml(ui->stroka_name->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: grey; font-size: 8px; text-align: center;'>&bull; Offline</content> </span>");
     } else {
         QTime time_;
         time_ = time_.fromString(time);
         time_ = time_.addSecs(300);
         if (time_now > time_) {
-            ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: grey; font-size: 8px; text-align: center;'>&bull; Offline</content> </span>");
+            ui->stroka_name->setHtml(ui->stroka_name->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: grey; font-size: 8px; text-align: center;'>&bull; Offline</content> </span>");
         } else {
-            ui->msg->setHtml(ui->msg->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: green; font-size: 8px; text-align: center;'>&bull; Online</content> </span>");
+            ui->stroka_name->setHtml(ui->stroka_name->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: green; font-size: 8px; text-align: center;'>&bull; Online</content> </span>");
         }
     }
 
