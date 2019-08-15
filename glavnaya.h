@@ -38,6 +38,7 @@ signals:
     void sendmsg(QString msg);
     void sendid_1(QString idd);
     void sendid_2(QString idd);
+    void sendstatus(QString stat);
 
 
 private slots:
@@ -45,11 +46,8 @@ private slots:
     void on_fullscreen_clicked();
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void on_Mini_clicked();
-
     void on_dialogs_itemClicked(QListWidgetItem *item);
-
     void on_pushButton_2_clicked();
-
     void on_openfinder_clicked();
 
 private:

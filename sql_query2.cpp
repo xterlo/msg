@@ -33,7 +33,7 @@ void sql_query2::receiveidd(QString idd)
 
 void sql_query2::checker()
 {
-    Sleep(1000);
+    Sleep(2000);
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL","db1");
     db.setHostName("95.143.216.174");
     db.setPort(3306);
@@ -49,7 +49,6 @@ void sql_query2::checker()
          QString id_msg_last = query.value(rec.indexOf("id")).toString();
          if (id_msg != id_msg_last) {
              emit update();
-             Sleep(200);
              break;
          }
     }

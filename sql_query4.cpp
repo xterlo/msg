@@ -6,6 +6,7 @@
 #include <QtSql/QSqlRecord>
 #include <QtSql/QSqlResult>
 #include <QDebug>
+#include "windows.h"
 
 sql_query4::sql_query4(QObject *parent) : QObject(parent)
 {
@@ -16,20 +17,25 @@ bool sql_query4::running() const
 {
     return m_running;
 }
-void sql_query4::recieveid(QString idd)
+void sql_query4::receiveid(QString idd)
 {
     std::string id_d = idd.toStdString();
     id = id_d.c_str();
 }
 
-void sql_query4::recievenick(QString nick)
+void sql_query4::reload()
 {
-    std::string nickk = nick.toStdString();
-    nickname = nickk.c_str();
+    sql_query4::checker();
+}
+void sql_query4::recivestatus(QString stat)
+{
+    std::string sts = stat.toStdString();
+    status = sts.c_str();
 }
 
 void sql_query4::checker()
 {
+    Sleep(1000);
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL","db3");
     db.setHostName("95.143.216.174");
     db.setPort(3306);
@@ -37,17 +43,16 @@ void sql_query4::checker()
     db.setUserName("server");
     db.setPassword("server");
     db.open();
-    while(m_running) {
-         QSqlQuery query(QSqlDatabase::database("db3"));
-         query.exec("SELECT * FROM msg WHERE id_dia='"+id+"' ORDER BY id DESC");
-         query.next();
-         QSqlRecord rec = query.record();
-         int isReaded = query.value(rec.indexOf("isReaded")).toInt();
-         QString username = query.value(rec.indexOf("from_user")).toString();
-         if ((isReaded == 1) and (username != nickname)) {
-             emit update();
-             break;
-         }
+    while(m_running ) {
+        QSqlQuery query(QSqlDatabase::database("db3"));
+        query.exec("SELECT * FROM msg WHERE id_dia='"+id+"' ORDER BY id DESC");
+        query.next();
+        QSqlRecord rec = query.record();
+        QString isReaded = query.value(rec.indexOf("isReaded")).toString();
+        if (isReaded != status) {
+            emit update();
+            break;
+        }
     }
     db.close();
     db.removeDatabase("db3");
@@ -61,9 +66,4 @@ void sql_query4::setRunning(bool running)
 
     m_running = running;
     emit runningChanged(m_running);
-}
-
-void sql_query4::reload()
-{
-    sql_query4::checker();
 }
