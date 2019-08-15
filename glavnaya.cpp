@@ -40,6 +40,7 @@ Glavnaya::Glavnaya(QWidget *parent) :
 
     connect(this,SIGNAL(sendnick(QString)),&sql_1, SLOT(recievenick(QString)));
     connect(this,SIGNAL(sendnick(QString)),&sql_3, SLOT(recievenick(QString)));
+    connect(this,SIGNAL(sendnick(QString)),&sql_4, SLOT(recievenick(QString)));
 
     connect(this,SIGNAL(sendid(QString)),&sql_1, SLOT(recieveid(QString)));
     connect(this,SIGNAL(sendmsg(QString)),&sql_1, SLOT(recievemsg(QString)));
@@ -47,9 +48,12 @@ Glavnaya::Glavnaya(QWidget *parent) :
     connect(this,SIGNAL(sendid_2(QString)),&sql_2, SLOT(receiveidd(QString)));
     connect(this,SIGNAL(sendid_1(QString)),&sql_2, SLOT(receiveid(QString)));
 
+    connect(this,SIGNAL(sendid(QString)),&sql_4, SLOT(recieveid(QString)));
 
     connect(&sql_1, SIGNAL(update()),this, SLOT(updater()));
     connect(&sql_2, SIGNAL(update()),this, SLOT(add()));
+    connect(&sql_4, SIGNAL(update()),this, SLOT(upd()));
+
 
 }
 /*void Glavnaya::on_exitbutton_clicked()
@@ -282,6 +286,69 @@ void Glavnaya::adddialog(QString user)
     find_nick = 1;
 
 }
+
+void Glavnaya::upd()
+{
+  ui->msg->clear();
+  QSqlQuery query;
+  query.exec("UPDATE msg SET isReaded='1' WHERE from_user='"+username+"' AND to_user='"+nickname+"'");
+
+  QSqlQuery pdo_dia;
+  pdo_dia.exec("SELECT * FROM dialogs WHERE ((client_1='"+username+"' and client_2='"+nickname+"') or (client_1='"+nickname+"' and client_2='"+username+"'))");
+  pdo_dia.next();
+  QSqlRecord pdo_dia_rec = pdo_dia.record();
+  QString id_dia  = pdo_dia.value(pdo_dia_rec.indexOf("id")).toString();
+  emit sendid_1(id_dia);
+
+  query.exec("SELECT * FROM msg WHERE id_dia='"+id_dia+"' ORDER BY id ASC");
+  while (query.next()) {
+        QSqlRecord rec = query.record();
+        QString id_msg  = query.value(rec.indexOf("id")).toString();
+        QString from_user  = query.value(rec.indexOf("from_user")).toString();
+        QString to_user = query.value(rec.indexOf("to_user")).toString();
+        emit sendid_2(id_msg);
+        QSqlQuery qu;
+
+        if ((from_user == username) and (from_user != nickname)) {
+           QString his_msg_id  = query.value(rec.indexOf("id_msg")).toString();
+
+           QSqlQuery pdo;
+           pdo.exec("SELECT * FROM msg_text WHERE id='"+his_msg_id+"'");
+           pdo.next();
+           QString his_msg = pdo.value(1).toString();
+
+           qu.exec("SELECT * FROM users WHERE login='"+username+"'");
+           qu.next();
+           QSqlRecord r = qu.record();
+           QString his_hash = qu.value(r.indexOf("hash")).toString();
+           Crypter::setSecretkey(his_hash);
+           his_msg = Crypter::decryptString(his_msg);
+           ui->msg->setHtml(ui->msg->toHtml() + "<p style='font-size: 10px;'>"+his_msg+"</p></br>");
+
+        } else {
+          QString my_msg_id  = query.value(rec.indexOf("id_msg")).toString();
+          QSqlQuery pdo;
+          pdo.exec("SELECT * FROM msg_text WHERE id='"+my_msg_id+"'");
+          pdo.next();
+          QString my_msg = pdo.value(1).toString();
+
+          qu.exec("SELECT * FROM users WHERE login='"+nickname+"'");
+          qu.next();
+          QSqlRecord r = qu.record();
+          QString my_hash = qu.value(r.indexOf("hash")).toString();
+          Crypter::setSecretkey(my_hash);
+          my_msg = Crypter::decryptString(my_msg);
+
+          int isReaded = query.value(rec.indexOf("isReaded")).toInt();
+          if (isReaded == 0) {
+             ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+my_msg+" <content style='color: #eaeaea;'>&bull;</content></p></br>");
+          } else {
+             ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+my_msg+"</p></br>");
+          }
+          }
+}
+ui->msg->moveCursor(QTextCursor::End);
+}
 Glavnaya::~Glavnaya()
 {
     delete ui;
@@ -377,6 +444,8 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
     QStringList dialog = item->text().split("\n");
     username = dialog.first();
 
+    query.exec("UPDATE msg SET isReaded='1' WHERE from_user='"+username+"' AND to_user='"+nickname+"'");
+
     query.exec("SELECT * FROM zaprosy WHERE login='"+username+"' ORDER BY id DESC");
     query.next();
     QSqlRecord rec = query.record();
@@ -449,13 +518,24 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
             QString my_hash = qu.value(r.indexOf("hash")).toString();
             Crypter::setSecretkey(my_hash);
             my_msg = Crypter::decryptString(my_msg);
-            ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+my_msg+"</p></br>");
+
+            int isReaded = query.value(rec.indexOf("isReaded")).toInt();
+            if (isReaded == 0) {
+               ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+my_msg+" <content style='color: #eaeaea;'>&bull;</content></p></br>");
+            } else {
+               ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+my_msg+"</p></br>");
+            }
             }
    }
   connect(&thread_2, &QThread::started, &sql_2, &sql_query2::checker);
   sql_2.moveToThread(&thread_2);
   sql_2.setRunning(true);
   thread_2.start();
+  connect(&thread_4, &QThread::started, &sql_4, &sql_query4::checker);
+  sql_4.moveToThread(&thread_4);
+  sql_4.setRunning(true);
+  thread_4.start();
+  ui->msg->moveCursor(QTextCursor::End);
 }
 
 void Glavnaya::on_pushButton_2_clicked()
@@ -509,7 +589,7 @@ void Glavnaya::on_pushButton_2_clicked()
         QSqlRecord r = qu.record();
         QString my_hash = qu.value(r.indexOf("hash")).toString();
 
-        ui->msg->document()->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+msg+"</p></br>");
+        ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+msg+" <content style='color: #eaeaea;'>&bull;</content></p></br>");
         Crypter::setSecretkey(my_hash);
         msg = Crypter::cryptString(msg);
         QSqlQuery query;
@@ -537,7 +617,8 @@ void Glavnaya::on_pushButton_2_clicked()
         ui->stroka->document()->setPlainText("");
 
     }
-}
+ui->msg->moveCursor(QTextCursor::End);
+}    
 }
 
 void Glavnaya::on_openfinder_clicked()

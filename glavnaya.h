@@ -14,6 +14,7 @@
 #include "sql_query1.h"
 #include "sql_query2.h"
 #include "sql_query3.h"
+#include "sql_query4.h"
 #include "finder.h"
 
 namespace Ui {
@@ -72,14 +73,17 @@ private:
     QThread thread_1;
     QThread thread_2;
     QThread thread_3;
+    QThread thread_4;
     sql_query1 sql_1;
     sql_query2 sql_2;
     sql_query3 sql_3;
+    sql_query4 sql_4;
 public slots:
     void recieveData(QString Qnick);
     void updater();
     void add();
     void adddialog(QString user);
+    void upd();
 
 };
 

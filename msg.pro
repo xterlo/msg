@@ -39,7 +39,8 @@ SOURCES += \
         smtp.cpp \
         sql_query1.cpp \
         sql_query2.cpp \
-        sql_query3.cpp
+        sql_query3.cpp \
+        sql_query4.cpp
 
 HEADERS += \
         Crypter.h \
@@ -54,7 +55,8 @@ HEADERS += \
         smtp.h \
         sql_query1.h \
         sql_query2.h \
-        sql_query3.h
+        sql_query3.h \
+        sql_query4.h
 
 FORMS += \
         activation.ui \
