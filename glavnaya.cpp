@@ -12,6 +12,7 @@
 #include "Crypter.h"
 #include <QList>
 #include <QDateTime>
+#include <QMessageBox>
 
 static QString nickname;
 static QString username;
@@ -253,6 +254,14 @@ void Glavnaya::adddialog(QString user)
 {
     std::string nick = user.toStdString();
     _login = nick.c_str();
+
+    QSqlQuery query;
+    query.exec("SELECT * FROM users WHERE login='"+_login+"'");
+    if (query.last() == false) {
+        QMessageBox::warning(this,"Ошибка!","Проверьте корректность заполненных данных!");
+        find = new finder();
+        find->show();
+    } else {
     ui->pushButton_2->setEnabled(true);
     ui->msg->setEnabled(true);
     ui->stroka->setEnabled(true);
@@ -260,7 +269,6 @@ void Glavnaya::adddialog(QString user)
     ui->msg->clear();
     ui->stroka_name->clear();
 
-    QSqlQuery query;
     query.exec("SELECT * FROM zaprosy WHERE login='"+_login+"' ORDER BY id DESC");
     query.next();
     QSqlRecord rec = query.record();
@@ -275,19 +283,19 @@ void Glavnaya::adddialog(QString user)
     QTime time_now;
     time_now = time_now.currentTime();
     if (date_now != date_) {
-        ui->stroka_name->setHtml(ui->stroka_name->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: grey; font-size: 8px; text-align: center;'>&bull; Offline</content> </span>");
+        ui->stroka_name->setHtml(ui->stroka_name->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+_login+" <content style='color: grey; font-size: 8px; text-align: center;'>&bull; Offline</content> </span>");
     } else {
         QTime time_;
         time_ = time_.fromString(time);
         time_ = time_.addSecs(300);
         if (time_now > time_) {
-            ui->stroka_name->setHtml(ui->stroka_name->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: grey; font-size: 8px; text-align: center;'>&bull; Offline</content> </span>");
+            ui->stroka_name->setHtml(ui->stroka_name->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+_login+" <content style='color: grey; font-size: 8px; text-align: center;'>&bull; Offline</content> </span>");
         } else {
-            ui->stroka_name->setHtml(ui->stroka_name->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+username+" <content style='color: green; font-size: 8px; text-align: center;'>&bull; Online</content> </span>");
+            ui->stroka_name->setHtml(ui->stroka_name->toHtml() + "<span style='text-align: center; font-size: 12px;'>"+_login+" <content style='color: green; font-size: 8px; text-align: center;'>&bull; Online</content> </span>");
         }
     }
     find_nick = 1;
-
+}
 }
 
 void Glavnaya::upd()

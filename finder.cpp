@@ -20,11 +20,6 @@ finder::~finder()
     delete ui;
 }
 
-void finder::on_lineEdit_textChanged(const QString &arg1)
-{
-    adduser = ui->lineEdit->text();
-    emit newdialog(adduser);
-}
 void finder::mousePressEvent(QMouseEvent *event) {
     QDesktopWidget * screen = QApplication::desktop();
     screen->availableGeometry();
@@ -82,8 +77,7 @@ void finder::on_fullscreen_clicked()
 }
 void finder::on_exitbutton_clicked()
 {
-
-    exit(0);
+    this->close();
 }
 void finder::on_Mini_clicked()
 {
@@ -92,4 +86,11 @@ void finder::on_Mini_clicked()
 void finder::mouseDoubleClickEvent(QMouseEvent *event)
 {
     finder::on_fullscreen_clicked();
+}
+
+void finder::on_pushButton_clicked()
+{
+    adduser = ui->lineEdit->text();
+    emit newdialog(adduser);
+    this->close();
 }
