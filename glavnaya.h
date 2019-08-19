@@ -33,14 +33,6 @@ public:
 
 signals:
     void firstWindow();
-    void sendnick(QString nick);
-    void sendid(QString id);
-    void sendmsg(QString msg);
-    void sendid_1(QString idd);
-    void sendid_2(QString idd);
-    void sendstatus(QString stat);
-
-
 private slots:
     void on_exitbutton_clicked();
     void on_fullscreen_clicked();
@@ -49,7 +41,6 @@ private slots:
     void on_dialogs_itemClicked(QListWidgetItem *item);
     void on_pushButton_2_clicked();
     void on_openfinder_clicked();
-
 private:
 
     Ui::Glavnaya *ui;

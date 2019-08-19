@@ -39,19 +39,6 @@ Glavnaya::Glavnaya(QWidget *parent) :
 
     connect(find,SIGNAL(newdialog(QString)),this, SLOT(adddialog(QString)));
 
-    connect(this,SIGNAL(sendnick(QString)),&sql_1, SLOT(recievenick(QString)));
-    connect(this,SIGNAL(sendnick(QString)),&sql_3, SLOT(recievenick(QString)));
-
-    connect(this,SIGNAL(sendid(QString)),&sql_1, SLOT(recieveid(QString)));
-    connect(this,SIGNAL(sendid(QString)),&sql_4, SLOT(receiveid(QString)));
-    connect(this,SIGNAL(sendmsg(QString)),&sql_1, SLOT(recievemsg(QString)));
-
-    connect(this,SIGNAL(sendid_2(QString)),&sql_2, SLOT(receiveidd(QString)));
-    connect(this,SIGNAL(sendid_1(QString)),&sql_2, SLOT(receiveid(QString)));
-
-    connect(this,SIGNAL(sendstatus(QString)),&sql_4, SLOT(recivestatus(QString)));
-
-
     connect(&sql_1, SIGNAL(update()),this, SLOT(updater()));
     connect(&sql_2, SIGNAL(update()),this, SLOT(add()));
     connect(&sql_4, SIGNAL(update()),this, SLOT(upd()));
@@ -95,14 +82,19 @@ void Glavnaya::recieveData(QString Qnick)
 {
    std::string nick = Qnick.toStdString();
    nickname = nick.c_str();
-   emit sendnick(nick.c_str());
+   sql_1.set_nickname(nickname);
+   sql_3.set_nickname(nickname);
+
    QSqlQuery query;
+
    query.exec("SELECT * FROM dialogs WHERE client_1='"+nickname+"' OR client_2='"+nickname+"' ORDER BY id DESC");
    query.next();
    QSqlRecord rec = query.record();
    QString id_dia = query.value(rec.indexOf("id")).toString();
-   emit sendid(id_dia);
-   QString msg_array;
+   sql_1.set_id_dia(id_dia);
+
+   QStringList msg_array;
+
    query.exec("SELECT * FROM dialogs WHERE client_1='"+nickname+"' OR client_2='"+nickname+"' ORDER BY id DESC");
    while (query.next()) {
       QSqlRecord rec = query.record();
@@ -115,6 +107,7 @@ void Glavnaya::recieveData(QString Qnick)
       quu.next();
       QSqlRecord re = quu.record();
       QString from_user = quu.value(re.indexOf("from_user")).toString();
+
       if(from_user != nickname) {
          quu.exec("SELECT * FROM users WHERE login='"+from_user+"'");
          quu.next();
@@ -129,24 +122,21 @@ void Glavnaya::recieveData(QString Qnick)
           Crypter::setSecretkey(hash);
       }
 
-      QString msg;
       QString last_msg = query.value(rec.indexOf("last_msg")).toString();
-      msg_array = last_msg;
+
+      msg_array << last_msg;
+
       last_msg = Crypter::decryptString(last_msg);
-      msg = last_msg;
-      if (last_msg.length() >= 40) {
-          msg.chop(last_msg.length()/2);
-          msg = msg + "...";
-      }
+
       if (client_1 == nickname) { 
            ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
-           ui->dialogs->addItem(client_2 + "\n" + msg);
+           ui->dialogs->addItem(client_2 + "\n" + last_msg);
       } else {
         ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
-        ui->dialogs->addItem(client_1 + "\n" + msg);
+        ui->dialogs->addItem(client_1 + "\n" + last_msg);
       }
    }
-   emit sendmsg(msg_array);
+   sql_1.set_msg_array(msg_array);
    connect(&thread_1, &QThread::started, &sql_1, &sql_query1::checker);
    sql_1.moveToThread(&thread_1);
    sql_1.setRunning(true);
@@ -160,9 +150,20 @@ void Glavnaya::recieveData(QString Qnick)
 void Glavnaya::updater()
 {
     ui->dialogs->clear();
+
+    sql_1.set_nickname(nickname);
+
     QSqlQuery query;
+
     query.exec("SELECT * FROM dialogs WHERE client_1='"+nickname+"' OR client_2='"+nickname+"' ORDER BY id DESC");
-    QString msg_array;
+    query.next();
+    QSqlRecord rec = query.record();
+    QString id_dia = query.value(rec.indexOf("id")).toString();
+    sql_1.set_id_dia(id_dia);
+
+    QStringList msg_array;
+
+    query.exec("SELECT * FROM dialogs WHERE client_1='"+nickname+"' OR client_2='"+nickname+"' ORDER BY id DESC");
     while (query.next()) {
        QSqlRecord rec = query.record();
        QString client_1  = query.value(rec.indexOf("client_1")).toString();
@@ -174,6 +175,7 @@ void Glavnaya::updater()
        quu.next();
        QSqlRecord re = quu.record();
        QString from_user = quu.value(re.indexOf("from_user")).toString();
+
        if(from_user != nickname) {
           quu.exec("SELECT * FROM users WHERE login='"+from_user+"'");
           quu.next();
@@ -187,29 +189,22 @@ void Glavnaya::updater()
            QString hash = quu.value(re.indexOf("hash")).toString();
            Crypter::setSecretkey(hash);
        }
+
        QString last_msg = query.value(rec.indexOf("last_msg")).toString();
-       msg_array = last_msg;
+
+       msg_array << last_msg;
+
        last_msg = Crypter::decryptString(last_msg);
-       QString msg;
-       msg = last_msg;
-       if (last_msg.length() >= 40) {
-           msg.chop(last_msg.length()/2);
-           msg = msg + "...";
-       }
+
        if (client_1 == nickname) {
             ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
-            ui->dialogs->addItem(client_2 + "\n" + msg);
+            ui->dialogs->addItem(client_2 + "\n" + last_msg);
        } else {
          ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
-         ui->dialogs->addItem(client_1 + "\n" + msg);
+         ui->dialogs->addItem(client_1 + "\n" + last_msg);
        }
     }
-    query.exec("SELECT * FROM dialogs WHERE client_1='"+nickname+"' OR client_2='"+nickname+"' ORDER BY id DESC");
-    query.next();
-    QSqlRecord rec = query.record();
-    QString id_dia = query.value(rec.indexOf("id")).toString();
-    emit sendid(id_dia);
-    emit sendmsg(msg_array);
+    sql_1.set_msg_array(msg_array);
 }
 
 void Glavnaya::add()
@@ -302,15 +297,22 @@ void Glavnaya::upd()
 {
     ui->msg->clear();
 
-    QSqlQuery query;
-    query.exec("UPDATE msg SET isReaded='1' WHERE from_user='"+username+"' and to_user='"+nickname+"'");
-
     QSqlQuery pdo_dia;
     pdo_dia.exec("SELECT * FROM dialogs WHERE ((client_1='"+username+"' and client_2='"+nickname+"') or (client_1='"+nickname+"' and client_2='"+username+"'))");
     pdo_dia.next();
     QSqlRecord pdo_dia_rec = pdo_dia.record();
     QString id_dia  = pdo_dia.value(pdo_dia_rec.indexOf("id")).toString();
-    emit sendid_1(id_dia);
+    sql_2.set_id_dia(id_dia);
+
+    QSqlQuery query;
+    query.exec("UPDATE msg SET isReaded='1' WHERE from_user='"+username+"' and to_user='"+nickname+"'");
+
+    query.exec("SELECT * FROM msg WHERE id_dia='"+id_dia+"' and from_user='"+username+"' ORDER BY id DESC");
+    query.next();
+    QSqlRecord recc = query.record();
+    QString msg_last_id = query.value(recc.indexOf("id")).toString();
+    sql_2.set_id_msg(msg_last_id);
+
 
     query.exec("SELECT * FROM msg WHERE id_dia='"+id_dia+"' ORDER BY id ASC");
     while (query.next()) {
@@ -318,7 +320,6 @@ void Glavnaya::upd()
           QString id_msg  = query.value(rec.indexOf("id")).toString();
           QString from_user  = query.value(rec.indexOf("from_user")).toString();
           QString to_user = query.value(rec.indexOf("to_user")).toString();
-          emit sendid_2(id_msg);
           QSqlQuery qu;
 
           if ((from_user == username) and (from_user != nickname)) {
@@ -336,7 +337,6 @@ void Glavnaya::upd()
              Crypter::setSecretkey(his_hash);
              his_msg = Crypter::decryptString(his_msg);
              ui->msg->setHtml(ui->msg->toHtml() + "<p style='font-size: 10px;'>"+his_msg+"</p></br>");
-
           } else {
             QString my_msg_id  = query.value(rec.indexOf("id_msg")).toString();
             QSqlQuery pdo;
@@ -489,7 +489,14 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
     pdo_dia.next();
     QSqlRecord pdo_dia_rec = pdo_dia.record();
     QString id_dia  = pdo_dia.value(pdo_dia_rec.indexOf("id")).toString();
-    emit sendid_1(id_dia);
+    sql_2.set_id_dia(id_dia);
+
+    query.exec("SELECT * FROM msg WHERE id_dia='"+id_dia+"' and from_user='"+username+"' ORDER BY id DESC");
+    query.next();
+    QSqlRecord recc = query.record();
+    QString msg_last_id = query.value(recc.indexOf("id")).toString();
+    sql_2.set_id_msg(msg_last_id);
+
 
     query.exec("SELECT * FROM msg WHERE id_dia='"+id_dia+"' ORDER BY id ASC");
     while (query.next()) {
@@ -497,7 +504,6 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
           QString id_msg  = query.value(rec.indexOf("id")).toString();
           QString from_user  = query.value(rec.indexOf("from_user")).toString();
           QString to_user = query.value(rec.indexOf("to_user")).toString();
-          emit sendid_2(id_msg);
           QSqlQuery qu;
 
           if ((from_user == username) and (from_user != nickname)) {
@@ -515,7 +521,6 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
              Crypter::setSecretkey(his_hash);
              his_msg = Crypter::decryptString(his_msg);
              ui->msg->setHtml(ui->msg->toHtml() + "<p style='font-size: 10px;'>"+his_msg+"</p></br>");
-
           } else {
             QString my_msg_id  = query.value(rec.indexOf("id_msg")).toString();
             QSqlQuery pdo;
@@ -547,7 +552,6 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
 void Glavnaya::on_pushButton_2_clicked()
 {
     QString msg = ui->stroka->document()->toPlainText();
-    msg = msg.trimmed();
     if (msg != "") {
         if (find_nick == 1) {
             QSqlQuery qu;
@@ -555,7 +559,7 @@ void Glavnaya::on_pushButton_2_clicked()
             qu.next();
             QSqlRecord r = qu.record();
             QString my_hash = qu.value(r.indexOf("hash")).toString();
-            ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+msg+"</p></br>");
+            ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+msg+" <content style='color: grey; font-size: 10px;'>&bull;</content></p></br>");
             ui->msg->moveCursor(QTextCursor::End);
             Crypter::setSecretkey(my_hash);
             msg = Crypter::cryptString(msg);
@@ -570,6 +574,7 @@ void Glavnaya::on_pushButton_2_clicked()
             query.exec("SELECT * FROM dialogs WHERE ((client_1='"+username+"' and client_2='"+nickname+"') or (client_1='"+nickname+"' and client_2='"+username+"'))");
             query.next();
             QString id_dia = query.value(0).toString();
+            sql_4.set_id_dia(id_dia);
             query.prepare("INSERT INTO msg_text (text) "
                               "VALUES (?)");
                        query.addBindValue(msg);
@@ -591,13 +596,13 @@ void Glavnaya::on_pushButton_2_clicked()
             query.next();
             QSqlRecord rec = query.record();
             QString status = query.value(rec.indexOf("isReaded")).toString();
-            emit sendstatus(status);
+            sql_4.set_status(status);
             connect(&thread_4, &QThread::started, &sql_4, &sql_query4::checker);
             sql_4.moveToThread(&thread_4);
             sql_4.setRunning(true);
             thread_4.start();
             ui->stroka->document()->setPlainText("");
-            find_nick = 0;
+            find_nick = 2;
         } else {
         QSqlQuery qu;
         qu.exec("SELECT * FROM users WHERE login='"+nickname+"'");
@@ -613,6 +618,7 @@ void Glavnaya::on_pushButton_2_clicked()
         query.exec("SELECT * FROM dialogs WHERE ((client_1='"+username+"' and client_2='"+nickname+"') or (client_1='"+nickname+"' and client_2='"+username+"'))");
         query.next();
         QString id_dia = query.value(0).toString();
+        sql_4.set_id_dia(id_dia);
         query.prepare("INSERT INTO msg_text (text) "
                           "VALUES (?)");
                    query.addBindValue(msg);
@@ -635,12 +641,16 @@ void Glavnaya::on_pushButton_2_clicked()
         query.next();
         QSqlRecord rec = query.record();
         QString status = query.value(rec.indexOf("isReaded")).toString();
-        emit sendstatus(status);
+        sql_4.set_status(status);
+        ui->stroka->document()->setPlainText("");
+        if (find_nick != 2) {
         connect(&thread_4, &QThread::started, &sql_4, &sql_query4::checker);
         sql_4.moveToThread(&thread_4);
         sql_4.setRunning(true);
         thread_4.start();
         ui->stroka->document()->setPlainText("");
+        find_nick = 0;
+        }
 
     }
 }

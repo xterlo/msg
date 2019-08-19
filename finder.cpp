@@ -92,5 +92,6 @@ void finder::on_pushButton_clicked()
 {
     adduser = ui->lineEdit->text();
     emit newdialog(adduser);
+    ui->lineEdit->setText("");
     this->close();
 }

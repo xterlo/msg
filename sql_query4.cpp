@@ -17,20 +17,29 @@ bool sql_query4::running() const
 {
     return m_running;
 }
-void sql_query4::receiveid(QString idd)
+
+QString sql_query4::status() const
 {
-    std::string id_d = idd.toStdString();
-    id = id_d.c_str();
+    return m_status;
 }
 
+QString sql_query4::id_dia() const
+{
+    return m_id_dia;
+}
 void sql_query4::reload()
 {
     sql_query4::checker();
 }
-void sql_query4::recivestatus(QString stat)
+
+void sql_query4::set_status(QString status)
 {
-    std::string sts = stat.toStdString();
-    status = sts.c_str();
+    m_status = status;
+}
+
+void sql_query4::set_id_dia(QString id_dia)
+{
+    m_id_dia = id_dia;
 }
 
 void sql_query4::checker()
@@ -45,11 +54,11 @@ void sql_query4::checker()
     db.open();
     while(m_running ) {
         QSqlQuery query(QSqlDatabase::database("db3"));
-        query.exec("SELECT * FROM msg WHERE id_dia='"+id+"' ORDER BY id DESC");
+        query.exec("SELECT * FROM msg WHERE id_dia='"+m_id_dia+"' ORDER BY id DESC");
         query.next();
         QSqlRecord rec = query.record();
         QString isReaded = query.value(rec.indexOf("isReaded")).toString();
-        if (isReaded != status) {
+        if (isReaded != m_status) {
             emit update();
             break;
         }

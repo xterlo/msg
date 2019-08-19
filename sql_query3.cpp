@@ -20,6 +20,11 @@ bool sql_query3::running() const
     return m_running;
 }
 
+QString sql_query3::nickname() const
+{
+    return m_nickname;
+}
+
 void sql_query3::checker()
 {
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL","db2");
@@ -37,20 +42,13 @@ void sql_query3::checker()
         date = date.currentDate();
         query.prepare("INSERT INTO zaprosy (login, date, time) "
                   "VALUES (?, ?, ?)");
-           query.addBindValue(nickname);
+           query.addBindValue(m_nickname);
            query.addBindValue(date);
            query.addBindValue(time);
            query.exec();
            Sleep(60000);
     }
 }
-
-void sql_query3::recievenick(QString nick)
-{
-    std::string nickk = nick.toStdString();
-    nickname = nickk.c_str();
-}
-
 void sql_query3::setRunning(bool running)
 {
     if (m_running == running)
@@ -58,4 +56,9 @@ void sql_query3::setRunning(bool running)
 
     m_running = running;
     emit runningChanged(m_running);
+}
+
+void sql_query3::set_nickname(QString nickname)
+{
+    m_nickname = nickname;
 }
