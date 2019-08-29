@@ -130,7 +130,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
 
 void MainWindow::on_authorization_clicked()
 {
-    emit sendData(ui->login->text());
+
     login = ui->login->text();
     QString password = ui->password->text();
     zp = ui->checkBox->checkState();
@@ -187,6 +187,7 @@ void MainWindow::on_authorization_clicked()
              if (zp == true ) {
                     QSettings settings("HKEY_CURRENT_USER\\Software\\IBM_SOFTWARE\\",QSettings::NativeFormat);
                     settings.setValue(login, password);
+                 emit sendData(ui->login->text());
                  close();
  
                  glava->show();
@@ -217,6 +218,7 @@ void MainWindow::on_authorization_clicked()
                 settings.setValue(login, "1");
                 }
                 //trayIcon->hide();
+                emit sendData(ui->login->text());
                 close();
                 glava->show();
                 }

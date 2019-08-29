@@ -13,6 +13,8 @@
 #include <QThread>
 #include "sql_query1.h"
 #include "sql_query2.h"
+#include "sql_query3.h"
+#include "sql_query4.h"
 #include "finder.h"
 
 namespace Ui {
@@ -31,27 +33,14 @@ public:
 
 signals:
     void firstWindow();
-    void sendnick(QString nick);
-    void sendid(QString id);
-    void sendmsg(QString msg);
-    void sendid_1(QString idd);
-    void sendid_2(QString idd);
-
-
 private slots:
     void on_exitbutton_clicked();
     void on_fullscreen_clicked();
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
     void on_Mini_clicked();
-
     void on_dialogs_itemClicked(QListWidgetItem *item);
-
     void on_pushButton_2_clicked();
-
     void on_openfinder_clicked();
-
-    //void on_stroka_textChanged(const QString &arg1);
-
 private:
 
     Ui::Glavnaya *ui;
@@ -72,13 +61,18 @@ private:
     QSystemTrayIcon *trayIconG;
     QThread thread_1;
     QThread thread_2;
+    QThread thread_3;
+    QThread thread_4;
     sql_query1 sql_1;
     sql_query2 sql_2;
+    sql_query3 sql_3;
+    sql_query4 sql_4;
 public slots:
     void recieveData(QString Qnick);
     void updater();
     void add();
     void adddialog(QString user);
+    void upd();
 
 };
 
