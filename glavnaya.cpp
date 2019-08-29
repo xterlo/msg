@@ -11,8 +11,6 @@
 #include <QDateTime>
 #include "Crypter.h"
 #include <QList>
-#include <string>
-#include <QLineEdit>
 
 static QString nickname;
 static QString username;
@@ -131,7 +129,7 @@ void Glavnaya::recieveData(QString Qnick)
           msg.chop(last_msg.length()/2);
           msg = msg + "...";
       }
-      if (client_1 == nickname) { 
+      if (client_1 == nickname) {
            ui->dialogs->setStyleSheet("QListWidget::item { border-bottom: 1px solid #eaeaea; color: black; }");
            ui->dialogs->addItem(client_2 + "\n" + msg);
       } else {
@@ -260,7 +258,7 @@ void Glavnaya::mousePressEvent(QMouseEvent *event) {
     screen->availableGeometry();
     m_nMouseClick_X_Coordinate = event->x();
     m_nMouseClick_Y_Coordinate = event->y();
-    if(event->button() == Qt::LeftButton && m_nMouseClick_Y_Coordinate<20)
+   if(event->button() == Qt::LeftButton && m_nMouseClick_Y_Coordinate<20 && m_nMouseClick_Y_Coordinate > 2 && m_nMouseClick_X_Coordinate > 2 && m_nMouseClick_X_Coordinate < Glavnaya::size().width()-2)
         {
            {
            if(checkfull == false)
@@ -272,6 +270,22 @@ void Glavnaya::mousePressEvent(QMouseEvent *event) {
 
         }
     else checkmouse = false;
+   if(event->button() == Qt::LeftButton &&  m_nMouseClick_Y_Coordinate <= 2 && m_nMouseClick_X_Coordinate > 2 && m_nMouseClick_X_Coordinate < Glavnaya::size().width()-2)
+   {
+       qDebug()<<"only up";
+   }
+   if(event->button() == Qt::LeftButton &&  m_nMouseClick_X_Coordinate <= 2 && m_nMouseClick_Y_Coordinate > 2 && m_nMouseClick_Y_Coordinate < Glavnaya::size().height()-2)
+   {
+       qDebug()<<"only left";
+   }
+   if(event->button() == Qt::LeftButton &&  m_nMouseClick_Y_Coordinate > 2 && m_nMouseClick_Y_Coordinate < Glavnaya::size().height()-2 && m_nMouseClick_X_Coordinate > Glavnaya::size().width()-2)
+   {
+       qDebug()<<"only right";
+   }
+   if(event->button() == Qt::LeftButton &&  m_nMouseClick_X_Coordinate > 2 && m_nMouseClick_X_Coordinate < Glavnaya::size().width()-2 && m_nMouseClick_Y_Coordinate > Glavnaya::size().height()-2)
+   {
+       qDebug()<<"only down";
+   }
 
 }
 void Glavnaya::mouseReleaseEvent(QMouseEvent *event)
@@ -389,6 +403,7 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
             Crypter::setSecretkey(my_hash);
             my_msg = Crypter::decryptString(my_msg);
             ui->msg->setHtml(ui->msg->toHtml() + "<p style='text-align: right;font-size: 10px;'>"+my_msg+"</p></br>");
+            ui->msg->setStyleSheet("QTextEdit{ border:0px solid black; }");
             }
    }
   connect(&thread_2, &QThread::started, &sql_2, &sql_query2::checker);
@@ -482,28 +497,4 @@ void Glavnaya::on_pushButton_2_clicked()
 void Glavnaya::on_openfinder_clicked()
 {
     find->show();
-}
-int d=0;
-void Glavnaya::on_stroka_textChanged(const QString &arg1)
-{
-    QString message = ui->stroka->text();
-    QString newline = "\n";
-    QLineEdit *stroka = new QLineEdit(this);
-    stroka->setStyleSheet("QLineEdit{border:none;}");
-    QPushButton *dsa = new QPushButton(this);
-
-    if (message.length() % 20 == 0)
-    {
-        d++;
-        if (d>1){delete dsa; qDebug() << "delete";}
-
-        ui->verticalLayout_2->addWidget(stroka);
-        ui->verticalLayout_2->addWidget(dsa);
-        qDebug() << d;
-
-        //connect(dsa, SIGNAL(clicked()), this, SLOT(on_pushButton_2_clicked()));
-        //message=message+newline;
-       // ui->stroka->setText(message);
-    }
-
 }
