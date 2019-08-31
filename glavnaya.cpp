@@ -13,7 +13,8 @@
 #include <QList>
 #include <QDateTime>
 #include <QMessageBox>
-
+#include <string>
+#include <QKeyEvent>
 static QString nickname;
 static QString username;
 static int find_nick = 0;
@@ -365,13 +366,26 @@ Glavnaya::~Glavnaya()
     delete ui;
 }
 
-
+void Glavnaya::keyPressEvent(QKeyEvent *event){
+    qDebug() << event->key();
+    if(event->key()==16777221) Glavnaya::on_pushButton_2_clicked();
+    if(event->key()==16777220) Glavnaya::on_pushButton_2_clicked();
+}
 void Glavnaya::mousePressEvent(QMouseEvent *event) {
     QDesktopWidget * screen = QApplication::desktop();
     screen->availableGeometry();
+    temp_sizey=0;
+    sizew=Glavnaya::size().width();
+    sizey=Glavnaya::size().height();
+    posx=Glavnaya::pos().x();
+    posy=Glavnaya::pos().y();
     m_nMouseClick_X_Coordinate = event->x();
     m_nMouseClick_Y_Coordinate = event->y();
-    if(event->button() == Qt::LeftButton && m_nMouseClick_Y_Coordinate<20)
+    side=0;
+    block =false;
+    temp_sizey = posy+sizey;
+    temp_sizew = posx+sizew;
+   if(event->button() == Qt::LeftButton && m_nMouseClick_Y_Coordinate<20 && m_nMouseClick_Y_Coordinate > 2 && m_nMouseClick_X_Coordinate > 2 && m_nMouseClick_X_Coordinate < Glavnaya::size().width()-2)
         {
            {
            if(checkfull == false)
@@ -383,7 +397,30 @@ void Glavnaya::mousePressEvent(QMouseEvent *event) {
 
         }
     else checkmouse = false;
-
+   if(event->button() == Qt::LeftButton &&  m_nMouseClick_Y_Coordinate <= 3 && m_nMouseClick_X_Coordinate > 3 && m_nMouseClick_X_Coordinate < Glavnaya::size().width()-3)
+   {
+       side=1;
+       checkmouse=false;
+       qDebug()<<"only up";
+   }
+   if(event->button() == Qt::LeftButton &&  m_nMouseClick_X_Coordinate <= 3 && m_nMouseClick_Y_Coordinate > 3 && m_nMouseClick_Y_Coordinate < Glavnaya::size().height()-3)
+   {
+       side=2;
+       checkmouse=false;
+       qDebug()<<"only left";
+   }
+   if(event->button() == Qt::LeftButton &&  m_nMouseClick_Y_Coordinate > 3 && m_nMouseClick_Y_Coordinate < Glavnaya::size().height()-3 && m_nMouseClick_X_Coordinate > Glavnaya::size().width()-3)
+   {
+       side=3;
+       checkmouse=false;
+       qDebug()<<"only right";
+   }
+   if(event->button() == Qt::LeftButton &&  m_nMouseClick_X_Coordinate > 3 && m_nMouseClick_X_Coordinate < Glavnaya::size().width()-3 && m_nMouseClick_Y_Coordinate > Glavnaya::size().height()-3)
+   {
+       side=4;
+       checkmouse=false;
+       qDebug()<<"only down";
+   }
 }
 void Glavnaya::mouseReleaseEvent(QMouseEvent *event)
 {
@@ -392,10 +429,88 @@ void Glavnaya::mouseReleaseEvent(QMouseEvent *event)
     }
     return QWidget::mouseReleaseEvent(event);
 }
+
 void Glavnaya::mouseMoveEvent(QMouseEvent *event)
 {
+    QDesktopWidget * screen = QApplication::desktop();
+    screen->availableGeometry();
+
+    if (checkmouse == false)
+    {
+        int temp_sizeww=Glavnaya::size().width();
+        int temp_sizeyy=Glavnaya::size().height();
+        int temp_posx=Glavnaya::pos().x();
+        int temp_posy=Glavnaya::pos().y();
+        qDebug()<<posy<<"TEMP";
+
+        qDebug()<<temp_posy+temp_sizeyy<<"SUKA TEMP";
+        switch(side)
+        {
+            case 1:
+
+                if (temp_sizey!=temp_posy+temp_sizeyy && temp_sizey!=temp_posy+temp_sizeyy-1 && temp_sizey!=temp_posy+temp_sizeyy-2 && temp_sizey-temp_posy+temp_sizeyy-3)
+                {
+                    block=true;
+                    qDebug()<<"BLOCK";
+                    setGeometry(posx,temp_posy,sizew,temp_sizeyy);
+                }
+                if (block==true)
+                {
+                    if(event->globalY()-temp_posy<=0)
+                    {
+                        block=false;
+                    }
+                }
+                if (block==false)
+                {
+                    setGeometry(posx,event->globalY(),sizew,temp_sizey-event->globalY());
+                    block =false;
+                }
+                qDebug() << temp_sizeyy;
+                qDebug()<<temp_posy;
+
+                break;
+
+        case 2:
+                if (temp_sizew!=temp_posx+temp_sizeww && temp_sizew!=temp_posx+temp_sizeww-1 && temp_sizew!=temp_posx+temp_sizeww-2 && temp_sizew-temp_posx+temp_sizeww-3)
+                {
+                    block=true;
+                    qDebug()<<"BLOCK";
+                    setGeometry(temp_posx,posy,temp_sizeww,sizey);
+                }
+                if (block==true)
+                {
+                    if(event->globalX()-temp_posx<=0)
+                    {
+                        block=false;
+                    }
+                }
+                if (block==false)
+                {
+                    setGeometry(event->globalX(),posy,temp_sizew-event->globalX(),sizey);
+                    block =false;
+                }
+
+
+                break;
+        case 3:
+            setGeometry(posx,posy,event->globalX()-posx,sizey);
+            block =false;
+            qDebug()<<event->globalY()<<"MOUSE";
+            break;
+        case 4:
+                setGeometry(posx,posy,sizew,event->globalY()-posy);
+                block =false;
+                qDebug()<<event->globalY()<<"MOUSE";
+        default:
+            break;
+        }
+    }
+
     if (checkmouse == true){
-    move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);}
+    move(event->globalX()-m_nMouseClick_X_Coordinate,event->globalY()-m_nMouseClick_Y_Coordinate);
+    //qDebug() << (event->globalX()-m_nMouseClick_X_Coordinate);
+    }
 
 }
 
@@ -660,3 +775,4 @@ void Glavnaya::on_openfinder_clicked()
 {
     find->show();
 }
+

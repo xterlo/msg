@@ -41,6 +41,7 @@ private slots:
     void on_dialogs_itemClicked(QListWidgetItem *item);
     void on_pushButton_2_clicked();
     void on_openfinder_clicked();
+
 private:
 
     Ui::Glavnaya *ui;
@@ -52,8 +53,8 @@ private:
     int m_nMouseClick_X_Coordinate;
     int m_nMouseClick_Y_Coordinate;
     bool checkmouse;
-    bool checkfull = false;
-
+    int side,temp_sizey,temp_sizew;
+    bool checkfull = false,block=false;
     int sizew=Glavnaya::size().width();
     int sizey=Glavnaya::size().height();
     int posx=Glavnaya::pos().x();
@@ -73,6 +74,8 @@ public slots:
     void add();
     void adddialog(QString user);
     void upd();
+protected:
+    void keyPressEvent(QKeyEvent *event);
 
 };
 

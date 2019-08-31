@@ -19,7 +19,6 @@ public:
 signals:
     void newdialog(QString user);
 private slots:
-    void on_lineEdit_textChanged(const QString &arg1);
     void on_exitbutton_clicked();
     void on_fullscreen_clicked();
     void on_Mini_clicked();
