@@ -35,7 +35,7 @@ Glavnaya::Glavnaya(QWidget *parent) :
     screen->availableGeometry();
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint );
     ui->pushButton_2->setEnabled(FALSE);
-    ui->msg->setEnabled(FALSE);
+    //ui->msg->setEnabled(FALSE);
     ui->stroka->setEnabled(FALSE);
     ui->stroka_name->setEnabled(FALSE);
 
@@ -49,6 +49,20 @@ Glavnaya::Glavnaya(QWidget *parent) :
     connect(&sql_2, SIGNAL(update()),this, SLOT(add()));
     connect(&sql_4, SIGNAL(update()),this, SLOT(upd()));
 
+}
+void clearLayout(QLayout* layout, bool deleteWidgets = true)
+{
+    while (QLayoutItem* item = layout->takeAt(0))
+    {
+        if (deleteWidgets)
+        {
+            if (QWidget* widget = item->widget())
+                widget->deleteLater();
+        }
+        if (QLayout* childLayout = item->layout())
+            clearLayout(childLayout, deleteWidgets);
+        delete item;
+    }
 }
 /*void Glavnaya::on_exitbutton_clicked()
 {
@@ -156,7 +170,6 @@ void Glavnaya::recieveData(QString Qnick)
 void Glavnaya::updater()
 {
     ui->dialogs->clear();
-
     sql_1.set_nickname(nickname);
 
     QSqlQuery query;
@@ -268,6 +281,8 @@ void Glavnaya::add()
         hl->addWidget(saveposition);
         ui->verticalLayout_3->addLayout(hl);
         ui->verticalLayout_3->addSpacing(10);
+        ui->verticalScrollBar->hide();
+
 
         query.exec("UPDATE msg SET isReaded='1' WHERE from_user='"+username+"' and to_user='"+nickname+"'");
     }
@@ -286,10 +301,9 @@ void Glavnaya::adddialog(QString user)
         find->show();
     } else {
     ui->pushButton_2->setEnabled(true);
-   // ui->msg->setEnabled(true);
     ui->stroka->setEnabled(true);
     ui->stroka_name->setEnabled(true);
-    //ui->msg->clear();
+    clearLayout(ui->verticalLayout_3);
     ui->stroka_name->clear();
 
     query.exec("SELECT * FROM zaprosy WHERE login='"+_login+"' ORDER BY id DESC");
@@ -323,8 +337,7 @@ void Glavnaya::adddialog(QString user)
 
 void Glavnaya::upd()
 {
-    //ui->msg->clear();
-
+    clearLayout(ui->verticalLayout_3);
     QSqlQuery pdo_dia;
     pdo_dia.exec("SELECT * FROM dialogs WHERE ((client_1='"+username+"' and client_2='"+nickname+"') or (client_1='"+nickname+"' and client_2='"+username+"'))");
     pdo_dia.next();
@@ -659,10 +672,10 @@ void Glavnaya::on_Mini_clicked()
 void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
 {
     ui->pushButton_2->setEnabled(TRUE);
-    ui->msg->setEnabled(TRUE);
     ui->stroka->setEnabled(TRUE);
     ui->stroka_name->setEnabled(TRUE);
-    ui->msg->clear();
+    clearLayout(ui->verticalLayout_3);
+
     ui->stroka_name->clear();
     ui->nameandsettings->setStyleSheet("QWidget#nameandsettings{"
                                        "background-color:white"
@@ -842,6 +855,7 @@ void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
 
 void Glavnaya::on_pushButton_2_clicked()
 {
+
     QString msgg = ui->stroka->document()->toPlainText();
     if (msgg != "") {
         if (find_nick == 1) {
@@ -994,7 +1008,7 @@ void Glavnaya::on_pushButton_2_clicked()
         thread_4.start();
         ui->stroka->document()->setPlainText("");
         find_nick = 0;
-
+        ui->scrollArea->verticalScrollBar()->setSliderPosition(ui->scrollArea->verticalScrollBar()->maximum());
         }
 
     }

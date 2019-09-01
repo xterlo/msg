@@ -70,45 +70,48 @@ border-width:5px;
                 padding: 2px; 
 }</string>
      </property>
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>16</width>
-        <height>16</height>
-       </rect>
+     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="10000,0,0,0">
+      <property name="spacing">
+       <number>0</number>
       </property>
-      <property name="text">
-       <string/>
+      <property name="leftMargin">
+       <number>0</number>
       </property>
-      <property name="buddy">
-       <cstring>mainw</cstring>
+      <property name="topMargin">
+       <number>0</number>
       </property>
-     </widget>
-     <widget class="QPushButton" name="Mini">
-      <property name="geometry">
-       <rect>
-        <x>756</x>
-        <y>0</y>
-        <width>30</width>
-        <height>19</height>
-       </rect>
+      <property name="rightMargin">
+       <number>0</number>
       </property>
-      <property name="minimumSize">
-       <size>
-        <width>30</width>
-        <height>19</height>
-       </size>
+      <property name="bottomMargin">
+       <number>0</number>
       </property>
-      <property name="maximumSize">
-       <size>
-        <width>30</width>
-        <height>19</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="buddy">
+         <cstring>mainw</cstring>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="Mini">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>19</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>19</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton
 {
 background-color:transparent;
 color: #000080; 
@@ -128,34 +131,28 @@ color: #000080;
    }
 
 </string>
-      </property>
-      <property name="text">
-       <string>―</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="fullscreen">
-      <property name="geometry">
-       <rect>
-        <x>786</x>
-        <y>0</y>
-        <width>30</width>
-        <height>18</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>30</horstretch>
-        <verstretch>18</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>30</width>
-        <height>18</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton
+        </property>
+        <property name="text">
+         <string>―</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="fullscreen">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>30</horstretch>
+          <verstretch>18</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>18</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton
 {
 background-color:transparent;
 color: #000080; 
@@ -175,40 +172,34 @@ color: #000080;
    }
 
 </string>
-      </property>
-      <property name="text">
-       <string>☐</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="exitbutton">
-      <property name="geometry">
-       <rect>
-        <x>816</x>
-        <y>0</y>
-        <width>30</width>
-        <height>18</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>30</width>
-        <height>18</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>30</width>
-        <height>18</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton
+        </property>
+        <property name="text">
+         <string>☐</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="exitbutton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>18</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>18</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton
 {
 background: transparent;
 color: #000080; 
@@ -223,11 +214,13 @@ color: #000080;
    }
 
 </string>
-      </property>
-      <property name="text">
-       <string>✕</string>
-      </property>
-     </widget>
+        </property>
+        <property name="text">
+         <string>✕</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item row="1" column="0">
@@ -243,13 +236,13 @@ color: #000080;
        <number>3</number>
       </property>
       <property name="topMargin">
-       <number>0</number>
+       <number>3</number>
       </property>
       <property name="rightMargin">
-       <number>0</number>
+       <number>3</number>
       </property>
       <property name="bottomMargin">
-       <number>0</number>
+       <number>3</number>
       </property>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -394,8 +387,8 @@ background:white;
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>579</width>
-               <height>309</height>
+               <width>576</width>
+               <height>296</height>
               </rect>
              </property>
              <property name="styleSheet">
@@ -422,33 +415,11 @@ background:white;
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="0">
-                  <item>
-                   <widget class="QPushButton" name="pushButton_3">
-                    <property name="styleSheet">
-                     <string notr="true">QPushButton{
-background:transparent;
-}</string>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <spacer name="verticalSpacer">
+                 <widget class="QScrollBar" name="verticalScrollBar">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
                   </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
+                 </widget>
                 </item>
                </layout>
               </item>

@@ -107,6 +107,7 @@ if (beta_user != 1) {
         }
      }
   }
+
 }
 return a.exec();
 }
