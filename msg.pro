@@ -27,6 +27,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        Base64Decoder.cpp \
         activation.cpp \
         finder.cpp \
         forgotpass.cpp \
@@ -43,12 +44,14 @@ SOURCES += \
         sql_query4.cpp
 
 HEADERS += \
+        Base64Decoder.h \
         Crypter.h \
         activation.h \
         finder.h \
         forgotpass.h \
         forgotpassrepeat.h \
         glavnaya.h \
+        lib.h \
         mainwindow.h \
         regactivation.h \
         registration.h \
@@ -63,6 +66,7 @@ FORMS += \
         finder.ui \
         forgotpass.ui \
         forgotpassrepeat.ui \
+        form.ui \
         glavnaya.ui \
         mainwindow.ui \
         regactivation.ui \
