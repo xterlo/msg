@@ -35,6 +35,7 @@ Glavnaya::Glavnaya(QWidget *parent) :
     screen->availableGeometry();
     this->setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::CustomizeWindowHint );
     ui->pushButton_2->setEnabled(FALSE);
+    ui->msg->setEnabled(FALSE);
     ui->stroka->setEnabled(FALSE);
     ui->stroka_name->setEnabled(FALSE);
 
@@ -66,7 +67,6 @@ Glavnaya::Glavnaya(QWidget *parent) :
     connect(trayIconG, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
         this->hide();
 }*/
-
 void Glavnaya::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     switch (reason){
@@ -84,7 +84,6 @@ void Glavnaya::iconActivated(QSystemTrayIcon::ActivationReason reason)
         break;
     }
 }
-
 void Glavnaya::recieveData(QString Qnick)
 {
    std::string nick = Qnick.toStdString();
@@ -461,7 +460,6 @@ void Glavnaya::upd()
    }
 
 }
-
 Glavnaya::~Glavnaya()
 {
     delete ui;
@@ -472,7 +470,6 @@ void Glavnaya::keyPressEvent(QKeyEvent *event){
     if(event->key()==16777221) Glavnaya::on_pushButton_2_clicked();
     if(event->key()==16777220) Glavnaya::on_pushButton_2_clicked();
 }
-
 void Glavnaya::mousePressEvent(QMouseEvent *event) {
     QDesktopWidget * screen = QApplication::desktop();
     screen->availableGeometry();
@@ -524,7 +521,6 @@ void Glavnaya::mousePressEvent(QMouseEvent *event) {
        qDebug()<<"only down";
    }
 }
-
 void Glavnaya::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
@@ -628,6 +624,8 @@ void Glavnaya::mouseDoubleClickEvent(QMouseEvent *event)
     Glavnaya::on_fullscreen_clicked();
 }
 
+
+
 void Glavnaya::on_fullscreen_clicked()
 {
     QDesktopWidget * screen = QApplication::desktop();
@@ -652,6 +650,7 @@ void Glavnaya::on_fullscreen_clicked()
         }
 }
 
+
 void Glavnaya::on_Mini_clicked()
 {
     Glavnaya::showMinimized();
@@ -660,8 +659,10 @@ void Glavnaya::on_Mini_clicked()
 void Glavnaya::on_dialogs_itemClicked(QListWidgetItem *item)
 {
     ui->pushButton_2->setEnabled(TRUE);
+    ui->msg->setEnabled(TRUE);
     ui->stroka->setEnabled(TRUE);
     ui->stroka_name->setEnabled(TRUE);
+    ui->msg->clear();
     ui->stroka_name->clear();
     ui->nameandsettings->setStyleSheet("QWidget#nameandsettings{"
                                        "background-color:white"
