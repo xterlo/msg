@@ -457,7 +457,7 @@ void Regactivation::keyPressEvent(QKeyEvent *event){
        query.exec("UPDATE users SET active='1' WHERE login='"+username+"'");     
        glavnaya = new Glavnaya;
        close();
-       glavnaya -> show();
+       emit firstWindow();
    }
 
 
