@@ -180,6 +180,7 @@ void MainWindow::on_authorization_clicked()
                    query.addBindValue(date);
                    query.addBindValue(version);
                    query.exec();
+                emit sendData(login);
                 regactivation->show();
              } else {
 
